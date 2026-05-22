@@ -1,0 +1,3 @@
+===== START Fri May 22 17:22:45 CST 2026 model=SIS mode=noisy out=runs/gwaug_full_fastgrid_20260522_172245/SIS_noisy_inception_ep50_full =====
+/root/miniconda3/lib/python3.12/site-packages/torch/cuda/__init__.py:182: UserWarning: CUDA initialization: CUDA driver initialization failed, you might not have a CUDA gpu. (Triggered internally at /pytorch/c10/cuda/CUDAFunctions.cpp:109.)
+  return torch._C._cuda_getDeviceCount() > 0

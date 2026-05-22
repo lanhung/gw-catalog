@@ -1,0 +1,30 @@
+{
+  "source_root": "/root/autodl-tmp/qkzhang",
+  "out_root": "/root/autodl-tmp/qkzhang_gwaug_20260522_162031",
+  "seed": 20260522,
+  "noise_std": 0.2,
+  "glitch_prob": 0.03,
+  "max_delay_samples": 2048,
+  "jitter_samples": 128,
+  "notes": "Derived from the 0123 match generation outputs (PM_GW_events.py, SIS_GW_events.py, unlensed_GW_events.py). Adds GW-catalog style magnification perturbation, compressed time-delay sample shifts, Morse phase/Hilbert transform, colored nonstationary noise, occasional glitches, copied time arrays, and per-event metadata. Original source data is never modified.",
+  "families": [
+    {
+      "family": "SIS",
+      "n_lensed": 10000,
+      "length": 98304,
+      "output_dir": "/root/autodl-tmp/qkzhang_gwaug_20260522_162031/SIS_data_0222"
+    },
+    {
+      "family": "PM",
+      "n_lensed": 10000,
+      "length": 98304,
+      "output_dir": "/root/autodl-tmp/qkzhang_gwaug_20260522_162031/PM_data_0222"
+    }
+  ],
+  "unlensed": {
+    "family": "unlensed",
+    "n_unlensed": 10000,
+    "length": 98304,
+    "output_dir": "/root/autodl-tmp/qkzhang_gwaug_20260522_162031/Unlensed_data_0222"
+  }
+}
