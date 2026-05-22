@@ -144,16 +144,17 @@ def embed_eval(model: MatchEncoder1D, ds: EvaluationSet, cfg: MatchRunConfig, cp
 
 
 def default_tuning_grid(cfg: MatchRunConfig) -> dict[str, list]:
-    # Keep the sweep compact enough for 2.5k/2.5k runs; final evaluation still
-    # uses maximum-weight matching with the selected parameters.
+    # Full 10k/10k runs spend most evaluation time in repeated validation
+    # candidate construction. Keep the grid focused on the operating points
+    # that materially change the final candidate pool.
     return {
         "topk": [5, 10, 20],
-        "min_score": [None, 0.70, 0.80, 0.90],
+        "min_score": [None, 0.70, 0.80],
         "mutual": [False],
-        "reciprocal_rank_max": [None, 1, 3],
-        "row_min_score": [None, 0.70, 0.80],
-        "row_min_margin": [None, 0.03],
-        "edge_rank_bonus": [0.0, 0.01],
+        "reciprocal_rank_max": [None, 3],
+        "row_min_score": [None],
+        "row_min_margin": [None],
+        "edge_rank_bonus": [0.0],
     }
 
 

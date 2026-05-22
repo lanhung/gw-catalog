@@ -5,6 +5,18 @@ from itertools import product
 import numpy as np
 
 
+def _topk_order(scores: np.ndarray, k: int) -> np.ndarray:
+    """Return row-wise top-k column indices sorted by descending score."""
+    n = scores.shape[1]
+    k = max(1, min(int(k), n))
+    if k >= n:
+        return np.argsort(-scores, axis=1)
+    idx = np.argpartition(-scores, kth=k - 1, axis=1)[:, :k]
+    vals = np.take_along_axis(scores, idx, axis=1)
+    local = np.argsort(-vals, axis=1)
+    return np.take_along_axis(idx, local, axis=1)
+
+
 def similarity_matrix(z: np.ndarray) -> np.ndarray:
     z = z.astype(np.float32, copy=False)
     z = z / np.maximum(np.linalg.norm(z, axis=1, keepdims=True), 1e-8)
@@ -25,7 +37,7 @@ def topk_edges(
 ) -> list[tuple[int, int, float]]:
     n = scores.shape[0]
     k = max(1, min(int(topk), n - 1))
-    order = np.argsort(-scores, axis=1)[:, :k]
+    order = _topk_order(scores, k)
     row_scores = np.take_along_axis(scores, order, axis=1)
     row_best = row_scores[:, 0]
     row_second = row_scores[:, 1] if k > 1 else np.full(n, -np.inf, dtype=np.float32)
@@ -39,7 +51,7 @@ def topk_edges(
     rr_sets = None
     if reciprocal_rank_max is not None and reciprocal_rank_max > 0:
         rr = max(1, min(int(reciprocal_rank_max), n - 1))
-        rr_sets = [set(row.tolist()) for row in np.argsort(-scores, axis=1)[:, :rr]]
+        rr_sets = [set(row.tolist()) for row in _topk_order(scores, rr)]
     rank_maps = [{int(j): r + 1 for r, j in enumerate(row)} for row in order]
 
     edge_map: dict[tuple[int, int], float] = {}
@@ -89,20 +101,24 @@ def max_weight_pairs(edges: list[tuple[int, int, float]], n: int) -> list[tuple[
 
 
 def retrieval_metrics(scores: np.ndarray, gt_partner: np.ndarray, ks: tuple[int, ...] = (1, 5, 10)) -> dict[str, float]:
-    order = np.argsort(-scores, axis=1)
     valid = np.flatnonzero(gt_partner >= 0)
     out: dict[str, float] = {}
+    if len(valid) == 0:
+        for k in ks:
+            out[f"r@{k}"] = 0.0
+        out["mrr"] = 0.0
+        out["median_true_rank"] = float("nan")
+        return out
+
+    gt_cols = gt_partner[valid].astype(np.int64, copy=False)
+    true_scores = scores[valid, gt_cols]
+    # Exact rank without full row sorting. Ties are kept behind strictly higher scores,
+    # matching the top-k interpretation used for retrieval metrics.
+    ranks = 1 + np.sum(scores[valid] > true_scores[:, None], axis=1)
     for k in ks:
-        kk = min(k, max(scores.shape[1] - 1, 1))
-        hits = [int(gt_partner[i]) in order[i, :kk] for i in valid]
-        out[f"r@{k}"] = float(np.mean(hits)) if hits else 0.0
-    ranks = []
-    for i in valid:
-        loc = np.where(order[i] == int(gt_partner[i]))[0]
-        if len(loc):
-            ranks.append(int(loc[0]) + 1)
-    out["mrr"] = float(np.mean([1.0 / r for r in ranks])) if ranks else 0.0
-    out["median_true_rank"] = float(np.median(ranks)) if ranks else float("nan")
+        out[f"r@{k}"] = float(np.mean(ranks <= int(k)))
+    out["mrr"] = float(np.mean(1.0 / ranks))
+    out["median_true_rank"] = float(np.median(ranks))
     return out
 
 
@@ -132,7 +148,7 @@ def candidate_rows(scores: np.ndarray, gt_partner: np.ndarray, params: dict, mat
     matched = greedy_pairs(edges) if matcher == "greedy" else max_weight_pairs(edges, len(scores))
     pairs = {tuple(sorted((i, j))) for i, j in matched}
     k = max(1, min(int(params.get("topk", 10)), scores.shape[0] - 1))
-    order = np.argsort(-scores, axis=1)[:, :k]
+    order = _topk_order(scores, k)
     row_scores = np.take_along_axis(scores, order, axis=1)
     row_second = row_scores[:, 1] if k > 1 else np.full(scores.shape[0], -np.inf, dtype=np.float32)
     row_margin = row_scores[:, 0] - row_second
