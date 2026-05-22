@@ -39,6 +39,15 @@ class MatchRunConfig:
     row_min_margin: float | None = 0.0
     edge_rank_bonus: float = 0.0
     tune_for: str = "f1"
+    hard_neg_enable: bool = False
+    hard_neg_topk: int = 10
+    hard_neg_min_score: float = 0.70
+    hard_neg_per_anchor: int = 2
+    hard_neg_epochs: int = 4
+    hard_neg_lr: float = 3e-4
+    hard_neg_margin: float = 0.45
+    hard_neg_weight: float = 0.25
+    export_candidates: bool = True
 
     @property
     def family(self) -> str:

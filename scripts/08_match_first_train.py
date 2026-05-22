@@ -27,6 +27,10 @@ def main() -> None:
     ap.add_argument("--lr", type=float, default=1e-3)
     ap.add_argument("--width-scale", type=float, default=2.0)
     ap.add_argument("--use-hilbert", action="store_true")
+    ap.add_argument("--hard-neg-epochs", type=int, default=4)
+    ap.add_argument("--hard-neg-min-score", type=float, default=0.70)
+    ap.add_argument("--enable-hard-neg", action="store_true")
+    ap.add_argument("--no-export-candidates", action="store_true")
     ap.add_argument("--cpu", action="store_true")
     args = ap.parse_args()
 
@@ -44,6 +48,10 @@ def main() -> None:
         lr=args.lr,
         width_scale=args.width_scale,
         use_hilbert=args.use_hilbert,
+        hard_neg_enable=args.enable_hard_neg,
+        hard_neg_epochs=args.hard_neg_epochs,
+        hard_neg_min_score=args.hard_neg_min_score,
+        export_candidates=not args.no_export_candidates,
     )
     run_train_eval(cfg, cpu=args.cpu)
 

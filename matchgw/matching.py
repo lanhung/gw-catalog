@@ -83,6 +83,24 @@ def max_weight_pairs(edges: list[tuple[int, int, float]], n: int) -> list[tuple[
         return pairs
 
 
+def retrieval_metrics(scores: np.ndarray, gt_partner: np.ndarray, ks: tuple[int, ...] = (1, 5, 10)) -> dict[str, float]:
+    order = np.argsort(-scores, axis=1)
+    valid = np.flatnonzero(gt_partner >= 0)
+    out: dict[str, float] = {}
+    for k in ks:
+        kk = min(k, max(scores.shape[1] - 1, 1))
+        hits = [int(gt_partner[i]) in order[i, :kk] for i in valid]
+        out[f"r@{k}"] = float(np.mean(hits)) if hits else 0.0
+    ranks = []
+    for i in valid:
+        loc = np.where(order[i] == int(gt_partner[i]))[0]
+        if len(loc):
+            ranks.append(int(loc[0]) + 1)
+    out["mrr"] = float(np.mean([1.0 / r for r in ranks])) if ranks else 0.0
+    out["median_true_rank"] = float(np.median(ranks)) if ranks else float("nan")
+    return out
+
+
 def pair_metrics(pairs: list[tuple[int, int]], gt_partner: np.ndarray) -> dict[str, float]:
     true_pairs = {tuple(sorted((i, int(j)))) for i, j in enumerate(gt_partner) if j >= 0 and i < j}
     pred_pairs = {tuple(sorted((int(i), int(j)))) for i, j in pairs}
@@ -99,9 +117,25 @@ def pair_metrics(pairs: list[tuple[int, int]], gt_partner: np.ndarray) -> dict[s
 def evaluate_scores(scores: np.ndarray, gt_partner: np.ndarray, **params) -> dict[str, float]:
     edges = topk_edges(scores, **params)
     pairs = max_weight_pairs(edges, len(scores))
-    out = pair_metrics(pairs, gt_partner)
+    out = {**retrieval_metrics(scores, gt_partner), **pair_metrics(pairs, gt_partner)}
     out["candidate_edges"] = len(edges)
     return out
+
+
+def candidate_rows(scores: np.ndarray, gt_partner: np.ndarray, params: dict) -> list[dict]:
+    edges = topk_edges(scores, **params)
+    pairs = {tuple(sorted((i, j))) for i, j in max_weight_pairs(edges, len(scores))}
+    rows = []
+    for i, j, w in sorted(edges, key=lambda x: x[2], reverse=True):
+        e = tuple(sorted((i, j)))
+        rows.append({
+            "i": int(i),
+            "j": int(j),
+            "score": float(w),
+            "selected": e in pairs,
+            "is_true": int(gt_partner[i]) == int(j),
+        })
+    return rows
 
 
 def tune_matching(scores: np.ndarray, gt_partner: np.ndarray, grid: dict[str, list], metric: str = "f1") -> tuple[dict, dict]:
