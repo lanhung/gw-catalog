@@ -13,15 +13,17 @@ from .config import MatchRunConfig
 from .data import EvaluationSet, PairDataset, ground_truth_partner, load_match_arrays, split_indices
 from .matching import evaluate_scores, similarity_matrix, tune_matching, topk_edges
 from .rerank import calibrated_candidate_report, fit_pair_calibrator, candidate_feature_frame
-from .models import MatchEncoder1D, NTXentLoss
+from .models import InceptionTimeEncoder1D, MatchEncoder1D, NTXentLoss
 
 
 def _device(cpu: bool = False) -> torch.device:
     return torch.device("cuda" if torch.cuda.is_available() and not cpu else "cpu")
 
 
-def build_model(cfg: MatchRunConfig) -> MatchEncoder1D:
+def build_model(cfg: MatchRunConfig) -> torch.nn.Module:
     in_channels = 2 if cfg.use_hilbert else 1
+    if cfg.model_backbone == "inceptiontime":
+        return InceptionTimeEncoder1D(in_channels=in_channels, d_model=cfg.d_model, emb_dim=cfg.emb_dim, width_scale=cfg.width_scale)
     return MatchEncoder1D(in_channels=in_channels, d_model=cfg.d_model, emb_dim=cfg.emb_dim, width_scale=cfg.width_scale)
 
 

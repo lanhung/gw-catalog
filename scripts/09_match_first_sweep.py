@@ -13,11 +13,14 @@ def main() -> None:
     ap.add_argument("--out-root", type=Path, default=Path("runs/match_first_sweep"))
     ap.add_argument("--model-types", nargs="+", default=["SIS", "PM"])
     ap.add_argument("--data-modes", nargs="+", default=["pure", "noisy"])
+    ap.add_argument("--backbone", choices=["cnn", "inceptiontime"], default="cnn")
     ap.add_argument("--lensed-limit", type=int, default=2500)
     ap.add_argument("--unlensed-limit", type=int, default=2500)
     ap.add_argument("--epochs", nargs="+", type=int, default=[20])
     ap.add_argument("--lr", nargs="+", type=float, default=[1e-3])
     ap.add_argument("--width-scale", nargs="+", type=float, default=[2.0])
+    ap.add_argument("--d-model", type=int, default=256)
+    ap.add_argument("--emb-dim", type=int, default=128)
     ap.add_argument("--enable-hard-neg", action="store_true")
     ap.add_argument("--p-low", type=float, default=0.20)
     ap.add_argument("--p-high", type=float, default=0.80)
@@ -30,18 +33,21 @@ def main() -> None:
     for model_type, data_mode, epochs, lr, width in itertools.product(
         args.model_types, args.data_modes, args.epochs, args.lr, args.width_scale
     ):
-        name = f"{model_type.lower()}_{data_mode}_ep{epochs}_lr{lr:g}_w{width:g}".replace(".", "p")
+        name = f"{args.backbone}_{model_type.lower()}_{data_mode}_ep{epochs}_lr{lr:g}_w{width:g}".replace(".", "p")
         out_dir = args.out_root / name
         cmd = [
             sys.executable,
             str(base),
             "--model-type", model_type,
             "--data-mode", data_mode,
+            "--backbone", args.backbone,
             "--lensed-limit", str(args.lensed_limit),
             "--unlensed-limit", str(args.unlensed_limit),
             "--epochs", str(epochs),
             "--lr", str(lr),
             "--width-scale", str(width),
+            "--d-model", str(args.d_model),
+            "--emb-dim", str(args.emb_dim),
             "--out-dir", str(out_dir),
             "--p-low", str(args.p_low),
             "--p-high", str(args.p_high),
@@ -58,6 +64,7 @@ def main() -> None:
                     "run": name,
                     "model_type": model_type,
                     "data_mode": data_mode,
+                    "backbone": args.backbone,
                     "epochs": epochs,
                     "lr": lr,
                     "width_scale": width,

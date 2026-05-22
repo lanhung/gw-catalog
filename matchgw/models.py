@@ -68,6 +68,74 @@ class MatchEncoder1D(nn.Module):
         return F.normalize(z, dim=-1)
 
 
+class InceptionBlock1D(nn.Module):
+    def __init__(self, in_channels: int, out_channels: int, bottleneck_channels: int = 32, kernel_sizes: tuple[int, ...] = (39, 19, 9)) -> None:
+        super().__init__()
+        bottleneck_channels = min(bottleneck_channels, in_channels) if in_channels > 1 else 1
+        self.bottleneck = nn.Conv1d(in_channels, bottleneck_channels, 1, bias=False) if in_channels > 1 else nn.Identity()
+        branches = []
+        for k in kernel_sizes:
+            branches.append(nn.Conv1d(bottleneck_channels, out_channels, k, padding=k // 2, bias=False))
+        self.branches = nn.ModuleList(branches)
+        self.pool_branch = nn.Sequential(
+            nn.MaxPool1d(3, stride=1, padding=1),
+            nn.Conv1d(in_channels, out_channels, 1, bias=False),
+        )
+        self.bn = nn.BatchNorm1d(out_channels * (len(kernel_sizes) + 1))
+        self.act = nn.GELU()
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        xb = self.bottleneck(x)
+        ys = [branch(xb) for branch in self.branches]
+        ys.append(self.pool_branch(x))
+        return self.act(self.bn(torch.cat(ys, dim=1)))
+
+
+class InceptionTimeEncoder1D(nn.Module):
+    """InceptionTime-style multi-scale encoder for GW strain windows."""
+
+    def __init__(self, in_channels: int = 1, d_model: int = 256, emb_dim: int = 128, width_scale: float = 2.0, depth: int = 6) -> None:
+        super().__init__()
+        branch = max(16, int(32 * width_scale))
+        channels = branch * 4
+        self.stem = nn.Sequential(
+            nn.Conv1d(in_channels, channels, 7, stride=2, padding=3, bias=False),
+            nn.BatchNorm1d(channels),
+            nn.GELU(),
+            nn.MaxPool1d(2),
+        )
+        blocks = []
+        shortcuts = []
+        for i in range(depth):
+            blocks.append(InceptionBlock1D(channels, branch, bottleneck_channels=max(16, branch)))
+            shortcuts.append(
+                nn.Sequential(nn.Conv1d(channels, channels, 1, bias=False), nn.BatchNorm1d(channels))
+                if i % 3 == 2 else nn.Identity()
+            )
+        self.blocks = nn.ModuleList(blocks)
+        self.shortcuts = nn.ModuleList(shortcuts)
+        self.res_act = nn.GELU()
+        self.head = nn.Sequential(
+            nn.AdaptiveAvgPool1d(1),
+            nn.Flatten(),
+            nn.Linear(channels, d_model),
+            nn.GELU(),
+            nn.Dropout(0.1),
+            nn.Linear(d_model, emb_dim),
+        )
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        y = self.stem(x.float())
+        residual = y
+        for i, block in enumerate(self.blocks):
+            y = block(y)
+            if i % 3 == 2:
+                y = self.res_act(y + self.shortcuts[i](residual))
+                residual = y
+        z = self.head(y)
+        return F.normalize(z, dim=-1)
+
+
 class NTXentLoss(nn.Module):
     def __init__(self, tau: float = 0.07) -> None:
         super().__init__()

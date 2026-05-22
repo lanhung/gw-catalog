@@ -10,6 +10,7 @@ class MatchRunConfig:
     model_type: str = "SIS"
     data_mode: str = "noisy"
     out_dir: Path = Path("runs/match_first")
+    backbone: str = "cnn"
     target_len: int = 8192
     stride: int = 2
     lensed_limit: int | None = 2500
@@ -54,6 +55,13 @@ class MatchRunConfig:
     calibration_lr: float = 0.05
     calibration_iters: int = 600
     export_candidates: bool = True
+
+    @property
+    def model_backbone(self) -> str:
+        value = self.backbone.lower()
+        if value not in {"cnn", "inceptiontime"}:
+            raise ValueError(f"backbone must be cnn or inceptiontime, got {self.backbone!r}")
+        return value
 
     @property
     def family(self) -> str:

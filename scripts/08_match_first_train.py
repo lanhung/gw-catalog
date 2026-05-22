@@ -18,6 +18,7 @@ def main() -> None:
     ap.add_argument("--model-type", choices=["SIS", "PM"], default="SIS")
     ap.add_argument("--data-mode", choices=["pure", "noisy"], default="noisy")
     ap.add_argument("--out-dir", type=Path, default=Path("runs/match_first"))
+    ap.add_argument("--backbone", choices=["cnn", "inceptiontime"], default="cnn")
     ap.add_argument("--lensed-limit", type=int, default=2500)
     ap.add_argument("--unlensed-limit", type=int, default=2500)
     ap.add_argument("--epochs", type=int, default=20)
@@ -26,6 +27,8 @@ def main() -> None:
     ap.add_argument("--stride", type=int, default=2)
     ap.add_argument("--lr", type=float, default=1e-3)
     ap.add_argument("--width-scale", type=float, default=2.0)
+    ap.add_argument("--d-model", type=int, default=256)
+    ap.add_argument("--emb-dim", type=int, default=128)
     ap.add_argument("--use-hilbert", action="store_true")
     ap.add_argument("--hard-neg-epochs", type=int, default=4)
     ap.add_argument("--hard-neg-min-score", type=float, default=0.70)
@@ -42,6 +45,7 @@ def main() -> None:
         model_type=args.model_type,
         data_mode=args.data_mode,
         out_dir=args.out_dir,
+        backbone=args.backbone,
         lensed_limit=args.lensed_limit,
         unlensed_limit=args.unlensed_limit,
         epochs=args.epochs,
@@ -50,6 +54,8 @@ def main() -> None:
         stride=args.stride,
         lr=args.lr,
         width_scale=args.width_scale,
+        d_model=args.d_model,
+        emb_dim=args.emb_dim,
         use_hilbert=args.use_hilbert,
         hard_neg_enable=args.enable_hard_neg,
         hard_neg_epochs=args.hard_neg_epochs,

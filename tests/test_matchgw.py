@@ -8,6 +8,7 @@ from matchgw.config import MatchRunConfig
 from matchgw.data import EvaluationSet, ground_truth_partner, load_match_arrays, split_indices
 from matchgw.matching import evaluate_scores, similarity_matrix, tune_matching
 from matchgw.rerank import calibrated_candidate_report, candidate_feature_frame, fit_pair_calibrator
+from matchgw.pipeline import build_model
 
 
 def _write_fixture(root: Path, n_lensed: int = 8, n_unlensed: int = 6, length: int = 128) -> None:
@@ -83,3 +84,14 @@ def test_calibrated_candidate_report_adds_tiers() -> None:
     assert metrics["candidate_pair_recall"] == 1.0
     assert 0.0 <= metrics["cal_ece"] <= 1.0
     assert metrics["followup_reduction"] > 0.0
+
+
+def test_inceptiontime_backbone_outputs_normalized_embeddings() -> None:
+    cfg = MatchRunConfig(backbone="inceptiontime", target_len=128, width_scale=0.5, d_model=32, emb_dim=16)
+    model = build_model(cfg)
+    x = np.random.default_rng(4).normal(size=(3, 1, 128)).astype(np.float32)
+    import torch
+    with torch.no_grad():
+        z = model(torch.from_numpy(x))
+    assert tuple(z.shape) == (3, 16)
+    assert torch.allclose(z.norm(dim=1), torch.ones(3), atol=1e-5)
