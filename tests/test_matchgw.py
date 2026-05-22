@@ -1,0 +1,57 @@
+from __future__ import annotations
+
+from pathlib import Path
+
+import numpy as np
+
+from matchgw.config import MatchRunConfig
+from matchgw.data import EvaluationSet, ground_truth_partner, load_match_arrays, split_indices
+from matchgw.matching import evaluate_scores, similarity_matrix, tune_matching
+
+
+def _write_fixture(root: Path, n_lensed: int = 8, n_unlensed: int = 6, length: int = 128) -> None:
+    rng = np.random.default_rng(3)
+    sis = root / "SIS_data_0222"
+    unl = root / "Unlensed_data_0222"
+    sis.mkdir(parents=True)
+    unl.mkdir(parents=True)
+    x1 = rng.normal(size=(n_lensed, length)).astype(np.float32)
+    x2 = np.roll(x1, 4, axis=1) * 0.9
+    u = rng.normal(size=(n_unlensed, length)).astype(np.float32)
+    np.save(sis / "SIS_data_strain_1.npy", x1)
+    np.save(sis / "SIS_data_strain_2.npy", x2)
+    np.save(unl / "unlensed_data_strain.npy", u)
+
+
+def test_match_data_contract(tmp_path: Path) -> None:
+    _write_fixture(tmp_path)
+    cfg = MatchRunConfig(data_root=tmp_path, model_type="SIS", data_mode="noisy", lensed_limit=8, unlensed_limit=6, target_len=64, stride=2)
+    arrays = load_match_arrays(cfg)
+    splits = split_indices(len(arrays.l1), len(arrays.unlensed), cfg)
+    ds = EvaluationSet(arrays, splits["lensed"]["test"], splits["unlensed"]["test"], cfg)
+    assert len(ds.meta) == 2 * len(splits["lensed"]["test"]) + len(splits["unlensed"]["test"])
+    gt = ground_truth_partner(ds.meta)
+    assert int((gt >= 0).sum()) == 2 * len(splits["lensed"]["test"])
+
+
+def test_matching_tuning_recovers_obvious_pairs() -> None:
+    z = np.array([
+        [1, 0], [0.99, 0.01],
+        [0, 1], [0.02, 0.98],
+        [-1, 0], [0, -1],
+    ], dtype=np.float32)
+    scores = similarity_matrix(z)
+    gt = np.array([1, 0, 3, 2, -1, -1])
+    grid = {
+        "topk": [1, 2],
+        "min_score": [0.5, 0.9],
+        "mutual": [False],
+        "reciprocal_rank_max": [None, 1],
+        "row_min_score": [None],
+        "row_min_margin": [None],
+        "edge_rank_bonus": [0.0],
+    }
+    params, stats = tune_matching(scores, gt, grid)
+    assert stats["tp"] == 2
+    assert stats["f1"] == 1.0
+    assert evaluate_scores(scores, gt, **params)["tp"] == 2
