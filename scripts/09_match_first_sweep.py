@@ -21,6 +21,10 @@ def main() -> None:
     ap.add_argument("--width-scale", nargs="+", type=float, default=[2.0])
     ap.add_argument("--d-model", type=int, default=256)
     ap.add_argument("--emb-dim", type=int, default=128)
+    ap.add_argument("--aug-roll", type=int, default=128)
+    ap.add_argument("--aug-scale", type=float, default=0.10)
+    ap.add_argument("--aug-noise", type=float, default=0.01)
+    ap.add_argument("--use-hilbert", action="store_true")
     ap.add_argument("--enable-hard-neg", action="store_true")
     ap.add_argument("--p-low", type=float, default=0.20)
     ap.add_argument("--p-high", type=float, default=0.80)
@@ -49,9 +53,14 @@ def main() -> None:
             "--d-model", str(args.d_model),
             "--emb-dim", str(args.emb_dim),
             "--out-dir", str(out_dir),
+            "--aug-roll", str(args.aug_roll),
+            "--aug-scale", str(args.aug_scale),
+            "--aug-noise", str(args.aug_noise),
             "--p-low", str(args.p_low),
             "--p-high", str(args.p_high),
         ]
+        if args.use_hilbert:
+            cmd.append("--use-hilbert")
         if args.enable_hard_neg:
             cmd.append("--enable-hard-neg")
         print(" ".join(cmd), flush=True)
@@ -68,6 +77,10 @@ def main() -> None:
                     "epochs": epochs,
                     "lr": lr,
                     "width_scale": width,
+                    "aug_roll": args.aug_roll,
+                    "aug_scale": args.aug_scale,
+                    "aug_noise": args.aug_noise,
+                    "use_hilbert": args.use_hilbert,
                     **{f"test_{k}": v for k, v in summary.get("test", {}).items()},
                     **{f"testcand_{k}": v for k, v in summary.get("test_candidates", {}).items()},
                     **{f"val_{k}": v for k, v in summary.get("val", {}).items()},

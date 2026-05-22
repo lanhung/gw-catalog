@@ -30,6 +30,10 @@ def main() -> None:
     ap.add_argument("--d-model", type=int, default=256)
     ap.add_argument("--emb-dim", type=int, default=128)
     ap.add_argument("--use-hilbert", action="store_true")
+    ap.add_argument("--aug-roll", type=int, default=128)
+    ap.add_argument("--aug-scale", type=float, default=0.10)
+    ap.add_argument("--aug-noise", type=float, default=0.01)
+    ap.add_argument("--no-aug-flip", action="store_true")
     ap.add_argument("--hard-neg-epochs", type=int, default=4)
     ap.add_argument("--hard-neg-min-score", type=float, default=0.70)
     ap.add_argument("--enable-hard-neg", action="store_true")
@@ -57,6 +61,10 @@ def main() -> None:
         d_model=args.d_model,
         emb_dim=args.emb_dim,
         use_hilbert=args.use_hilbert,
+        aug_roll=args.aug_roll,
+        aug_scale=args.aug_scale,
+        aug_noise=args.aug_noise,
+        aug_flip=not args.no_aug_flip,
         hard_neg_enable=args.enable_hard_neg,
         hard_neg_epochs=args.hard_neg_epochs,
         hard_neg_min_score=args.hard_neg_min_score,
