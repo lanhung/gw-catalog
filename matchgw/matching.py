@@ -131,15 +131,28 @@ def candidate_rows(scores: np.ndarray, gt_partner: np.ndarray, params: dict, mat
     edges = topk_edges(scores, **params)
     matched = greedy_pairs(edges) if matcher == "greedy" else max_weight_pairs(edges, len(scores))
     pairs = {tuple(sorted((i, j))) for i, j in matched}
+    k = max(1, min(int(params.get("topk", 10)), scores.shape[0] - 1))
+    order = np.argsort(-scores, axis=1)[:, :k]
+    row_scores = np.take_along_axis(scores, order, axis=1)
+    row_second = row_scores[:, 1] if k > 1 else np.full(scores.shape[0], -np.inf, dtype=np.float32)
+    row_margin = row_scores[:, 0] - row_second
+    rank_maps = [{int(j): r + 1 for r, j in enumerate(row)} for row in order]
     rows = []
     for i, j, w in sorted(edges, key=lambda x: x[2], reverse=True):
         e = tuple(sorted((i, j)))
+        rank_i = rank_maps[int(i)].get(int(j), k + 1)
+        rank_j = rank_maps[int(j)].get(int(i), k + 1)
         rows.append({
             "i": int(i),
             "j": int(j),
             "score": float(w),
+            "raw_score": float(scores[int(i), int(j)]),
+            "rank_i": int(rank_i),
+            "rank_j": int(rank_j),
+            "margin_i": float(row_margin[int(i)]),
+            "margin_j": float(row_margin[int(j)]),
             "selected": e in pairs,
-            "is_true": int(gt_partner[i]) == int(j),
+            "is_true": int(gt_partner[int(i)]) == int(j),
         })
     return rows
 

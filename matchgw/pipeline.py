@@ -11,7 +11,8 @@ from torch.utils.data import DataLoader, Dataset
 
 from .config import MatchRunConfig
 from .data import EvaluationSet, PairDataset, ground_truth_partner, load_match_arrays, split_indices
-from .matching import candidate_rows, evaluate_scores, similarity_matrix, tune_matching, topk_edges
+from .matching import evaluate_scores, similarity_matrix, tune_matching, topk_edges
+from .rerank import calibrated_candidate_report, fit_pair_calibrator, candidate_feature_frame
 from .models import MatchEncoder1D, NTXentLoss
 
 
@@ -178,17 +179,30 @@ def run_train_eval(cfg: MatchRunConfig, cpu: bool = False) -> dict:
         best_params, val_stats = tune_matching(val_scores, val_gt, default_tuning_grid(cfg), metric=cfg.tune_for)
         results["best_params"] = best_params
     results["val"] = evaluate_scores(val_scores, val_gt, **best_params)
+    val_candidate_features = candidate_feature_frame(val_scores, val_gt, best_params)
+    pair_calibrator = fit_pair_calibrator(val_candidate_features, cfg)
+    val_candidates, val_candidate_stats = calibrated_candidate_report(
+        val_scores, val_gt, best_params, pair_calibrator, cfg
+    )
+    results["val_candidates"] = val_candidate_stats
+    results["pair_calibrator"] = pair_calibrator.to_dict()
 
     test_ds = EvaluationSet(arrays, splits["lensed"]["test"], splits["unlensed"]["test"], cfg)
     test_scores = similarity_matrix(embed_eval(model, test_ds, cfg, cpu=cpu))
     test_gt = ground_truth_partner(test_ds.meta)
     results["test"] = evaluate_scores(test_scores, test_gt, **best_params)
+    test_candidates, test_candidate_stats = calibrated_candidate_report(
+        test_scores, test_gt, best_params, pair_calibrator, cfg
+    )
+    results["test_candidates"] = test_candidate_stats
 
     if cfg.export_candidates:
-        pd.DataFrame(candidate_rows(val_scores, val_gt, best_params)).to_csv(cfg.out_dir / "val_candidates.csv", index=False)
-        pd.DataFrame(candidate_rows(test_scores, test_gt, best_params)).to_csv(cfg.out_dir / "test_candidates.csv", index=False)
+        val_candidates.to_csv(cfg.out_dir / "val_candidates.csv", index=False)
+        test_candidates.to_csv(cfg.out_dir / "test_candidates.csv", index=False)
+        pd.DataFrame([val_candidate_stats]).to_csv(cfg.out_dir / "val_candidate_summary.csv", index=False)
+        pd.DataFrame([test_candidate_stats]).to_csv(cfg.out_dir / "test_candidate_summary.csv", index=False)
 
-    torch.save({"model": model.state_dict(), "config": results["config"]}, cfg.out_dir / "model.pt")
+    torch.save({"model": model.state_dict(), "config": results["config"], "pair_calibrator": pair_calibrator.to_dict()}, cfg.out_dir / "model.pt")
     pd.DataFrame(train_info["history"]).to_csv(cfg.out_dir / "history.csv", index=False)
     with open(cfg.out_dir / "summary.json", "w", encoding="utf-8") as f:
         json.dump(results, f, indent=2)

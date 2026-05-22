@@ -19,6 +19,8 @@ def main() -> None:
     ap.add_argument("--lr", nargs="+", type=float, default=[1e-3])
     ap.add_argument("--width-scale", nargs="+", type=float, default=[2.0])
     ap.add_argument("--enable-hard-neg", action="store_true")
+    ap.add_argument("--p-low", type=float, default=0.20)
+    ap.add_argument("--p-high", type=float, default=0.80)
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
 
@@ -41,6 +43,8 @@ def main() -> None:
             "--lr", str(lr),
             "--width-scale", str(width),
             "--out-dir", str(out_dir),
+            "--p-low", str(args.p_low),
+            "--p-high", str(args.p_high),
         ]
         if args.enable_hard_neg:
             cmd.append("--enable-hard-neg")
@@ -58,7 +62,9 @@ def main() -> None:
                     "lr": lr,
                     "width_scale": width,
                     **{f"test_{k}": v for k, v in summary.get("test", {}).items()},
+                    **{f"testcand_{k}": v for k, v in summary.get("test_candidates", {}).items()},
                     **{f"val_{k}": v for k, v in summary.get("val", {}).items()},
+                    **{f"valcand_{k}": v for k, v in summary.get("val_candidates", {}).items()},
                 }
                 rows.append(row)
     if rows:

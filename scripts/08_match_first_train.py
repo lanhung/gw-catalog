@@ -30,6 +30,9 @@ def main() -> None:
     ap.add_argument("--hard-neg-epochs", type=int, default=4)
     ap.add_argument("--hard-neg-min-score", type=float, default=0.70)
     ap.add_argument("--enable-hard-neg", action="store_true")
+    ap.add_argument("--p-low", type=float, default=0.20)
+    ap.add_argument("--p-high", type=float, default=0.80)
+    ap.add_argument("--calibration-iters", type=int, default=600)
     ap.add_argument("--no-export-candidates", action="store_true")
     ap.add_argument("--cpu", action="store_true")
     args = ap.parse_args()
@@ -51,6 +54,9 @@ def main() -> None:
         hard_neg_enable=args.enable_hard_neg,
         hard_neg_epochs=args.hard_neg_epochs,
         hard_neg_min_score=args.hard_neg_min_score,
+        p_low=args.p_low,
+        p_high=args.p_high,
+        calibration_iters=args.calibration_iters,
         export_candidates=not args.no_export_candidates,
     )
     run_train_eval(cfg, cpu=args.cpu)

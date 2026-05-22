@@ -47,6 +47,12 @@ class MatchRunConfig:
     hard_neg_lr: float = 3e-4
     hard_neg_margin: float = 0.45
     hard_neg_weight: float = 0.25
+    p_low: float = 0.20
+    p_high: float = 0.80
+    calibration_bins: int = 10
+    calibration_l2: float = 1e-3
+    calibration_lr: float = 0.05
+    calibration_iters: int = 600
     export_candidates: bool = True
 
     @property

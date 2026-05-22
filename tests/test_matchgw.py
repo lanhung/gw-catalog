@@ -7,6 +7,7 @@ import numpy as np
 from matchgw.config import MatchRunConfig
 from matchgw.data import EvaluationSet, ground_truth_partner, load_match_arrays, split_indices
 from matchgw.matching import evaluate_scores, similarity_matrix, tune_matching
+from matchgw.rerank import calibrated_candidate_report, candidate_feature_frame, fit_pair_calibrator
 
 
 def _write_fixture(root: Path, n_lensed: int = 8, n_unlensed: int = 6, length: int = 128) -> None:
@@ -55,3 +56,30 @@ def test_matching_tuning_recovers_obvious_pairs() -> None:
     assert stats["tp"] == 2
     assert stats["f1"] == 1.0
     assert evaluate_scores(scores, gt, **params)["tp"] == 2
+
+
+def test_calibrated_candidate_report_adds_tiers() -> None:
+    z = np.array([
+        [1, 0], [0.99, 0.01],
+        [0, 1], [0.02, 0.98],
+        [-1, 0], [0, -1],
+    ], dtype=np.float32)
+    scores = similarity_matrix(z)
+    gt = np.array([1, 0, 3, 2, -1, -1])
+    cfg = MatchRunConfig(p_low=0.25, p_high=0.75)
+    params = {
+        "topk": 2,
+        "min_score": 0.5,
+        "mutual": False,
+        "reciprocal_rank_max": None,
+        "row_min_score": None,
+        "row_min_margin": None,
+        "edge_rank_bonus": 0.0,
+    }
+    frame = candidate_feature_frame(scores, gt, params)
+    calibrator = fit_pair_calibrator(frame, cfg)
+    report, metrics = calibrated_candidate_report(scores, gt, params, calibrator, cfg)
+    assert {"p_hat", "tier", "rank_i", "rank_j"}.issubset(report.columns)
+    assert metrics["candidate_pair_recall"] == 1.0
+    assert 0.0 <= metrics["cal_ece"] <= 1.0
+    assert metrics["followup_reduction"] > 0.0
