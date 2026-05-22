@@ -26,6 +26,7 @@ def main() -> None:
     ap.add_argument("--aug-noise", type=float, default=0.01)
     ap.add_argument("--use-hilbert", action="store_true")
     ap.add_argument("--enable-hard-neg", action="store_true")
+    ap.add_argument("--candidate-topk", type=int, default=10)
     ap.add_argument("--p-low", type=float, default=0.20)
     ap.add_argument("--p-high", type=float, default=0.80)
     ap.add_argument("--dry-run", action="store_true")
@@ -56,6 +57,7 @@ def main() -> None:
             "--aug-roll", str(args.aug_roll),
             "--aug-scale", str(args.aug_scale),
             "--aug-noise", str(args.aug_noise),
+            "--candidate-topk", str(args.candidate_topk),
             "--p-low", str(args.p_low),
             "--p-high", str(args.p_high),
         ]
@@ -81,6 +83,7 @@ def main() -> None:
                     "aug_scale": args.aug_scale,
                     "aug_noise": args.aug_noise,
                     "use_hilbert": args.use_hilbert,
+                    "candidate_topk": args.candidate_topk,
                     **{f"test_{k}": v for k, v in summary.get("test", {}).items()},
                     **{f"testcand_{k}": v for k, v in summary.get("test_candidates", {}).items()},
                     **{f"val_{k}": v for k, v in summary.get("val", {}).items()},

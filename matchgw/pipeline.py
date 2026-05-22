@@ -157,6 +157,18 @@ def default_tuning_grid(cfg: MatchRunConfig) -> dict[str, list]:
     }
 
 
+
+def default_candidate_params(cfg: MatchRunConfig) -> dict:
+    return {
+        "topk": cfg.candidate_topk,
+        "min_score": cfg.candidate_min_score,
+        "mutual": cfg.candidate_mutual,
+        "reciprocal_rank_max": cfg.candidate_reciprocal_rank_max,
+        "row_min_score": None,
+        "row_min_margin": None,
+        "edge_rank_bonus": 0.0,
+    }
+
 def run_train_eval(cfg: MatchRunConfig, cpu: bool = False) -> dict:
     cfg.out_dir.mkdir(parents=True, exist_ok=True)
     model, state, train_info = train_encoder(cfg, cpu=cpu)
@@ -181,10 +193,12 @@ def run_train_eval(cfg: MatchRunConfig, cpu: bool = False) -> dict:
         best_params, val_stats = tune_matching(val_scores, val_gt, default_tuning_grid(cfg), metric=cfg.tune_for)
         results["best_params"] = best_params
     results["val"] = evaluate_scores(val_scores, val_gt, **best_params)
-    val_candidate_features = candidate_feature_frame(val_scores, val_gt, best_params)
+    candidate_params = default_candidate_params(cfg)
+    results["candidate_params"] = candidate_params
+    val_candidate_features = candidate_feature_frame(val_scores, val_gt, candidate_params)
     pair_calibrator = fit_pair_calibrator(val_candidate_features, cfg)
     val_candidates, val_candidate_stats = calibrated_candidate_report(
-        val_scores, val_gt, best_params, pair_calibrator, cfg
+        val_scores, val_gt, candidate_params, pair_calibrator, cfg
     )
     results["val_candidates"] = val_candidate_stats
     results["pair_calibrator"] = pair_calibrator.to_dict()
@@ -194,7 +208,7 @@ def run_train_eval(cfg: MatchRunConfig, cpu: bool = False) -> dict:
     test_gt = ground_truth_partner(test_ds.meta)
     results["test"] = evaluate_scores(test_scores, test_gt, **best_params)
     test_candidates, test_candidate_stats = calibrated_candidate_report(
-        test_scores, test_gt, best_params, pair_calibrator, cfg
+        test_scores, test_gt, candidate_params, pair_calibrator, cfg
     )
     results["test_candidates"] = test_candidate_stats
 
