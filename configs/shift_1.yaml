@@ -1,0 +1,9 @@
+n_total: 5000
+lens_prevalence: 0.02
+multiplicity_distribution:
+  doublet: 0.85
+  triplet: 0.10
+  quadruplet: 0.05
+seed: 46
+strain_length: 4096
+output_prefix: catalogs/shift_1

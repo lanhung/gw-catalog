@@ -1,0 +1,9 @@
+n_total: 1000
+lens_prevalence: 0.005
+multiplicity_distribution:
+  doublet: 0.9
+  triplet: 0.08
+  quadruplet: 0.02
+seed: 44
+strain_length: 4096
+output_prefix: catalogs/scale_1k
