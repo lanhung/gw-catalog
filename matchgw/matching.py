@@ -65,6 +65,17 @@ def topk_edges(
     return [(a, b, w) for (a, b), w in edge_map.items()]
 
 
+def greedy_pairs(edges: list[tuple[int, int, float]]) -> list[tuple[int, int]]:
+    used: set[int] = set()
+    pairs = []
+    for i, j, _ in sorted(edges, key=lambda e: e[2], reverse=True):
+        if i not in used and j not in used:
+            pairs.append((int(i), int(j)))
+            used.add(int(i))
+            used.add(int(j))
+    return pairs
+
+
 def max_weight_pairs(edges: list[tuple[int, int, float]], n: int) -> list[tuple[int, int]]:
     try:
         import networkx as nx
@@ -74,13 +85,7 @@ def max_weight_pairs(edges: list[tuple[int, int, float]], n: int) -> list[tuple[
             g.add_edge(int(i), int(j), weight=float(w))
         return [(int(i), int(j)) for i, j in nx.algorithms.matching.max_weight_matching(g, maxcardinality=False)]
     except Exception:
-        used: set[int] = set()
-        pairs = []
-        for i, j, _ in sorted(edges, key=lambda e: e[2], reverse=True):
-            if i not in used and j not in used:
-                pairs.append((int(i), int(j)))
-                used.add(int(i)); used.add(int(j))
-        return pairs
+        return greedy_pairs(edges)
 
 
 def retrieval_metrics(scores: np.ndarray, gt_partner: np.ndarray, ks: tuple[int, ...] = (1, 5, 10)) -> dict[str, float]:
@@ -114,17 +119,18 @@ def pair_metrics(pairs: list[tuple[int, int]], gt_partner: np.ndarray) -> dict[s
     return {"pairs": len(pred_pairs), "tp": tp, "fp": fp, "fn": fn, "precision": precision, "recall": recall, "f1": f1, "f2": f2}
 
 
-def evaluate_scores(scores: np.ndarray, gt_partner: np.ndarray, **params) -> dict[str, float]:
+def evaluate_scores(scores: np.ndarray, gt_partner: np.ndarray, matcher: str = "mw", **params) -> dict[str, float]:
     edges = topk_edges(scores, **params)
-    pairs = max_weight_pairs(edges, len(scores))
+    pairs = greedy_pairs(edges) if matcher == "greedy" else max_weight_pairs(edges, len(scores))
     out = {**retrieval_metrics(scores, gt_partner), **pair_metrics(pairs, gt_partner)}
     out["candidate_edges"] = len(edges)
     return out
 
 
-def candidate_rows(scores: np.ndarray, gt_partner: np.ndarray, params: dict) -> list[dict]:
+def candidate_rows(scores: np.ndarray, gt_partner: np.ndarray, params: dict, matcher: str = "mw") -> list[dict]:
     edges = topk_edges(scores, **params)
-    pairs = {tuple(sorted((i, j))) for i, j in max_weight_pairs(edges, len(scores))}
+    matched = greedy_pairs(edges) if matcher == "greedy" else max_weight_pairs(edges, len(scores))
+    pairs = {tuple(sorted((i, j))) for i, j in matched}
     rows = []
     for i, j, w in sorted(edges, key=lambda x: x[2], reverse=True):
         e = tuple(sorted((i, j)))
@@ -145,7 +151,7 @@ def tune_matching(scores: np.ndarray, gt_partner: np.ndarray, grid: dict[str, li
     best_score = -1.0
     for values in product(*(grid[name] for name in names)):
         params = dict(zip(names, values))
-        stats = evaluate_scores(scores, gt_partner, **params)
+        stats = evaluate_scores(scores, gt_partner, matcher="greedy", **params)
         score = float(stats.get(metric, stats["f1"]))
         if score > best_score:
             best_score = score

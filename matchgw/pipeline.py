@@ -141,13 +141,15 @@ def embed_eval(model: MatchEncoder1D, ds: EvaluationSet, cfg: MatchRunConfig, cp
 
 
 def default_tuning_grid(cfg: MatchRunConfig) -> dict[str, list]:
+    # Keep the sweep compact enough for 2.5k/2.5k runs; final evaluation still
+    # uses maximum-weight matching with the selected parameters.
     return {
         "topk": [5, 10, 20],
-        "min_score": [None, 0.70, 0.80, 0.85, 0.90],
-        "mutual": [False, True],
-        "reciprocal_rank_max": [None, 1, 3, 5],
-        "row_min_score": [None, 0.60, 0.70, 0.80],
-        "row_min_margin": [None, 0.0, 0.03, 0.06],
+        "min_score": [None, 0.70, 0.80, 0.90],
+        "mutual": [False],
+        "reciprocal_rank_max": [None, 1, 3],
+        "row_min_score": [None, 0.70, 0.80],
+        "row_min_margin": [None, 0.03],
         "edge_rank_bonus": [0.0, 0.01],
     }
 
@@ -175,7 +177,7 @@ def run_train_eval(cfg: MatchRunConfig, cpu: bool = False) -> dict:
         val_scores = similarity_matrix(embed_eval(model, val_ds, cfg, cpu=cpu))
         best_params, val_stats = tune_matching(val_scores, val_gt, default_tuning_grid(cfg), metric=cfg.tune_for)
         results["best_params"] = best_params
-    results["val"] = val_stats
+    results["val"] = evaluate_scores(val_scores, val_gt, **best_params)
 
     test_ds = EvaluationSet(arrays, splits["lensed"]["test"], splits["unlensed"]["test"], cfg)
     test_scores = similarity_matrix(embed_eval(model, test_ds, cfg, cpu=cpu))
