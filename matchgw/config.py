@@ -6,11 +6,18 @@ from pathlib import Path
 
 @dataclass(slots=True)
 class MatchRunConfig:
+    # 统一保存一次实验的所有配置：数据位置、模型结构、训练参数、
+    # 候选检索参数和概率校准参数。pipeline 里的各模块都只读这个配置对象。
+    # data_root 指向 match-style 数据根目录。
+    # 原始 match 数据通常是 /root/autodl-tmp/qkzhang；
+    # 本轮新数据是 /root/autodl-tmp/qkzhang_gwaug_20260522_162031。
     data_root: Path = Path("/root/autodl-tmp/qkzhang")
     model_type: str = "SIS"
     data_mode: str = "noisy"
     out_dir: Path = Path("runs/match_first")
+    # backbone 可选 cnn 或 inceptiontime；本轮最好结果使用 inceptiontime。
     backbone: str = "cnn"
+    # 从 98304 点长波形裁剪尾部窗口，再按 stride 下采样；默认输入模型长度为 4096。
     target_len: int = 8192
     stride: int = 2
     lensed_limit: int | None = 2500
@@ -48,6 +55,7 @@ class MatchRunConfig:
     hard_neg_lr: float = 3e-4
     hard_neg_margin: float = 0.45
     hard_neg_weight: float = 0.25
+    # candidate_topk 控制最终导出的候选边数量，论文里对应 Top-K candidate retrieval。
     candidate_topk: int = 10
     candidate_min_score: float | None = None
     candidate_mutual: bool = False
@@ -83,10 +91,12 @@ class MatchRunConfig:
 
     @property
     def source_dir(self) -> Path:
+        # match 数据按 SIS_data_0222 / PM_data_0222 分目录存储。
         return self.data_root / f"{self.family}_data_0222"
 
     @property
     def strain_tag(self) -> str:
+        # pure 使用无噪声 h_strain；noisy 使用注入噪声后的 data_strain。
         return "h_strain" if self.mode == "pure" else "data_strain"
 
     @property

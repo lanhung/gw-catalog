@@ -10,6 +10,7 @@ import pandas as pd
 from scipy.signal import hilbert
 
 
+# 只增强 match 项目已有的 SIS/PM 两类 lensed 数据；unlensed 单独处理。
 FAMILIES = ("SIS", "PM")
 
 
@@ -21,6 +22,7 @@ def _load(path: Path, n: int | None) -> np.ndarray:
 
 
 def _safe_mkdir(path: Path, overwrite: bool = False) -> None:
+    # 默认拒绝写入已有目录，防止误覆盖原始 match 数据或已生成的数据。
     if path.exists():
         if not overwrite:
             raise FileExistsError(f"refusing to overwrite existing directory: {path}")
@@ -41,6 +43,7 @@ def _zscore_rows(x: np.ndarray) -> np.ndarray:
 
 
 def _shift_zero_fill(x: np.ndarray, shift: int) -> np.ndarray:
+    # 用零填充平移模拟观测到达时间差，不使用 np.roll，避免尾部绕回造成假信号。
     if shift == 0:
         return x.copy()
     out = np.zeros_like(x)
@@ -52,6 +55,7 @@ def _shift_zero_fill(x: np.ndarray, shift: int) -> np.ndarray:
 
 
 def _colored_noise(rng: np.random.Generator, n: int, alpha: float = 1.0) -> np.ndarray:
+    # 生成 1/f^alpha 风格 colored noise，比白噪声更接近真实探测器非平坦噪声。
     white = rng.normal(0.0, 1.0, n).astype(np.float32)
     spec = np.fft.rfft(white)
     freqs = np.fft.rfftfreq(n)
@@ -81,6 +85,7 @@ def _sine_glitch(rng: np.random.Generator, n: int) -> np.ndarray:
 
 
 def _apply_morse(x: np.ndarray, morse_phase: float) -> np.ndarray:
+    # Morse 相位：pi/2 用 Hilbert 变换近似，pi 直接翻转符号。
     if abs(morse_phase - np.pi / 2) < 1e-6:
         return np.imag(hilbert(x)).astype(np.float32)
     if abs(morse_phase - np.pi) < 1e-6:
@@ -89,6 +94,7 @@ def _apply_morse(x: np.ndarray, morse_phase: float) -> np.ndarray:
 
 
 def _augment_lensed_pair(
+    # 对一对 lensed images 注入 GW 风格差异：放大率、Morse 相位、时间延迟和小幅随机扰动。
     h1: np.ndarray,
     h2: np.ndarray,
     lens_row: pd.Series,
@@ -124,6 +130,7 @@ def _augment_lensed_pair(
 
 
 def _make_noisy(h: np.ndarray, rng: np.random.Generator, noise_std: float, glitch_prob: float) -> np.ndarray:
+    # noisy 数据 = pure waveform + colored noise + 低频漂移 + 可选 sine-Gaussian glitch。
     n = h.shape[0]
     y = h.astype(np.float32).copy()
     y += noise_std * _colored_noise(rng, n, alpha=float(rng.uniform(0.6, 1.4)))
@@ -152,6 +159,7 @@ def _copy_npy_subset(src: Path, dst: Path, n: int, chunk_size: int) -> None:
 
 
 def generate_family(args, family: str, rng: np.random.Generator) -> dict:
+    # 生成 SIS/PM lensed 数据，输出仍保持 match 的目录和文件名，训练脚本可直接读取。
     src_dir = args.source_root / f"{family}_data_0222"
     dst_dir = args.out_root / f"{family}_data_0222"
     _safe_mkdir(dst_dir, overwrite=args.overwrite)
@@ -197,6 +205,7 @@ def generate_family(args, family: str, rng: np.random.Generator) -> dict:
 
 
 def generate_unlensed(args, rng: np.random.Generator) -> dict:
+    # 孤立事件没有 lensed partner，只做轻微幅度/时间扰动和同样的噪声模型。
     src_dir = args.source_root / "Unlensed_data_0222"
     dst_dir = args.out_root / "Unlensed_data_0222"
     _safe_mkdir(dst_dir, overwrite=args.overwrite)
@@ -230,6 +239,7 @@ def generate_unlensed(args, rng: np.random.Generator) -> dict:
 
 
 def main() -> None:
+    # 从 match 原始数据派生新数据集；除非显式 --overwrite，否则不会覆盖任何已有目录。
     ap = argparse.ArgumentParser(description="Generate a GW-augmented match-style dataset without overwriting the original match arrays.")
     ap.add_argument("--source-root", type=Path, default=Path("/root/autodl-tmp/qkzhang"))
     ap.add_argument("--out-root", type=Path, required=True)

@@ -12,12 +12,15 @@ from .config import MatchRunConfig
 
 @dataclass(slots=True)
 class MatchArrays:
+    # l1/l2 是同一个强透镜源的两张像；unlensed 是孤立事件。
+    # 训练时 l1-l2 组成正样本，unlensed 自身做 self-pair，增强模型稳定性。
     l1: np.ndarray
     l2: np.ndarray
     unlensed: np.ndarray
 
 
 def _load_npy_matrix(path: Path, limit: int | None = None) -> np.ndarray:
+    # 使用 mmap 读取大 npy，避免一次性把 74G 数据全部加载进内存。
     if not path.exists():
         raise FileNotFoundError(path)
     x = np.load(path, allow_pickle=True, mmap_mode="r")
@@ -35,6 +38,7 @@ def load_match_arrays(cfg: MatchRunConfig) -> MatchArrays:
 
 
 def split_indices(n_lensed: int, n_unlensed: int, cfg: MatchRunConfig) -> dict[str, dict[str, np.ndarray]]:
+    # 按源索引划分 train/val/test，确保同一个 lensed pair 不会跨集合泄漏。
     rng = np.random.default_rng(cfg.seed)
     l_perm = rng.permutation(n_lensed)
     u_perm = rng.permutation(n_unlensed)
@@ -52,6 +56,8 @@ def split_indices(n_lensed: int, n_unlensed: int, cfg: MatchRunConfig) -> dict[s
 
 
 def pad_or_trim(x: np.ndarray, target_len: int, stride: int = 1) -> np.ndarray:
+    # 模型不直接吃完整 98304 点波形，而是取尾部窗口并下采样，
+    # 这样能显著加快训练，同时保留 merger 附近的主要形态信息。
     n = x.shape[-1]
     if n >= target_len:
         y = x[..., -target_len:]
@@ -70,10 +76,12 @@ def zscore(x: np.ndarray) -> np.ndarray:
 
 
 def peak_flip(x: np.ndarray) -> np.ndarray:
+    # 统一主峰符号，减少整体相位翻转给 embedding 带来的不必要差异。
     return -x if x[np.argmax(np.abs(x))] < 0 else x
 
 
 def augment(x: np.ndarray, cfg: MatchRunConfig, rng: np.random.Generator) -> np.ndarray:
+    # 训练期做轻量增强：平移、幅度扰动、少量噪声，提升 noisy/pure 泛化能力。
     y = x.copy()
     if cfg.aug_flip:
         y = peak_flip(y)
@@ -95,6 +103,8 @@ def to_channels(x: np.ndarray, use_hilbert: bool = False) -> np.ndarray:
 
 
 class PairDataset(Dataset):
+    # 训练集返回两路视图：lensed 返回 L1/L2，同源事件应被拉近；
+    # unlensed 返回同一个事件的两次增强视图，用来稳定孤立事件 embedding。
     def __init__(self, arrays: MatchArrays, lensed_idx: np.ndarray, unlensed_idx: np.ndarray, cfg: MatchRunConfig) -> None:
         self.arrays = arrays
         self.cfg = cfg
@@ -121,6 +131,8 @@ class PairDataset(Dataset):
 
 
 class EvaluationSet(Dataset):
+    # 评估集把 L1、L2、unlensed 拼成一个 catalog，模拟真实目录检索。
+    # meta 记录每个事件的真实 pair_id，用于计算 Recall@K 和 F1。
     def __init__(self, arrays: MatchArrays, lensed_idx: np.ndarray, unlensed_idx: np.ndarray, cfg: MatchRunConfig) -> None:
         self.cfg = cfg
         self.waveforms = [arrays.l1[int(i)] for i in lensed_idx]
@@ -145,6 +157,7 @@ class EvaluationSet(Dataset):
 
 
 def ground_truth_partner(meta: list[dict]) -> np.ndarray:
+    # 构造每个事件的真实伴随事件索引；孤立事件用 -1 表示没有真实 partner。
     gt = np.full(len(meta), -1, dtype=np.int64)
     l1_by_pair = {m["pair_id"]: i for i, m in enumerate(meta) if m["tag"] == "L1"}
     l2_by_pair = {m["pair_id"]: i for i, m in enumerate(meta) if m["tag"] == "L2"}

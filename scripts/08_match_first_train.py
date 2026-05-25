@@ -4,6 +4,8 @@ import argparse
 from pathlib import Path
 import sys
 
+# 允许直接用 `python scripts/08_match_first_train.py` 从仓库根目录之外启动。
+# 这里把项目根目录加入 import 路径，后面才能导入 matchgw 包。
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
@@ -13,6 +15,9 @@ from matchgw.pipeline import run_train_eval
 
 
 def main() -> None:
+    # 这是本轮 GW-augmented 全量实验的训练入口。
+    # 主要流程：读取 match-style npy 数据 -> 训练 Siamese/NT-Xent encoder ->
+    # 在验证/测试集上做 Top-K 候选检索、最大权匹配和候选概率校准。
     ap = argparse.ArgumentParser(description="Train match-first Siamese GW matcher in the gw-catalog repo.")
     ap.add_argument("--data-root", type=Path, default=Path("/root/autodl-tmp/qkzhang"))
     ap.add_argument("--model-type", choices=["SIS", "PM"], default="SIS")
@@ -45,6 +50,7 @@ def main() -> None:
     ap.add_argument("--cpu", action="store_true")
     args = ap.parse_args()
 
+    # 将命令行参数集中到 MatchRunConfig，避免训练、评估、数据读取各自维护一套参数。
     cfg = MatchRunConfig(
         data_root=args.data_root,
         model_type=args.model_type,
@@ -75,6 +81,7 @@ def main() -> None:
         calibration_iters=args.calibration_iters,
         export_candidates=not args.no_export_candidates,
     )
+    # 真正的训练与评估实现位于 matchgw/pipeline.py。
     run_train_eval(cfg, cpu=args.cpu)
 
 

@@ -7,6 +7,7 @@ import numpy as np
 
 def _topk_order(scores: np.ndarray, k: int) -> np.ndarray:
     """Return row-wise top-k column indices sorted by descending score."""
+    # 只取每行前 k 个候选，不做完整排序；全量评估时比 argsort 全排序快很多。
     n = scores.shape[1]
     k = max(1, min(int(k), n))
     if k >= n:
@@ -18,6 +19,7 @@ def _topk_order(scores: np.ndarray, k: int) -> np.ndarray:
 
 
 def similarity_matrix(z: np.ndarray) -> np.ndarray:
+    # embedding 已经 L2 归一化，矩阵乘法就是余弦相似度；对角线设为 -inf 避免自匹配。
     z = z.astype(np.float32, copy=False)
     z = z / np.maximum(np.linalg.norm(z, axis=1, keepdims=True), 1e-8)
     s = z @ z.T
@@ -26,6 +28,8 @@ def similarity_matrix(z: np.ndarray) -> np.ndarray:
 
 
 def topk_edges(
+    # 从相似度矩阵构造候选边。这里实现论文中的 Top-K candidate retrieval，
+    # 可选 mutual / reciprocal-rank / score gate 来控制候选数量和误报。
     scores: np.ndarray,
     topk: int = 10,
     min_score: float | None = None,
@@ -89,6 +93,7 @@ def greedy_pairs(edges: list[tuple[int, int, float]]) -> list[tuple[int, int]]:
 
 
 def max_weight_pairs(edges: list[tuple[int, int, float]], n: int) -> list[tuple[int, int]]:
+    # doublet 场景下用最大权匹配保证一个事件最多配一个 partner。
     try:
         import networkx as nx
         g = nx.Graph()
@@ -101,6 +106,7 @@ def max_weight_pairs(edges: list[tuple[int, int, float]], n: int) -> list[tuple[
 
 
 def retrieval_metrics(scores: np.ndarray, gt_partner: np.ndarray, ks: tuple[int, ...] = (1, 5, 10)) -> dict[str, float]:
+    # 计算 R@K/MRR。这里用真实 partner 的分数反推精确 rank，避免完整排序。
     valid = np.flatnonzero(gt_partner >= 0)
     out: dict[str, float] = {}
     if len(valid) == 0:
@@ -144,6 +150,7 @@ def evaluate_scores(scores: np.ndarray, gt_partner: np.ndarray, matcher: str = "
 
 
 def candidate_rows(scores: np.ndarray, gt_partner: np.ndarray, params: dict, matcher: str = "mw") -> list[dict]:
+    # 导出每条候选边的分数、rank、margin 和真值标签，供后续概率校准使用。
     edges = topk_edges(scores, **params)
     matched = greedy_pairs(edges) if matcher == "greedy" else max_weight_pairs(edges, len(scores))
     pairs = {tuple(sorted((i, j))) for i, j in matched}
@@ -174,6 +181,7 @@ def candidate_rows(scores: np.ndarray, gt_partner: np.ndarray, params: dict, mat
 
 
 def tune_matching(scores: np.ndarray, gt_partner: np.ndarray, grid: dict[str, list], metric: str = "f1") -> tuple[dict, dict]:
+    # 在验证集上选择候选边过滤参数；全量实验已缩小 grid，避免评估阶段过慢。
     names = list(grid)
     best_params: dict | None = None
     best_stats: dict | None = None

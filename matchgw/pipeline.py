@@ -21,6 +21,7 @@ def _device(cpu: bool = False) -> torch.device:
 
 
 def build_model(cfg: MatchRunConfig) -> torch.nn.Module:
+    # 根据配置创建 encoder。最终结果使用 inceptiontime；cnn 保留作 baseline。
     in_channels = 2 if cfg.use_hilbert else 1
     if cfg.model_backbone == "inceptiontime":
         return InceptionTimeEncoder1D(in_channels=in_channels, d_model=cfg.d_model, emb_dim=cfg.emb_dim, width_scale=cfg.width_scale)
@@ -29,6 +30,7 @@ def build_model(cfg: MatchRunConfig) -> torch.nn.Module:
 
 
 class HardNegativeDataset(Dataset):
+    # 可选 hard negative 微调：把高分但错误的候选对压低。默认关闭，避免不稳定。
     def __init__(self, eval_ds: EvaluationSet, hard_pairs: list[tuple[int, int]], cfg: MatchRunConfig) -> None:
         self.eval_ds = eval_ds
         self.hard_pairs = hard_pairs
@@ -105,6 +107,7 @@ def hard_negative_finetune(
 
 
 def train_encoder(cfg: MatchRunConfig, cpu: bool = False) -> tuple[MatchEncoder1D, dict, dict]:
+    # 训练 Siamese encoder：输入两路 waveform，NT-Xent 让正样本 embedding 接近。
     arrays = load_match_arrays(cfg)
     splits = split_indices(len(arrays.l1), len(arrays.unlensed), cfg)
     train_ds = PairDataset(arrays, splits["lensed"]["train"], splits["unlensed"]["train"], cfg)
@@ -134,6 +137,7 @@ def train_encoder(cfg: MatchRunConfig, cpu: bool = False) -> tuple[MatchEncoder1
 
 @torch.no_grad()
 def embed_eval(model: MatchEncoder1D, ds: EvaluationSet, cfg: MatchRunConfig, cpu: bool = False) -> np.ndarray:
+    # 评估阶段先一次性编码整个 catalog，后续检索都在 embedding 矩阵上完成。
     device = _device(cpu)
     model.eval().to(device)
     dl = DataLoader(ds, batch_size=cfg.eval_batch_size, shuffle=False, num_workers=0)
@@ -160,6 +164,7 @@ def default_tuning_grid(cfg: MatchRunConfig) -> dict[str, list]:
 
 
 def default_candidate_params(cfg: MatchRunConfig) -> dict:
+    # 最终导出的候选列表默认保留每个事件 Top-10，追求高 candidate recall。
     return {
         "topk": cfg.candidate_topk,
         "min_score": cfg.candidate_min_score,
@@ -171,6 +176,7 @@ def default_candidate_params(cfg: MatchRunConfig) -> dict:
     }
 
 def run_train_eval(cfg: MatchRunConfig, cpu: bool = False) -> dict:
+    # 一次完整实验：训练 -> 验证集调参/校准 -> 测试集评估 -> 保存结果。
     cfg.out_dir.mkdir(parents=True, exist_ok=True)
     model, state, train_info = train_encoder(cfg, cpu=cpu)
     arrays = state["arrays"]
@@ -178,6 +184,7 @@ def run_train_eval(cfg: MatchRunConfig, cpu: bool = False) -> dict:
 
     results = {"config": {k: str(v) if isinstance(v, Path) else v for k, v in asdict(cfg).items()}, "history": train_info["history"]}
 
+    # 验证集用于选择匹配参数并训练 pair calibrator，不能直接看测试集。
     val_ds = EvaluationSet(arrays, splits["lensed"]["val"], splits["unlensed"]["val"], cfg)
     val_scores = similarity_matrix(embed_eval(model, val_ds, cfg, cpu=cpu))
     val_gt = ground_truth_partner(val_ds.meta)
@@ -204,6 +211,7 @@ def run_train_eval(cfg: MatchRunConfig, cpu: bool = False) -> dict:
     results["val_candidates"] = val_candidate_stats
     results["pair_calibrator"] = pair_calibrator.to_dict()
 
+    # 测试集只用验证阶段确定好的参数和校准器，得到最终论文指标。
     test_ds = EvaluationSet(arrays, splits["lensed"]["test"], splits["unlensed"]["test"], cfg)
     test_scores = similarity_matrix(embed_eval(model, test_ds, cfg, cpu=cpu))
     test_gt = ground_truth_partner(test_ds.meta)

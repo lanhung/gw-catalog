@@ -6,6 +6,7 @@ import torch.nn.functional as F
 
 
 class Snake(nn.Module):
+    # 带周期项的激活函数，适合处理波形中振荡结构，比普通 ReLU 更平滑。
     def __init__(self, channels: int) -> None:
         super().__init__()
         self.alpha = nn.Parameter(torch.ones(1, channels, 1))
@@ -33,6 +34,7 @@ class ResidualBlock1D(nn.Module):
 
 class MatchEncoder1D(nn.Module):
     """Compact match-style Siamese encoder for GW strain windows."""
+    # 轻量 CNN baseline：速度快，但多尺度表达能力弱于 InceptionTime。
 
     def __init__(self, in_channels: int = 1, d_model: int = 256, emb_dim: int = 128, width_scale: float = 2.0) -> None:
         super().__init__()
@@ -69,6 +71,7 @@ class MatchEncoder1D(nn.Module):
 
 
 class InceptionBlock1D(nn.Module):
+    # 多分支卷积同时看不同时间尺度，适合捕捉 GW 波形的局部和中尺度形态。
     def __init__(self, in_channels: int, out_channels: int, bottleneck_channels: int = 32, kernel_sizes: tuple[int, ...] = (39, 19, 9)) -> None:
         super().__init__()
         bottleneck_channels = min(bottleneck_channels, in_channels) if in_channels > 1 else 1
@@ -93,6 +96,8 @@ class InceptionBlock1D(nn.Module):
 
 class InceptionTimeEncoder1D(nn.Module):
     """InceptionTime-style multi-scale encoder for GW strain windows."""
+    # 本轮最佳结果使用该 backbone。输出是 L2 归一化 embedding，
+    # 后续直接用余弦相似度做 Top-K 候选检索。
 
     def __init__(self, in_channels: int = 1, d_model: int = 256, emb_dim: int = 128, width_scale: float = 2.0, depth: int = 6) -> None:
         super().__init__()
@@ -137,6 +142,8 @@ class InceptionTimeEncoder1D(nn.Module):
 
 
 class NTXentLoss(nn.Module):
+    # 对比学习损失：同一个 batch 中对应的两路视图是正样本，其余为负样本。
+    # 目标是让同源 lensed images 在 embedding 空间更近。
     def __init__(self, tau: float = 0.07) -> None:
         super().__init__()
         self.tau = tau

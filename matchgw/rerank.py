@@ -6,6 +6,7 @@ import pandas as pd
 from .calibration import LogisticCalibrator, calibration_metrics
 from .matching import candidate_rows
 
+# 候选边校准使用的轻量特征：原始相似度、双向 rank、是否互为 top1、行内 margin。
 FEATURE_COLUMNS = [
     "score",
     "rank_inv_sum",
@@ -17,6 +18,7 @@ FEATURE_COLUMNS = [
 
 
 def candidate_feature_frame(scores: np.ndarray, gt_partner: np.ndarray, params: dict, matcher: str = "mw") -> pd.DataFrame:
+    # 把 Top-K 候选边转成表格特征。这个表既可训练 calibrator，也可导出给论文分析。
     rows = candidate_rows(scores, gt_partner, params, matcher=matcher)
     df = pd.DataFrame(rows)
     if df.empty:
@@ -32,6 +34,7 @@ def candidate_feature_frame(scores: np.ndarray, gt_partner: np.ndarray, params: 
 
 
 def fit_pair_calibrator(df: pd.DataFrame, cfg) -> LogisticCalibrator:
+    # 在验证候选边上拟合逻辑回归校准器，把相似度/排名特征变成可解释的 p_hat。
     calibrator = LogisticCalibrator(l2=cfg.calibration_l2, lr=cfg.calibration_lr, max_iter=cfg.calibration_iters)
     if df.empty:
         return calibrator.fit(np.zeros((0, len(FEATURE_COLUMNS)), dtype=np.float32), np.zeros((0,), dtype=np.float32))
@@ -41,6 +44,7 @@ def fit_pair_calibrator(df: pd.DataFrame, cfg) -> LogisticCalibrator:
 
 
 def apply_pair_calibrator(df: pd.DataFrame, calibrator: LogisticCalibrator, p_low: float, p_high: float) -> pd.DataFrame:
+    # 按 p_hat 分 Tier：tier1 高可信、tier2 待跟进、tier3 低优先级。
     df = df.copy()
     if df.empty:
         df["p_hat"] = []
@@ -52,6 +56,7 @@ def apply_pair_calibrator(df: pd.DataFrame, calibrator: LogisticCalibrator, p_lo
 
 
 def candidate_system_metrics(df: pd.DataFrame, n_events: int, gt_partner: np.ndarray, p_low: float, p_high: float) -> dict[str, float]:
+    # 论文中的 follow-up reduction / compression factor / tier recall 都在这里计算。
     true_pairs = {tuple(sorted((i, int(j)))) for i, j in enumerate(gt_partner) if j >= 0 and i < j}
     total_true = len(true_pairs)
     exhaustive = n_events * (n_events - 1) / 2.0
