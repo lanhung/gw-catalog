@@ -28,6 +28,12 @@ def main() -> None:
     ap.add_argument("--unlensed-limit", type=int, default=2500)
     ap.add_argument("--epochs", type=int, default=20)
     ap.add_argument("--batch-size", type=int, default=128)
+    ap.add_argument("--eval-batch-size", type=int, default=512)
+    ap.add_argument("--num-workers", type=int, default=0)
+    ap.add_argument("--pin-memory", action="store_true")
+    ap.add_argument("--amp", action="store_true")
+    ap.add_argument("--amp-dtype", choices=["fp16", "bf16"], default="bf16")
+    ap.add_argument("--compile-model", action="store_true")
     ap.add_argument("--target-len", type=int, default=8192)
     ap.add_argument("--stride", type=int, default=2)
     ap.add_argument("--lr", type=float, default=1e-3)
@@ -61,6 +67,12 @@ def main() -> None:
         unlensed_limit=args.unlensed_limit,
         epochs=args.epochs,
         batch_size=args.batch_size,
+        eval_batch_size=args.eval_batch_size,
+        num_workers=args.num_workers,
+        pin_memory=args.pin_memory,
+        amp=args.amp,
+        amp_dtype=args.amp_dtype,
+        compile_model=args.compile_model,
         target_len=args.target_len,
         stride=args.stride,
         lr=args.lr,

@@ -27,6 +27,12 @@ class MatchRunConfig:
     val_frac: float = 0.15
     batch_size: int = 128
     eval_batch_size: int = 512
+    # DataLoader/训练加速参数：默认保持原行为，实验时可打开。
+    num_workers: int = 0
+    pin_memory: bool = False
+    amp: bool = False
+    amp_dtype: str = "bf16"
+    compile_model: bool = False
     epochs: int = 20
     lr: float = 1e-3
     weight_decay: float = 1e-4
