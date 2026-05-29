@@ -14,7 +14,8 @@ from .config import MatchRunConfig
 from .data import EvaluationSet, PairDataset, ground_truth_partner, load_match_arrays, split_indices
 from .matching import evaluate_scores, similarity_matrix, tune_matching, topk_edges
 from .rerank import calibrated_candidate_report, fit_pair_calibrator, candidate_feature_frame
-from .models import InceptionTimeEncoder1D, MatchEncoder1D, NTXentLoss
+from .catalog import catalog_system_report
+from .models import AttentiveResNetEncoder1D, CBAMResNetEncoder1D, ConvNeXtEncoder1D, DilatedResNetEncoder1D, GatedTCNEncoder1D, InceptionAttentionEncoder1D, InceptionTimeEncoder1D, MatchEncoder1D, NTXentLoss, PatchTransformerEncoder1D, RocketEncoder1D, SEResNetEncoder1D, TimesNetLiteEncoder1D
 
 
 def _device(cpu: bool = False) -> torch.device:
@@ -47,9 +48,29 @@ def _loader_kwargs(cfg: MatchRunConfig, device: torch.device, train: bool = Fals
 
 def build_model(cfg: MatchRunConfig) -> torch.nn.Module:
     # 根据配置创建 encoder。最终结果使用 inceptiontime；cnn 保留作 baseline。
-    in_channels = 2 if cfg.use_hilbert else 1
+    in_channels = 4 if str(getattr(cfg, "preprocess", "none")).lower() == "multiband" else (2 if cfg.use_hilbert else 1)
     if cfg.model_backbone == "inceptiontime":
         return InceptionTimeEncoder1D(in_channels=in_channels, d_model=cfg.d_model, emb_dim=cfg.emb_dim, width_scale=cfg.width_scale)
+    if cfg.model_backbone == "attnresnet":
+        return AttentiveResNetEncoder1D(in_channels=in_channels, d_model=cfg.d_model, emb_dim=cfg.emb_dim, width_scale=cfg.width_scale)
+    if cfg.model_backbone == "dilatedresnet":
+        return DilatedResNetEncoder1D(in_channels=in_channels, d_model=cfg.d_model, emb_dim=cfg.emb_dim, width_scale=cfg.width_scale)
+    if cfg.model_backbone == "inceptionattn":
+        return InceptionAttentionEncoder1D(in_channels=in_channels, d_model=cfg.d_model, emb_dim=cfg.emb_dim, width_scale=cfg.width_scale)
+    if cfg.model_backbone == "convnext1d":
+        return ConvNeXtEncoder1D(in_channels=in_channels, d_model=cfg.d_model, emb_dim=cfg.emb_dim, width_scale=cfg.width_scale)
+    if cfg.model_backbone == "seresnet":
+        return SEResNetEncoder1D(in_channels=in_channels, d_model=cfg.d_model, emb_dim=cfg.emb_dim, width_scale=cfg.width_scale)
+    if cfg.model_backbone == "cbamresnet":
+        return CBAMResNetEncoder1D(in_channels=in_channels, d_model=cfg.d_model, emb_dim=cfg.emb_dim, width_scale=cfg.width_scale)
+    if cfg.model_backbone == "gatedtcn":
+        return GatedTCNEncoder1D(in_channels=in_channels, d_model=cfg.d_model, emb_dim=cfg.emb_dim, width_scale=cfg.width_scale)
+    if cfg.model_backbone == "patchtst":
+        return PatchTransformerEncoder1D(in_channels=in_channels, d_model=cfg.d_model, emb_dim=cfg.emb_dim, width_scale=cfg.width_scale)
+    if cfg.model_backbone == "rocket":
+        return RocketEncoder1D(in_channels=in_channels, d_model=cfg.d_model, emb_dim=cfg.emb_dim, width_scale=cfg.width_scale)
+    if cfg.model_backbone == "timesnetlite":
+        return TimesNetLiteEncoder1D(in_channels=in_channels, d_model=cfg.d_model, emb_dim=cfg.emb_dim, width_scale=cfg.width_scale)
     return MatchEncoder1D(in_channels=in_channels, d_model=cfg.d_model, emb_dim=cfg.emb_dim, width_scale=cfg.width_scale)
 
 
@@ -322,6 +343,16 @@ def run_train_eval(cfg: MatchRunConfig, cpu: bool = False) -> dict:
     )
     timings["val_candidate_s"] = time.perf_counter() - t0
     results["val_candidates"] = val_candidate_stats
+    val_catalog_t0 = time.perf_counter()
+    val_catalog_tier1, val_catalog_tier1_stats = catalog_system_report(
+        val_candidates, val_ds.meta, cfg.p_high, threshold_name="tier1"
+    )
+    val_catalog_tier12, val_catalog_tier12_stats = catalog_system_report(
+        val_candidates, val_ds.meta, cfg.p_low, threshold_name="tier12"
+    )
+    timings["val_catalog_s"] = time.perf_counter() - val_catalog_t0
+    results["val_catalog_tier1"] = val_catalog_tier1_stats
+    results["val_catalog_tier12"] = val_catalog_tier12_stats
     results["pair_calibrator"] = pair_calibrator.to_dict()
 
     # 测试集只用验证阶段确定好的参数和校准器，得到最终论文指标。
@@ -342,12 +373,30 @@ def run_train_eval(cfg: MatchRunConfig, cpu: bool = False) -> dict:
     )
     timings["test_candidate_s"] = time.perf_counter() - t0
     results["test_candidates"] = test_candidate_stats
+    test_catalog_t0 = time.perf_counter()
+    test_catalog_tier1, test_catalog_tier1_stats = catalog_system_report(
+        test_candidates, test_ds.meta, cfg.p_high, threshold_name="tier1"
+    )
+    test_catalog_tier12, test_catalog_tier12_stats = catalog_system_report(
+        test_candidates, test_ds.meta, cfg.p_low, threshold_name="tier12"
+    )
+    timings["test_catalog_s"] = time.perf_counter() - test_catalog_t0
+    results["test_catalog_tier1"] = test_catalog_tier1_stats
+    results["test_catalog_tier12"] = test_catalog_tier12_stats
 
     if cfg.export_candidates:
         val_candidates.to_csv(cfg.out_dir / "val_candidates.csv", index=False)
         test_candidates.to_csv(cfg.out_dir / "test_candidates.csv", index=False)
+        val_catalog_tier1.to_csv(cfg.out_dir / "val_catalog_systems_tier1.csv", index=False)
+        val_catalog_tier12.to_csv(cfg.out_dir / "val_catalog_systems_tier12.csv", index=False)
+        test_catalog_tier1.to_csv(cfg.out_dir / "test_catalog_systems_tier1.csv", index=False)
+        test_catalog_tier12.to_csv(cfg.out_dir / "test_catalog_systems_tier12.csv", index=False)
         pd.DataFrame([val_candidate_stats]).to_csv(cfg.out_dir / "val_candidate_summary.csv", index=False)
         pd.DataFrame([test_candidate_stats]).to_csv(cfg.out_dir / "test_candidate_summary.csv", index=False)
+        pd.DataFrame([val_catalog_tier1_stats]).to_csv(cfg.out_dir / "val_catalog_tier1_summary.csv", index=False)
+        pd.DataFrame([val_catalog_tier12_stats]).to_csv(cfg.out_dir / "val_catalog_tier12_summary.csv", index=False)
+        pd.DataFrame([test_catalog_tier1_stats]).to_csv(cfg.out_dir / "test_catalog_tier1_summary.csv", index=False)
+        pd.DataFrame([test_catalog_tier12_stats]).to_csv(cfg.out_dir / "test_catalog_tier12_summary.csv", index=False)
 
     save_t0 = time.perf_counter()
     torch.save({"model": model.state_dict(), "config": results["config"], "pair_calibrator": pair_calibrator.to_dict()}, cfg.out_dir / "model.pt")

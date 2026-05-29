@@ -95,3 +95,30 @@ def test_inceptiontime_backbone_outputs_normalized_embeddings() -> None:
         z = model(torch.from_numpy(x))
     assert tuple(z.shape) == (3, 16)
     assert torch.allclose(z.norm(dim=1), torch.ones(3), atol=1e-5)
+
+
+def test_catalog_system_report_tracks_system_level_metrics() -> None:
+    from matchgw.catalog import catalog_system_report
+
+    meta = [
+        {"tag": "L1", "pair_id": 0},
+        {"tag": "L2", "pair_id": 0},
+        {"tag": "L1", "pair_id": 1},
+        {"tag": "L2", "pair_id": 1},
+        {"tag": "U", "pair_id": -1},
+    ]
+    df = __import__("pandas").DataFrame([
+        {"i": 0, "j": 1, "score": 0.9, "p_hat": 0.95},
+        {"i": 2, "j": 4, "score": 0.8, "p_hat": 0.90},
+        {"i": 2, "j": 3, "score": 0.7, "p_hat": 0.85},
+    ])
+    systems, metrics = catalog_system_report(df, meta, threshold=0.8, threshold_name="tier1")
+    assert metrics["catalog_true_systems"] == 2
+    assert metrics["catalog_predicted_systems"] == 2
+    assert metrics["catalog_recovered_true_systems"] == 2
+    assert metrics["catalog_system_recall"] == 1.0
+    assert metrics["catalog_system_precision"] == 1.0
+    assert metrics["catalog_purity"] == 0.5
+    assert metrics["catalog_merged_or_contaminated_systems"] == 1
+    assert metrics["catalog_false_alarm_systems"] == 0
+    assert set(systems.columns).issuperset({"members", "is_true_system", "is_pure_system"})

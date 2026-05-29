@@ -23,7 +23,7 @@ def main() -> None:
     ap.add_argument("--model-type", choices=["SIS", "PM"], default="SIS")
     ap.add_argument("--data-mode", choices=["pure", "noisy"], default="noisy")
     ap.add_argument("--out-dir", type=Path, default=Path("runs/match_first"))
-    ap.add_argument("--backbone", choices=["cnn", "inceptiontime"], default="cnn")
+    ap.add_argument("--backbone", choices=["cnn", "inceptiontime", "attnresnet", "dilatedresnet", "inceptionattn", "convnext1d", "seresnet", "cbamresnet", "gatedtcn", "patchtst", "rocket", "timesnetlite"], default="cnn")
     ap.add_argument("--lensed-limit", type=int, default=2500)
     ap.add_argument("--unlensed-limit", type=int, default=2500)
     ap.add_argument("--epochs", type=int, default=20)
@@ -41,6 +41,11 @@ def main() -> None:
     ap.add_argument("--d-model", type=int, default=256)
     ap.add_argument("--emb-dim", type=int, default=128)
     ap.add_argument("--use-hilbert", action="store_true")
+    ap.add_argument("--use-pure-aux", action="store_true", help="Train noisy runs with auxiliary clean/noisy positive pairs.")
+    ap.add_argument("--preprocess", choices=["none", "bandpass", "whiten", "whiten_bandpass", "multiband"], default="none")
+    ap.add_argument("--bandpass-low", type=int, default=40)
+    ap.add_argument("--bandpass-high", type=int, default=580)
+    ap.add_argument("--whiten-kernel", type=int, default=33)
     ap.add_argument("--aug-roll", type=int, default=128)
     ap.add_argument("--aug-scale", type=float, default=0.10)
     ap.add_argument("--aug-noise", type=float, default=0.01)
@@ -80,6 +85,11 @@ def main() -> None:
         d_model=args.d_model,
         emb_dim=args.emb_dim,
         use_hilbert=args.use_hilbert,
+        use_pure_aux=args.use_pure_aux,
+        preprocess=args.preprocess,
+        bandpass_low=args.bandpass_low,
+        bandpass_high=args.bandpass_high,
+        whiten_kernel=args.whiten_kernel,
         aug_roll=args.aug_roll,
         aug_scale=args.aug_scale,
         aug_noise=args.aug_noise,

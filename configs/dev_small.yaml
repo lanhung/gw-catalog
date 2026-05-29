@@ -1,9 +1,0 @@
-n_total: 2000
-lens_prevalence: 0.3
-multiplicity_distribution:
-  doublet: 0.8
-  triplet: 0.15
-  quadruplet: 0.05
-seed: 42
-strain_length: 4096
-output_prefix: catalogs/dev_small

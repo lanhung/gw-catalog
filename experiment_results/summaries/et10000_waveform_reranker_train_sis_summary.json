@@ -1,0 +1,23 @@
+{
+  "family": "SIS",
+  "train_split": "train",
+  "train_topk": 30,
+  "test_topk": 50,
+  "raw_train_examples": 1503205,
+  "fit_examples": 713997,
+  "sample_info": {
+    "positive": 13997,
+    "negative_total": 1489208,
+    "negative_used": 700000
+  },
+  "fit_auc": 0.998636496392084,
+  "test": {
+    "r@1": 0.43333333333333335,
+    "r@5": 0.6036666666666667,
+    "r@10": 0.668,
+    "r@50": 0.7936666666666666,
+    "median_true_rank": 2.0,
+    "valid": 3000
+  },
+  "features": 37
+}

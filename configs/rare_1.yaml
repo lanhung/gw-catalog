@@ -1,9 +1,0 @@
-n_total: 10000
-lens_prevalence: 0.01
-multiplicity_distribution:
-  doublet: 0.9
-  triplet: 0.08
-  quadruplet: 0.02
-seed: 43
-strain_length: 4096
-output_prefix: catalogs/rare_1

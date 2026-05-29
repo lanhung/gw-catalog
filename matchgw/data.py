@@ -14,9 +14,13 @@ from .config import MatchRunConfig
 class MatchArrays:
     # l1/l2 是同一个强透镜源的两张像；unlensed 是孤立事件。
     # 训练时 l1-l2 组成正样本，unlensed 自身做 self-pair，增强模型稳定性。
+    # *_pure 只在 noisy 辅助训练时加载，用 clean waveform 约束模型学习源本征形态。
     l1: np.ndarray
     l2: np.ndarray
     unlensed: np.ndarray
+    l1_pure: np.ndarray | None = None
+    l2_pure: np.ndarray | None = None
+    unlensed_pure: np.ndarray | None = None
 
 
 def _load_npy_matrix(path: Path, limit: int | None = None) -> np.ndarray:
@@ -30,11 +34,16 @@ def _load_npy_matrix(path: Path, limit: int | None = None) -> np.ndarray:
 
 
 def load_match_arrays(cfg: MatchRunConfig) -> MatchArrays:
-    return MatchArrays(
+    arrays = MatchArrays(
         l1=_load_npy_matrix(cfg.l1_path, cfg.lensed_limit),
         l2=_load_npy_matrix(cfg.l2_path, cfg.lensed_limit),
         unlensed=_load_npy_matrix(cfg.unlensed_path, cfg.unlensed_limit),
     )
+    if cfg.use_pure_aux and cfg.mode == "noisy":
+        arrays.l1_pure = _load_npy_matrix(cfg.source_dir / f"{cfg.family}_h_strain_1.npy", cfg.lensed_limit)
+        arrays.l2_pure = _load_npy_matrix(cfg.source_dir / f"{cfg.family}_h_strain_2.npy", cfg.lensed_limit)
+        arrays.unlensed_pure = _load_npy_matrix(cfg.data_root / "Unlensed_data_0222" / "unlensed_h_strain.npy", cfg.unlensed_limit)
+    return arrays
 
 
 def split_indices(n_lensed: int, n_unlensed: int, cfg: MatchRunConfig) -> dict[str, dict[str, np.ndarray]]:
@@ -80,6 +89,62 @@ def peak_flip(x: np.ndarray) -> np.ndarray:
     return -x if x[np.argmax(np.abs(x))] < 0 else x
 
 
+def _fft_band(x: np.ndarray, lo: int, hi: int) -> np.ndarray:
+    sp = np.fft.rfft(x.astype(np.float32, copy=False))
+    lo = max(0, int(lo))
+    hi = min(len(sp) - 1, int(hi))
+    mask = np.zeros(len(sp), dtype=bool)
+    if hi >= lo:
+        mask[lo:hi + 1] = True
+    return np.fft.irfft(np.where(mask, sp, 0.0), n=x.shape[-1]).astype(np.float32, copy=False)
+
+
+def multiband_preprocess(x: np.ndarray, cfg: MatchRunConfig) -> np.ndarray:
+    # 多频带 waveform-only 输入：让模型自己学习不同频段的可靠性。
+    # 这里仍只使用 waveform 本身，不使用任何物理辅助参数。
+    bands = [(40, 160), (160, 320), (320, 580), (cfg.bandpass_low, cfg.bandpass_high)]
+    return np.stack([_fft_band(x, lo, hi) for lo, hi in bands], axis=0).astype(np.float32, copy=False)
+
+
+def zscore_channels(x: np.ndarray) -> np.ndarray:
+    if x.ndim == 1:
+        return zscore(x)
+    mean = x.mean(axis=-1, keepdims=True)
+    std = x.std(axis=-1, keepdims=True) + 1e-8
+    return ((x - mean) / std).astype(np.float32, copy=False)
+
+
+def peak_flip_channels(x: np.ndarray) -> np.ndarray:
+    ref = x if x.ndim == 1 else x[-1]
+    return -x if ref[np.argmax(np.abs(ref))] < 0 else x
+
+
+def spectral_preprocess(x: np.ndarray, cfg: MatchRunConfig) -> np.ndarray:
+    # 只基于 waveform 自身做频域处理，不读取任何辅助参数。
+    # bandpass 去掉明显低/高频噪声；whiten 压平样本自己的平滑谱包络，降低 ET 噪声形态影响。
+    mode = str(getattr(cfg, "preprocess", "none")).lower()
+    if mode in {"none", ""}:
+        return x.astype(np.float32, copy=False)
+    sp = np.fft.rfft(x.astype(np.float32, copy=False))
+    if "bandpass" in mode:
+        lo = max(0, int(getattr(cfg, "bandpass_low", 0)))
+        hi = min(len(sp) - 1, int(getattr(cfg, "bandpass_high", len(sp) - 1)))
+        mask = np.zeros(len(sp), dtype=bool)
+        if hi >= lo:
+            mask[lo:hi + 1] = True
+        sp = np.where(mask, sp, 0.0)
+    if "whiten" in mode:
+        amp = np.abs(sp).astype(np.float32)
+        k = max(3, int(getattr(cfg, "whiten_kernel", 33)))
+        if k % 2 == 0:
+            k += 1
+        kernel = np.ones(k, dtype=np.float32) / float(k)
+        smooth = np.convolve(amp, kernel, mode="same")
+        floor = np.percentile(smooth, 10) + 1e-6
+        sp = sp / np.maximum(smooth, floor)
+    return np.fft.irfft(sp, n=x.shape[-1]).astype(np.float32, copy=False)
+
+
 def augment(x: np.ndarray, cfg: MatchRunConfig, rng: np.random.Generator) -> np.ndarray:
     # 训练期做轻量增强：平移、幅度扰动、少量噪声，提升 noisy/pure 泛化能力。
     y = x.copy()
@@ -109,6 +174,12 @@ class PairDataset(Dataset):
         self.arrays = arrays
         self.cfg = cfg
         self.items = [("L", int(i)) for i in lensed_idx] + [("U", int(i)) for i in unlensed_idx]
+        if cfg.use_pure_aux and cfg.mode == "noisy":
+            # 额外正样本不改变测试集，只在训练中把 noisy embedding 拉向同事件 clean embedding。
+            self.items.extend(("L1P", int(i)) for i in lensed_idx)
+            self.items.extend(("L2P", int(i)) for i in lensed_idx)
+            self.items.extend(("LP", int(i)) for i in lensed_idx)
+            self.items.extend(("UP", int(i)) for i in unlensed_idx)
         self.rng = np.random.default_rng(cfg.seed)
 
     def __len__(self) -> int:
@@ -116,6 +187,18 @@ class PairDataset(Dataset):
 
     def _prepare(self, x: np.ndarray, train: bool) -> np.ndarray:
         y = pad_or_trim(x, self.cfg.target_len, self.cfg.stride)
+        if str(getattr(self.cfg, "preprocess", "none")).lower() == "multiband":
+            mb = multiband_preprocess(y, self.cfg)
+            if self.cfg.aug_flip:
+                mb = peak_flip_channels(mb)
+            if train and self.cfg.aug_roll > 0:
+                mb = np.roll(mb, int(self.rng.integers(-self.cfg.aug_roll, self.cfg.aug_roll + 1)), axis=-1)
+            if train and self.cfg.aug_scale > 0:
+                mb = mb * float(1.0 + self.rng.uniform(-self.cfg.aug_scale, self.cfg.aug_scale))
+            if train and self.cfg.aug_noise > 0:
+                mb = mb + self.rng.normal(0.0, self.cfg.aug_noise * (mb.std(axis=-1, keepdims=True) + 1e-8), size=mb.shape)
+            return zscore_channels(mb).astype(np.float32, copy=False)
+        y = spectral_preprocess(y, self.cfg)
         y = augment(y, self.cfg, self.rng) if train else zscore(peak_flip(y) if self.cfg.aug_flip else y)
         return to_channels(y, self.cfg.use_hilbert)
 
@@ -124,6 +207,18 @@ class PairDataset(Dataset):
         if kind == "L":
             a = self._prepare(self.arrays.l1[src_idx], train=True)
             b = self._prepare(self.arrays.l2[src_idx], train=True)
+        elif kind == "L1P" and self.arrays.l1_pure is not None:
+            a = self._prepare(self.arrays.l1[src_idx], train=True)
+            b = self._prepare(self.arrays.l1_pure[src_idx], train=True)
+        elif kind == "L2P" and self.arrays.l2_pure is not None:
+            a = self._prepare(self.arrays.l2[src_idx], train=True)
+            b = self._prepare(self.arrays.l2_pure[src_idx], train=True)
+        elif kind == "LP" and self.arrays.l1_pure is not None and self.arrays.l2_pure is not None:
+            a = self._prepare(self.arrays.l1_pure[src_idx], train=True)
+            b = self._prepare(self.arrays.l2_pure[src_idx], train=True)
+        elif kind == "UP" and self.arrays.unlensed_pure is not None:
+            a = self._prepare(self.arrays.unlensed[src_idx], train=True)
+            b = self._prepare(self.arrays.unlensed_pure[src_idx], train=True)
         else:
             a = self._prepare(self.arrays.unlensed[src_idx], train=True)
             b = self._prepare(self.arrays.unlensed[src_idx], train=True)
@@ -151,6 +246,12 @@ class EvaluationSet(Dataset):
 
     def __getitem__(self, idx: int) -> torch.Tensor:
         x = pad_or_trim(self.waveforms[idx], self.cfg.target_len, self.cfg.stride)
+        if str(getattr(self.cfg, "preprocess", "none")).lower() == "multiband":
+            x = multiband_preprocess(x, self.cfg)
+            if self.cfg.aug_flip:
+                x = peak_flip_channels(x)
+            return torch.from_numpy(zscore_channels(x))
+        x = spectral_preprocess(x, self.cfg)
         if self.cfg.aug_flip:
             x = peak_flip(x)
         return torch.from_numpy(to_channels(zscore(x), self.cfg.use_hilbert))

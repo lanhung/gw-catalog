@@ -15,7 +15,7 @@ class MatchRunConfig:
     model_type: str = "SIS"
     data_mode: str = "noisy"
     out_dir: Path = Path("runs/match_first")
-    # backbone 可选 cnn 或 inceptiontime；本轮最好结果使用 inceptiontime。
+    # backbone 可选 cnn、inceptiontime 或 attnresnet；本轮最好结果使用 inceptiontime。
     backbone: str = "cnn"
     # 从 98304 点长波形裁剪尾部窗口，再按 stride 下采样；默认输入模型长度为 4096。
     target_len: int = 8192
@@ -45,6 +45,12 @@ class MatchRunConfig:
     aug_noise: float = 0.01
     aug_flip: bool = True
     use_hilbert: bool = False
+    use_pure_aux: bool = False
+    # waveform-only 频域预处理；不使用任何源参数或 lens 参数。
+    preprocess: str = "none"
+    bandpass_low: int = 40
+    bandpass_high: int = 580
+    whiten_kernel: int = 33
     coarse_topk: int = 10
     coarse_min_score: float | None = 0.85
     coarse_mutual: bool = False
@@ -77,8 +83,8 @@ class MatchRunConfig:
     @property
     def model_backbone(self) -> str:
         value = self.backbone.lower()
-        if value not in {"cnn", "inceptiontime"}:
-            raise ValueError(f"backbone must be cnn or inceptiontime, got {self.backbone!r}")
+        if value not in {"cnn", "inceptiontime", "attnresnet", "dilatedresnet", "inceptionattn", "convnext1d", "seresnet", "cbamresnet", "gatedtcn", "patchtst", "rocket", "timesnetlite"}:
+            raise ValueError(f"unsupported backbone: {self.backbone!r}")
         return value
 
     @property

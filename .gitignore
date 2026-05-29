@@ -8,3 +8,17 @@ results/
 *.egg-info/
 *.bak_*
 runs/
+# Large experiment/data artifacts
+*.npy
+*.npz
+*.pt
+*.pth
+*.ckpt
+*.h5
+*.hdf5
+*.tar.gz
+*.zip
+.pytest_cache/
+data_generation/**/outputs/
+data_generation/**/run_logs/
+data_generation/**/__pycache__/

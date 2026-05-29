@@ -1,2 +1,0 @@
-candidate_edges,exhaustive_edges,followup_reduction,compression_factor,candidate_pair_recall,tier1_edges,tier1_precision,tier1_recall,tier12_edges,tier12_precision,tier12_recall,tier3_edges,tier3_precision,tier3_recall,tier3_discarded_fraction,cal_brier,cal_nll,cal_ece
-28536,10122750.0,0.9971810031858932,354.7361227922624,0.8073333333333333,1510,0.5046357615894039,0.508,12432,0.09000965250965251,0.746,16104,0.005712866368604074,0.06133333333333333,0.5643397813288478,0.09745466558808452,0.3608055518610044,0.22225165979532419

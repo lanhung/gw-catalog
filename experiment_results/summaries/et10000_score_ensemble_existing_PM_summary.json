@@ -1,0 +1,61 @@
+{
+  "family": "PM",
+  "labels": [
+    "inceptiontime",
+    "inceptionattn_lr5e4",
+    "gatedtcn"
+  ],
+  "weights": {
+    "inceptiontime": 0.35,
+    "inceptionattn_lr5e4": 0.3,
+    "gatedtcn": 0.35
+  },
+  "val_retrieval": {
+    "r@1": 0.346,
+    "r@5": 0.5073333333333333,
+    "r@10": 0.582,
+    "mrr": 0.4238444938613769,
+    "median_true_rank": 5.0
+  },
+  "best_params": {
+    "topk": 5,
+    "min_score": 0.8,
+    "mutual": false,
+    "reciprocal_rank_max": 3,
+    "row_min_score": null,
+    "row_min_margin": null,
+    "edge_rank_bonus": 0.0
+  },
+  "val_pair": {
+    "r@1": 0.346,
+    "r@5": 0.5073333333333333,
+    "r@10": 0.582,
+    "mrr": 0.4238444938613769,
+    "median_true_rank": 5.0,
+    "pairs": 992,
+    "tp": 478,
+    "fp": 514,
+    "fn": 1022,
+    "precision": 0.48185483870967744,
+    "recall": 0.31866666666666665,
+    "f1": 0.38362760834670945,
+    "f2": 0.3418192219679634,
+    "candidate_edges": 2998
+  },
+  "test": {
+    "r@1": 0.35933333333333334,
+    "r@5": 0.5336666666666666,
+    "r@10": 0.603,
+    "mrr": 0.44305374702448325,
+    "median_true_rank": 4.0,
+    "pairs": 1150,
+    "tp": 406,
+    "fp": 744,
+    "fn": 1094,
+    "precision": 0.35304347826086957,
+    "recall": 0.27066666666666667,
+    "f1": 0.30641509433962266,
+    "f2": 0.2839160839160839,
+    "candidate_edges": 3019
+  }
+}
