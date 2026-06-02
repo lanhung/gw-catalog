@@ -1,0 +1,23 @@
+{
+  "detector": "ET",
+  "data_mode": "pure",
+  "family": "PM",
+  "method": "waveform_score_rank_only_catalog_rerank",
+  "features": "waveform_score,waveform_reciprocal_rank",
+  "run_dir": "runs/et10000_full_20260527_111510/PM_pure_ep20_inceptiontime",
+  "train_examples": 1503000,
+  "train_positive": 3000,
+  "val_auc_sampled": 0.9992465884444445,
+  "waveform_r@1": 0.9356666666666666,
+  "waveform_r@5": 0.974,
+  "waveform_r@10": 0.98,
+  "waveform_median_true_rank": 1.0,
+  "rerank_r@1": 0.9733333333333334,
+  "rerank_r@5": 0.9783333333333334,
+  "rerank_r@10": 0.9843333333333333,
+  "rerank_r@50": 0.9913333333333333,
+  "rerank_r@100": 0.9936666666666667,
+  "rerank_r@500": 0.9973333333333333,
+  "rerank_median_true_rank": 1.0,
+  "valid": 3000
+}

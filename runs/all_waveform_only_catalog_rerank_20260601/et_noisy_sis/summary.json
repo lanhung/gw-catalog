@@ -1,0 +1,23 @@
+{
+  "detector": "ET",
+  "data_mode": "noisy",
+  "family": "SIS",
+  "method": "waveform_score_rank_only_catalog_rerank",
+  "features": "waveform_score,waveform_reciprocal_rank",
+  "run_dir": "runs/et10000_bandpass_full_ep50_20260528_101013/SIS_noisy_bandpass_n10000_ep50",
+  "train_examples": 1503000,
+  "train_positive": 3000,
+  "val_auc_sampled": 0.9821821323333333,
+  "waveform_r@1": 0.407,
+  "waveform_r@5": 0.5913333333333334,
+  "waveform_r@10": 0.6576666666666666,
+  "waveform_median_true_rank": 3.0,
+  "rerank_r@1": 0.6423333333333333,
+  "rerank_r@5": 0.659,
+  "rerank_r@10": 0.6706666666666666,
+  "rerank_r@50": 0.8003333333333333,
+  "rerank_r@100": 0.837,
+  "rerank_r@500": 0.9063333333333333,
+  "rerank_median_true_rank": 1.0,
+  "valid": 3000
+}

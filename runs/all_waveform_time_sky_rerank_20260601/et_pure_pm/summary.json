@@ -1,0 +1,23 @@
+{
+  "detector": "ET",
+  "data_mode": "pure",
+  "family": "PM",
+  "method": "waveform_model_plus_delta_time_sky_sep_catalog_rerank",
+  "features": "log1p_delta_time,sky_sep,waveform_score,waveform_reciprocal_rank",
+  "run_dir": "runs/et10000_full_20260527_111510/PM_pure_ep20_inceptiontime",
+  "train_examples": 1503000,
+  "train_positive": 3000,
+  "val_auc_sampled": 0.9999999997777779,
+  "waveform_r@1": 0.9356666666666666,
+  "waveform_r@5": 0.974,
+  "waveform_r@10": 0.98,
+  "waveform_median_true_rank": 1.0,
+  "rerank_r@1": 1.0,
+  "rerank_r@5": 1.0,
+  "rerank_r@10": 1.0,
+  "rerank_r@50": 1.0,
+  "rerank_r@100": 1.0,
+  "rerank_r@500": 1.0,
+  "rerank_median_true_rank": 1.0,
+  "valid": 3000
+}

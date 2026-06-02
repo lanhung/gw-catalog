@@ -1,0 +1,23 @@
+{
+  "detector": "LIGO",
+  "data_mode": "pure",
+  "family": "SIS",
+  "method": "waveform_score_rank_only_catalog_rerank",
+  "features": "waveform_score,waveform_reciprocal_rank",
+  "run_dir": "runs/ligo_pure_inceptiontime_bandpass_full_ep50_20260601_103901/SIS_pure_inceptiontime_bandpass_n10000_ep50",
+  "train_examples": 1503000,
+  "train_positive": 3000,
+  "val_auc_sampled": 0.999414951888889,
+  "waveform_r@1": 0.9543333333333334,
+  "waveform_r@5": 0.9833333333333333,
+  "waveform_r@10": 0.9886666666666667,
+  "waveform_median_true_rank": 1.0,
+  "rerank_r@1": 0.9806666666666667,
+  "rerank_r@5": 0.9863333333333333,
+  "rerank_r@10": 0.9896666666666667,
+  "rerank_r@50": 0.9943333333333333,
+  "rerank_r@100": 0.997,
+  "rerank_r@500": 0.9993333333333333,
+  "rerank_median_true_rank": 1.0,
+  "valid": 3000
+}

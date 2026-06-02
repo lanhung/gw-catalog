@@ -1,0 +1,23 @@
+{
+  "detector": "LIGO",
+  "data_mode": "noisy",
+  "family": "PM",
+  "method": "waveform_model_plus_delta_time_sky_sep_catalog_rerank",
+  "features": "log1p_delta_time,sky_sep,waveform_score,waveform_reciprocal_rank",
+  "run_dir": "runs/ligo_inceptiontime_bandpass_full_ep50_20260601_095620/PM_noisy_inceptiontime_bandpass_n10000_ep50",
+  "train_examples": 1503000,
+  "train_positive": 3000,
+  "val_auc_sampled": 0.9999924493333333,
+  "waveform_r@1": 0.006666666666666667,
+  "waveform_r@5": 0.017,
+  "waveform_r@10": 0.028333333333333332,
+  "waveform_median_true_rank": 1445.0,
+  "rerank_r@1": 0.9646666666666667,
+  "rerank_r@5": 1.0,
+  "rerank_r@10": 1.0,
+  "rerank_r@50": 1.0,
+  "rerank_r@100": 1.0,
+  "rerank_r@500": 1.0,
+  "rerank_median_true_rank": 1.0,
+  "valid": 3000
+}

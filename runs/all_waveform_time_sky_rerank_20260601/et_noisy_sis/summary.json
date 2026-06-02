@@ -1,0 +1,23 @@
+{
+  "detector": "ET",
+  "data_mode": "noisy",
+  "family": "SIS",
+  "method": "waveform_model_plus_delta_time_sky_sep_catalog_rerank",
+  "features": "log1p_delta_time,sky_sep,waveform_score,waveform_reciprocal_rank",
+  "run_dir": "runs/et10000_bandpass_full_ep50_20260528_101013/SIS_noisy_bandpass_n10000_ep50",
+  "train_examples": 1503000,
+  "train_positive": 3000,
+  "val_auc_sampled": 0.9999484046666667,
+  "waveform_r@1": 0.407,
+  "waveform_r@5": 0.5913333333333334,
+  "waveform_r@10": 0.6576666666666666,
+  "waveform_median_true_rank": 3.0,
+  "rerank_r@1": 0.85,
+  "rerank_r@5": 0.9443333333333334,
+  "rerank_r@10": 0.972,
+  "rerank_r@50": 0.9973333333333333,
+  "rerank_r@100": 0.9973333333333333,
+  "rerank_r@500": 1.0,
+  "rerank_median_true_rank": 1.0,
+  "valid": 3000
+}
