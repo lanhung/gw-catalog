@@ -1,0 +1,765 @@
+TRAIN_OR_LOAD ET pure runs/sis_ep50_aux_compare_20260608/et_pure_sis_ep50
+{"epoch": 1, "loss": 1.9627590102886936, "epoch_s": 7.321731681004167, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 1905.5601335675415}
+{"epoch": 2, "loss": 0.726902029656489, "epoch_s": 6.110888957977295, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2283.1375428261936}
+{"epoch": 3, "loss": 0.43677181005477905, "epoch_s": 6.03106626868248, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2313.355446357563}
+{"epoch": 4, "loss": 0.3283489269947787, "epoch_s": 6.1347131840884686, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2274.27095307196}
+{"epoch": 5, "loss": 0.26584268094749625, "epoch_s": 6.145084979943931, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2270.432393617981}
+{"epoch": 6, "loss": 0.21135134967642094, "epoch_s": 6.1489074332639575, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2269.0209848538916}
+{"epoch": 7, "loss": 0.1858018322275319, "epoch_s": 6.153435563668609, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2267.3512797267313}
+{"epoch": 8, "loss": 0.16751234493124376, "epoch_s": 6.117015168070793, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2280.850973335126}
+{"epoch": 9, "loss": 0.14176122201692073, "epoch_s": 6.038315078243613, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2310.5783350507554}
+{"epoch": 10, "loss": 0.12562460117383834, "epoch_s": 6.113847956061363, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2282.032543214911}
+{"epoch": 11, "loss": 0.11120803281664848, "epoch_s": 6.103748168796301, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2285.8085907484983}
+{"epoch": 12, "loss": 0.09982443392413472, "epoch_s": 6.162471006624401, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2264.0268789909405}
+{"epoch": 13, "loss": 0.09496360713052093, "epoch_s": 6.141381038352847, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2271.8017190058613}
+{"epoch": 14, "loss": 0.0823019941875694, "epoch_s": 6.128207967616618, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2276.685137600872}
+{"epoch": 15, "loss": 0.07988730818033218, "epoch_s": 6.115992724895477, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2281.2322753765934}
+{"epoch": 16, "loss": 0.0777473371441758, "epoch_s": 6.144918164238334, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2270.4940289028827}
+{"epoch": 17, "loss": 0.0634517968042728, "epoch_s": 6.128493909724057, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2276.578912457173}
+{"epoch": 18, "loss": 0.057422798502882684, "epoch_s": 6.176453883759677, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2258.901347371068}
+{"epoch": 19, "loss": 0.05816909927157087, "epoch_s": 6.170325579121709, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2261.1448652254007}
+{"epoch": 20, "loss": 0.055462411203242225, "epoch_s": 6.195647739805281, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2251.903366029407}
+{"epoch": 21, "loss": 0.05366971196794729, "epoch_s": 6.193556493148208, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2252.6637184039223}
+{"epoch": 22, "loss": 0.04887353211914727, "epoch_s": 6.12686541583389, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2277.1840171229023}
+{"epoch": 23, "loss": 0.043960847814968965, "epoch_s": 6.147116342559457, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2269.682111497315}
+{"epoch": 24, "loss": 0.04138762579051727, "epoch_s": 6.16812730114907, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2261.950721639753}
+{"epoch": 25, "loss": 0.03988722800661664, "epoch_s": 6.179818963631988, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2257.671314015349}
+{"epoch": 26, "loss": 0.03963886816567237, "epoch_s": 6.1544760931283236, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2266.96794152436}
+{"epoch": 27, "loss": 0.03860944492417738, "epoch_s": 6.121823973953724, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2279.059322737963}
+{"epoch": 28, "loss": 0.03662947226965099, "epoch_s": 6.11998372990638, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2279.744622820007}
+{"epoch": 29, "loss": 0.036493483452348534, "epoch_s": 6.148933008313179, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2269.0115473916044}
+{"epoch": 30, "loss": 0.03422557918030188, "epoch_s": 6.149582854472101, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2268.7717736584073}
+{"epoch": 31, "loss": 0.035840549942003475, "epoch_s": 6.160677659325302, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2264.6859276724404}
+{"epoch": 32, "loss": 0.03697600130231009, "epoch_s": 6.150247910991311, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2268.5264402213643}
+{"epoch": 33, "loss": 0.03335690382150335, "epoch_s": 6.1423818198964, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2271.431573141007}
+{"epoch": 34, "loss": 0.036636377556608354, "epoch_s": 6.1465490609407425, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2269.8915865912923}
+{"epoch": 35, "loss": 0.033076636834975776, "epoch_s": 6.169899525120854, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2261.30100550166}
+{"epoch": 36, "loss": 0.0330447020743965, "epoch_s": 6.146780174225569, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2269.8062407539746}
+{"epoch": 37, "loss": 0.03111697770996925, "epoch_s": 6.1737774489447474, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2259.8806185319727}
+{"epoch": 38, "loss": 0.03006490391738918, "epoch_s": 6.155528770759702, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2266.580259729348}
+{"epoch": 39, "loss": 0.02915023872201596, "epoch_s": 6.172281209379435, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2260.428442372078}
+{"epoch": 40, "loss": 0.025449246065605672, "epoch_s": 6.137235729955137, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2273.336175096209}
+{"epoch": 41, "loss": 0.024544233815112244, "epoch_s": 6.137701948173344, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2273.163493081036}
+{"epoch": 42, "loss": 0.022617264283359598, "epoch_s": 6.1643350943923, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2263.3422398941525}
+{"epoch": 43, "loss": 0.024428415018210716, "epoch_s": 6.103902205824852, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2285.750906475179}
+{"epoch": 44, "loss": 0.026509211902771522, "epoch_s": 6.173960957676172, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2259.813448067449}
+{"epoch": 45, "loss": 0.02510734196376363, "epoch_s": 6.1543164709582925, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2267.026739011282}
+{"epoch": 46, "loss": 0.026423058754533803, "epoch_s": 6.159601656720042, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2265.0815389625977}
+{"epoch": 47, "loss": 0.02137160666902131, "epoch_s": 6.150136134587228, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2268.5676698336047}
+{"epoch": 48, "loss": 0.022889252922950534, "epoch_s": 6.1373060662299395, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2273.3101216460136}
+{"epoch": 49, "loss": 0.022605064025986086, "epoch_s": 6.150717253796756, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2268.3533357654533}
+{"epoch": 50, "loss": 0.021957247834140006, "epoch_s": 6.177684516645968, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2258.4513602800357}
+VARIANT ET pure waveform_only
+{
+  "detector": "ET",
+  "data_mode": "pure",
+  "family": "SIS",
+  "variant": "waveform_only",
+  "method": "ep50_inceptiontime_bandpass_direct_retrieval",
+  "features": "waveform_embedding_cosine_similarity",
+  "val_auc_sampled": NaN,
+  "val_r@10": 0.985,
+  "r@1": 0.9583333333333334,
+  "r@5": 0.9786666666666667,
+  "r@10": 0.983,
+  "r@50": 0.9936666666666667,
+  "r@100": 0.9963333333333333,
+  "r@500": 0.998,
+  "median_true_rank": 1.0,
+  "mrr": 0.9678197956158325,
+  "sky_sigma_rad": 1.5841219425201416,
+  "sky_val_mean_angular_error_rad": 1.591567039489746,
+  "sky_val_median_angular_error_rad": 1.5841219425201416,
+  "train_s": 308.3740986296907,
+  "mean_epoch_s": 6.167159044891596,
+  "total_s_so_far": 344.5670611457899
+}
+VARIANT ET pure delta_time_only
+{
+  "detector": "ET",
+  "data_mode": "pure",
+  "family": "SIS",
+  "variant": "delta_time_only",
+  "method": "ep50_inceptiontime_bandpass_catalog_hgb_rerank",
+  "features": "log1p_delta_time_obs,waveform_score,waveform_reciprocal_rank",
+  "train_examples": 1503000,
+  "train_positive": 3000,
+  "val_auc_sampled": 0.9999240195555555,
+  "val_r@10": NaN,
+  "r@1": 0.8483333333333334,
+  "r@5": 0.9856666666666667,
+  "r@10": 0.9936666666666667,
+  "r@50": 0.9953333333333333,
+  "r@100": 0.9963333333333333,
+  "r@500": 0.9996666666666667,
+  "median_true_rank": 1.0,
+  "valid": 3000,
+  "sky_sigma_rad": 1.5841219425201416,
+  "sky_val_mean_angular_error_rad": 1.591567039489746,
+  "sky_val_median_angular_error_rad": 1.5841219425201416,
+  "train_s": 308.3740986296907,
+  "mean_epoch_s": 6.167159044891596,
+  "total_s_so_far": 422.2138691600412
+}
+VARIANT ET pure delta_time_plus_true_sky_sep
+{
+  "detector": "ET",
+  "data_mode": "pure",
+  "family": "SIS",
+  "variant": "delta_time_plus_true_sky_sep",
+  "method": "ep50_inceptiontime_bandpass_catalog_hgb_rerank",
+  "features": "log1p_delta_time_obs,oracle_sky_sep_from_ra_dec,waveform_score,waveform_reciprocal_rank",
+  "train_examples": 1503000,
+  "train_positive": 3000,
+  "val_auc_sampled": 0.9999991996666667,
+  "val_r@10": NaN,
+  "r@1": 0.9983333333333333,
+  "r@5": 0.9993333333333333,
+  "r@10": 0.9993333333333333,
+  "r@50": 0.9993333333333333,
+  "r@100": 0.9993333333333333,
+  "r@500": 0.9993333333333333,
+  "median_true_rank": 1.0,
+  "valid": 3000,
+  "sky_sigma_rad": 1.5841219425201416,
+  "sky_val_mean_angular_error_rad": 1.591567039489746,
+  "sky_val_median_angular_error_rad": 1.5841219425201416,
+  "train_s": 308.3740986296907,
+  "mean_epoch_s": 6.167159044891596,
+  "total_s_so_far": 455.90921190660447
+}
+VARIANT ET pure delta_time_plus_true_sky_overlap
+{
+  "detector": "ET",
+  "data_mode": "pure",
+  "family": "SIS",
+  "variant": "delta_time_plus_true_sky_overlap",
+  "method": "ep50_inceptiontime_bandpass_catalog_hgb_rerank",
+  "features": "log1p_delta_time_obs,oracle_log_sky_overlap_from_ra_dec,waveform_score,waveform_reciprocal_rank",
+  "train_examples": 1503000,
+  "train_positive": 3000,
+  "val_auc_sampled": 0.9999996153333334,
+  "val_r@10": NaN,
+  "r@1": 0.9986666666666667,
+  "r@5": 0.9993333333333333,
+  "r@10": 0.9993333333333333,
+  "r@50": 0.9993333333333333,
+  "r@100": 0.9993333333333333,
+  "r@500": 0.9993333333333333,
+  "median_true_rank": 1.0,
+  "valid": 3000,
+  "sky_sigma_rad": 1.5841219425201416,
+  "sky_val_mean_angular_error_rad": 1.591567039489746,
+  "sky_val_median_angular_error_rad": 1.5841219425201416,
+  "train_s": 308.3740986296907,
+  "mean_epoch_s": 6.167159044891596,
+  "total_s_so_far": 500.72653777711093
+}
+VARIANT ET pure delta_time_plus_predicted_sky_overlap
+{
+  "detector": "ET",
+  "data_mode": "pure",
+  "family": "SIS",
+  "variant": "delta_time_plus_predicted_sky_overlap",
+  "method": "ep50_inceptiontime_bandpass_catalog_hgb_rerank",
+  "features": "log1p_delta_time_obs,predicted_log_sky_overlap_from_waveform_sky_model,waveform_score,waveform_reciprocal_rank",
+  "train_examples": 1503000,
+  "train_positive": 3000,
+  "val_auc_sampled": 0.999936237888889,
+  "val_r@10": NaN,
+  "r@1": 0.908,
+  "r@5": 0.9843333333333333,
+  "r@10": 0.9936666666666667,
+  "r@50": 0.9956666666666667,
+  "r@100": 0.9973333333333333,
+  "r@500": 0.9996666666666667,
+  "median_true_rank": 1.0,
+  "valid": 3000,
+  "sky_sigma_rad": 1.5841219425201416,
+  "sky_val_mean_angular_error_rad": 1.591567039489746,
+  "sky_val_median_angular_error_rad": 1.5841219425201416,
+  "train_s": 308.3740986296907,
+  "mean_epoch_s": 6.167159044891596,
+  "total_s_so_far": 552.7445766581222
+}
+TRAIN_OR_LOAD ET noisy runs/sis_ep50_aux_compare_20260608/et_noisy_sis_ep50
+{"epoch": 1, "loss": 3.475860236981593, "epoch_s": 6.371981956064701, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2189.5856102857947}
+{"epoch": 2, "loss": 1.385649812877725, "epoch_s": 6.001170818693936, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2324.8796645712614}
+{"epoch": 3, "loss": 0.829345602507985, "epoch_s": 6.026478247717023, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2315.1166280713546}
+{"epoch": 4, "loss": 0.6565009612555898, "epoch_s": 6.116552446037531, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2281.0235215163543}
+{"epoch": 5, "loss": 0.5745585607279331, "epoch_s": 6.04686438664794, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2307.3115432863624}
+{"epoch": 6, "loss": 0.5340739116756195, "epoch_s": 6.108721673488617, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2283.947566403395}
+{"epoch": 7, "loss": 0.49714297931128687, "epoch_s": 6.050882140174508, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2305.7795007055984}
+{"epoch": 8, "loss": 0.4824658126459209, "epoch_s": 6.091386160813272, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2290.447466580783}
+{"epoch": 9, "loss": 0.4525128963890426, "epoch_s": 6.063150888308883, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2301.1137702184833}
+{"epoch": 10, "loss": 0.43866439505454596, "epoch_s": 6.056209699250758, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2303.751140210034}
+{"epoch": 11, "loss": 0.4229670456790049, "epoch_s": 6.084425677545369, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2293.0677009483393}
+{"epoch": 12, "loss": 0.40842494450577904, "epoch_s": 6.08883410692215, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2291.4074771947776}
+{"epoch": 13, "loss": 0.3972912966658216, "epoch_s": 6.077160471118987, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2295.809048700506}
+{"epoch": 14, "loss": 0.3813471370333925, "epoch_s": 6.128016823902726, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2276.7561514484296}
+{"epoch": 15, "loss": 0.36896877018136714, "epoch_s": 6.10672836471349, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2284.6930740556345}
+{"epoch": 16, "loss": 0.3566938649623766, "epoch_s": 6.109923463314772, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2283.498325923501}
+{"epoch": 17, "loss": 0.34015435964689344, "epoch_s": 6.118422056548297, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2280.326507562149}
+{"epoch": 18, "loss": 0.33701161206315416, "epoch_s": 6.1521927854046226, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2267.8092977026877}
+{"epoch": 19, "loss": 0.3192748693971459, "epoch_s": 6.124185597524047, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2278.1804662550835}
+{"epoch": 20, "loss": 0.30954488414690035, "epoch_s": 6.094783934764564, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2289.1705677075743}
+{"epoch": 21, "loss": 0.30018978285680126, "epoch_s": 6.077899360097945, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2295.529947665202}
+{"epoch": 22, "loss": 0.2860549952185482, "epoch_s": 6.12826525233686, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2276.663856003908}
+{"epoch": 23, "loss": 0.28349222447894035, "epoch_s": 6.115891521796584, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2281.2700242108785}
+{"epoch": 24, "loss": 0.2653385463657729, "epoch_s": 6.086229370906949, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2292.3881355330714}
+{"epoch": 25, "loss": 0.2546111214051553, "epoch_s": 6.075204168446362, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2296.5483320650283}
+{"epoch": 26, "loss": 0.23998908479826167, "epoch_s": 6.151511170901358, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2268.060580950821}
+{"epoch": 27, "loss": 0.23170246402604863, "epoch_s": 6.099820236675441, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2287.2805195328506}
+{"epoch": 28, "loss": 0.22012490061444973, "epoch_s": 6.118850946426392, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2280.1666721671695}
+{"epoch": 29, "loss": 0.21673341423546502, "epoch_s": 6.146936364471912, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2269.7485662353406}
+{"epoch": 30, "loss": 0.20226921154818403, "epoch_s": 6.11978174187243, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2279.8198675188696}
+{"epoch": 31, "loss": 0.2038270974651389, "epoch_s": 6.1299786465242505, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2276.0275042574417}
+{"epoch": 32, "loss": 0.18545672249629958, "epoch_s": 6.130993216298521, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2275.6508623937566}
+{"epoch": 33, "loss": 0.1768566147860037, "epoch_s": 6.111289597116411, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2282.987866682541}
+{"epoch": 34, "loss": 0.1762836802443233, "epoch_s": 6.1376722157001495, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2273.174504873496}
+{"epoch": 35, "loss": 0.1605317825024281, "epoch_s": 6.127265013754368, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2277.035507470432}
+{"epoch": 36, "loss": 0.15647760430060395, "epoch_s": 6.11893998645246, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2280.1334922209076}
+{"epoch": 37, "loss": 0.16103096237970055, "epoch_s": 6.1307657007128, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2275.735312862773}
+{"epoch": 38, "loss": 0.14852128020667155, "epoch_s": 6.149071869440377, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2268.960307544716}
+{"epoch": 39, "loss": 0.14243036754634403, "epoch_s": 6.099766109138727, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2287.300816189818}
+{"epoch": 40, "loss": 0.14167772882848706, "epoch_s": 6.131292687729001, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2275.539712518234}
+{"epoch": 41, "loss": 0.1303585939997927, "epoch_s": 6.125871156342328, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2277.5536154649626}
+{"epoch": 42, "loss": 0.12647685340238274, "epoch_s": 6.134147090837359, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2274.4808354596275}
+{"epoch": 43, "loss": 0.121177888107956, "epoch_s": 6.140712486580014, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2272.0490546481155}
+{"epoch": 44, "loss": 0.11922928253445056, "epoch_s": 6.118269867263734, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2280.3832296857695}
+{"epoch": 45, "loss": 0.11472639352630037, "epoch_s": 6.109686714597046, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2283.586810869758}
+{"epoch": 46, "loss": 0.11256525504889839, "epoch_s": 6.145117135718465, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2270.420513045075}
+{"epoch": 47, "loss": 0.10502513450220091, "epoch_s": 6.105541697703302, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2285.137124728551}
+{"epoch": 48, "loss": 0.10183253180269801, "epoch_s": 6.152455528266728, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2267.712450077727}
+{"epoch": 49, "loss": 0.09732937341162917, "epoch_s": 6.172108299098909, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2260.491767786529}
+{"epoch": 50, "loss": 0.09904541697250593, "epoch_s": 6.08874795679003, "batches": 109, "batch_pairs": 13952, "pairs_per_s": 2291.4398984837358}
+VARIANT ET noisy waveform_only
+{
+  "detector": "ET",
+  "data_mode": "noisy",
+  "family": "SIS",
+  "variant": "waveform_only",
+  "method": "ep50_inceptiontime_bandpass_direct_retrieval",
+  "features": "waveform_embedding_cosine_similarity",
+  "val_auc_sampled": NaN,
+  "val_r@10": 0.682,
+  "r@1": 0.4053333333333333,
+  "r@5": 0.579,
+  "r@10": 0.6533333333333333,
+  "r@50": 0.7896666666666666,
+  "r@100": 0.8353333333333334,
+  "r@500": 0.9146666666666666,
+  "median_true_rank": 3.0,
+  "mrr": 0.48707950870900696,
+  "sky_sigma_rad": 1.5581082105636597,
+  "sky_val_mean_angular_error_rad": 1.5515538454055786,
+  "sky_val_median_angular_error_rad": 1.5581082105636597,
+  "train_s": 305.71369214355946,
+  "mean_epoch_s": 6.113963096179068,
+  "total_s_so_far": 344.58262710180134
+}
+VARIANT ET noisy delta_time_only
+{
+  "detector": "ET",
+  "data_mode": "noisy",
+  "family": "SIS",
+  "variant": "delta_time_only",
+  "method": "ep50_inceptiontime_bandpass_catalog_hgb_rerank",
+  "features": "log1p_delta_time_obs,waveform_score,waveform_reciprocal_rank",
+  "train_examples": 1503000,
+  "train_positive": 3000,
+  "val_auc_sampled": 0.9978810685555556,
+  "val_r@10": NaN,
+  "r@1": 0.5266666666666666,
+  "r@5": 0.7253333333333334,
+  "r@10": 0.7883333333333333,
+  "r@50": 0.8723333333333333,
+  "r@100": 0.9066666666666666,
+  "r@500": 0.9726666666666667,
+  "median_true_rank": 1.0,
+  "valid": 3000,
+  "sky_sigma_rad": 1.5581082105636597,
+  "sky_val_mean_angular_error_rad": 1.5515538454055786,
+  "sky_val_median_angular_error_rad": 1.5581082105636597,
+  "train_s": 305.71369214355946,
+  "mean_epoch_s": 6.113963096179068,
+  "total_s_so_far": 484.7924294769764
+}
+VARIANT ET noisy delta_time_plus_true_sky_sep
+{
+  "detector": "ET",
+  "data_mode": "noisy",
+  "family": "SIS",
+  "variant": "delta_time_plus_true_sky_sep",
+  "method": "ep50_inceptiontime_bandpass_catalog_hgb_rerank",
+  "features": "log1p_delta_time_obs,oracle_sky_sep_from_ra_dec,waveform_score,waveform_reciprocal_rank",
+  "train_examples": 1503000,
+  "train_positive": 3000,
+  "val_auc_sampled": 0.99998699,
+  "val_r@10": NaN,
+  "r@1": 0.9563333333333334,
+  "r@5": 0.9953333333333333,
+  "r@10": 0.9993333333333333,
+  "r@50": 0.9993333333333333,
+  "r@100": 0.9993333333333333,
+  "r@500": 0.9993333333333333,
+  "median_true_rank": 1.0,
+  "valid": 3000,
+  "sky_sigma_rad": 1.5581082105636597,
+  "sky_val_mean_angular_error_rad": 1.5515538454055786,
+  "sky_val_median_angular_error_rad": 1.5581082105636597,
+  "train_s": 305.71369214355946,
+  "mean_epoch_s": 6.113963096179068,
+  "total_s_so_far": 531.0382976252586
+}
+VARIANT ET noisy delta_time_plus_true_sky_overlap
+{
+  "detector": "ET",
+  "data_mode": "noisy",
+  "family": "SIS",
+  "variant": "delta_time_plus_true_sky_overlap",
+  "method": "ep50_inceptiontime_bandpass_catalog_hgb_rerank",
+  "features": "log1p_delta_time_obs,oracle_log_sky_overlap_from_ra_dec,waveform_score,waveform_reciprocal_rank",
+  "train_examples": 1503000,
+  "train_positive": 3000,
+  "val_auc_sampled": 0.9999929306666668,
+  "val_r@10": NaN,
+  "r@1": 0.9553333333333334,
+  "r@5": 0.9976666666666667,
+  "r@10": 1.0,
+  "r@50": 1.0,
+  "r@100": 1.0,
+  "r@500": 1.0,
+  "median_true_rank": 1.0,
+  "valid": 3000,
+  "sky_sigma_rad": 1.5581082105636597,
+  "sky_val_mean_angular_error_rad": 1.5515538454055786,
+  "sky_val_median_angular_error_rad": 1.5581082105636597,
+  "train_s": 305.71369214355946,
+  "mean_epoch_s": 6.113963096179068,
+  "total_s_so_far": 592.8047204203904
+}
+VARIANT ET noisy delta_time_plus_predicted_sky_overlap
+{
+  "detector": "ET",
+  "data_mode": "noisy",
+  "family": "SIS",
+  "variant": "delta_time_plus_predicted_sky_overlap",
+  "method": "ep50_inceptiontime_bandpass_catalog_hgb_rerank",
+  "features": "log1p_delta_time_obs,predicted_log_sky_overlap_from_waveform_sky_model,waveform_score,waveform_reciprocal_rank",
+  "train_examples": 1503000,
+  "train_positive": 3000,
+  "val_auc_sampled": 0.9980053572222222,
+  "val_r@10": NaN,
+  "r@1": 0.5193333333333333,
+  "r@5": 0.7153333333333334,
+  "r@10": 0.7733333333333333,
+  "r@50": 0.8736666666666667,
+  "r@100": 0.9073333333333333,
+  "r@500": 0.9723333333333334,
+  "median_true_rank": 1.0,
+  "valid": 3000,
+  "sky_sigma_rad": 1.5581082105636597,
+  "sky_val_mean_angular_error_rad": 1.5515538454055786,
+  "sky_val_median_angular_error_rad": 1.5581082105636597,
+  "train_s": 305.71369214355946,
+  "mean_epoch_s": 6.113963096179068,
+  "total_s_so_far": 725.6470526475459
+}
+TRAIN_OR_LOAD LIGO pure runs/sis_ep50_aux_compare_20260608/ligo_pure_sis_ep50
+{"epoch": 1, "loss": 2.0083407714449124, "epoch_s": 7.659965194761753, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 1817.2406330931053}
+{"epoch": 2, "loss": 0.5815156439255024, "epoch_s": 6.689586146734655, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2080.846213004474}
+{"epoch": 3, "loss": 0.3129541050771187, "epoch_s": 6.445514493621886, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2159.641408575598}
+{"epoch": 4, "loss": 0.21305000591894677, "epoch_s": 6.616057666949928, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2103.9719876591203}
+{"epoch": 5, "loss": 0.16863632983174817, "epoch_s": 6.823063192889094, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2040.1393928913392}
+{"epoch": 6, "loss": 0.13729758401369227, "epoch_s": 6.737901878543198, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2065.925009137955}
+{"epoch": 7, "loss": 0.11994488619524857, "epoch_s": 6.9034871477633715, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2016.3722626049757}
+{"epoch": 8, "loss": 0.1065015417234651, "epoch_s": 6.627607648260891, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2100.3053799741238}
+{"epoch": 9, "loss": 0.09596548252578439, "epoch_s": 6.598718305118382, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2109.5005660724705}
+{"epoch": 10, "loss": 0.0808303360538236, "epoch_s": 6.581106557510793, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2115.1458160350826}
+{"epoch": 11, "loss": 0.07807632124629514, "epoch_s": 6.966008709743619, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 1998.2748486273886}
+{"epoch": 12, "loss": 0.0659996632101207, "epoch_s": 6.782213757745922, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2052.4272010893287}
+{"epoch": 13, "loss": 0.07034837855347272, "epoch_s": 6.729260226711631, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2068.5780503397546}
+{"epoch": 14, "loss": 0.05938539492159054, "epoch_s": 6.596145689487457, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2110.323309290282}
+{"epoch": 15, "loss": 0.056607839375220494, "epoch_s": 6.63234056904912, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2098.8065759107594}
+{"epoch": 16, "loss": 0.052319940397965496, "epoch_s": 6.796086193062365, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2048.237706904001}
+{"epoch": 17, "loss": 0.04795582523119861, "epoch_s": 6.897803315892816, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2018.0337656087934}
+{"epoch": 18, "loss": 0.04635384042972121, "epoch_s": 6.69520728290081, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2079.0991842106087}
+{"epoch": 19, "loss": 0.04352037624038499, "epoch_s": 6.667643800377846, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2087.694006571133}
+{"epoch": 20, "loss": 0.04273454309280576, "epoch_s": 6.721668711863458, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2070.914321533252}
+{"epoch": 21, "loss": 0.04341887167558588, "epoch_s": 6.611590241082013, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2105.3936333661745}
+{"epoch": 22, "loss": 0.04200056150298694, "epoch_s": 6.80711767077446, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2044.918374154724}
+{"epoch": 23, "loss": 0.03985384385390528, "epoch_s": 6.772445110604167, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2055.3876439994065}
+{"epoch": 24, "loss": 0.037073350119693524, "epoch_s": 6.708807696588337, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2074.884335569613}
+{"epoch": 25, "loss": 0.03813524641867342, "epoch_s": 6.683757169172168, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2082.6609416936813}
+{"epoch": 26, "loss": 0.03492450626759694, "epoch_s": 6.731707658618689, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2067.825982041578}
+{"epoch": 27, "loss": 0.036321859023180504, "epoch_s": 6.794392473064363, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2048.748295772483}
+{"epoch": 28, "loss": 0.03387011489991484, "epoch_s": 6.7619545962661505, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2058.576377854772}
+{"epoch": 29, "loss": 0.03170034415249167, "epoch_s": 6.811668780632317, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2043.552093956604}
+{"epoch": 30, "loss": 0.032179682220107524, "epoch_s": 6.695817959494889, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2078.9095647770687}
+{"epoch": 31, "loss": 0.03517730510954199, "epoch_s": 6.669640284962952, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2087.069077980616}
+{"epoch": 32, "loss": 0.030609074267077034, "epoch_s": 6.616998325102031, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2103.672891557723}
+{"epoch": 33, "loss": 0.026488927989427386, "epoch_s": 6.721692714840174, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2070.906926356122}
+{"epoch": 34, "loss": 0.028914927498533808, "epoch_s": 6.876111357472837, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2024.400024422523}
+{"epoch": 35, "loss": 0.026070171748769695, "epoch_s": 6.7068439302966, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2075.491862442132}
+{"epoch": 36, "loss": 0.030334922864005482, "epoch_s": 6.798384635709226, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2047.545225211846}
+{"epoch": 37, "loss": 0.02718317057166634, "epoch_s": 6.577897102572024, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2116.177827494009}
+{"epoch": 38, "loss": 0.028341846778218088, "epoch_s": 6.814192165620625, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2042.795339736679}
+{"epoch": 39, "loss": 0.027443609733519884, "epoch_s": 6.20541528519243, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2243.2020034527536}
+{"epoch": 40, "loss": 0.026535434584165442, "epoch_s": 6.119264439679682, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2274.783209193792}
+{"epoch": 41, "loss": 0.02454421285796782, "epoch_s": 6.6678365133702755, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2087.63366829522}
+{"epoch": 42, "loss": 0.024992051039790283, "epoch_s": 6.85197498369962, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2031.5310597476973}
+{"epoch": 43, "loss": 0.024211220436825834, "epoch_s": 6.768007828854024, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2056.735209533138}
+{"epoch": 44, "loss": 0.024435130872860037, "epoch_s": 6.87360630184412, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2025.1378081205207}
+{"epoch": 45, "loss": 0.025473215199750047, "epoch_s": 6.9285018695518374, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2009.0923351227154}
+{"epoch": 46, "loss": 0.023789438329123218, "epoch_s": 6.8805813724175096, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2023.0848596314431}
+{"epoch": 47, "loss": 0.024245000611348398, "epoch_s": 6.865663175471127, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2027.4807610329353}
+{"epoch": 48, "loss": 0.02248591953117786, "epoch_s": 6.888638712465763, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2020.7185455684012}
+{"epoch": 49, "loss": 0.01982303079988422, "epoch_s": 6.928576638922095, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2009.0706541084876}
+{"epoch": 50, "loss": 0.023786671960662153, "epoch_s": 6.871109145693481, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2025.87380069846}
+VARIANT LIGO pure waveform_only
+{
+  "detector": "LIGO",
+  "data_mode": "pure",
+  "family": "SIS",
+  "variant": "waveform_only",
+  "method": "ep50_inceptiontime_bandpass_direct_retrieval",
+  "features": "waveform_embedding_cosine_similarity",
+  "val_auc_sampled": NaN,
+  "val_r@10": 0.991,
+  "r@1": 0.9476666666666667,
+  "r@5": 0.9846666666666667,
+  "r@10": 0.9883333333333333,
+  "r@50": 0.9963333333333333,
+  "r@100": 0.999,
+  "r@500": 0.9996666666666667,
+  "median_true_rank": 1.0,
+  "mrr": 0.963608304968084,
+  "sky_sigma_rad": 1.5460455417633057,
+  "sky_val_mean_angular_error_rad": 1.5518271923065186,
+  "sky_val_median_angular_error_rad": 1.5460455417633057,
+  "train_s": 337.1991802714765,
+  "mean_epoch_s": 6.7435516525805,
+  "total_s_so_far": 398.84276487026364
+}
+VARIANT LIGO pure delta_time_only
+{
+  "detector": "LIGO",
+  "data_mode": "pure",
+  "family": "SIS",
+  "variant": "delta_time_only",
+  "method": "ep50_inceptiontime_bandpass_catalog_hgb_rerank",
+  "features": "log1p_delta_time_obs,waveform_score,waveform_reciprocal_rank",
+  "train_examples": 1503000,
+  "train_positive": 3000,
+  "val_auc_sampled": 0.9999030863333335,
+  "val_r@10": NaN,
+  "r@1": 0.9053333333333333,
+  "r@5": 0.9853333333333333,
+  "r@10": 0.994,
+  "r@50": 0.998,
+  "r@100": 0.999,
+  "r@500": 0.999,
+  "median_true_rank": 1.0,
+  "valid": 3000,
+  "sky_sigma_rad": 1.5460455417633057,
+  "sky_val_mean_angular_error_rad": 1.5518271923065186,
+  "sky_val_median_angular_error_rad": 1.5460455417633057,
+  "train_s": 337.1991802714765,
+  "mean_epoch_s": 6.7435516525805,
+  "total_s_so_far": 440.2373077562079
+}
+VARIANT LIGO pure delta_time_plus_true_sky_sep
+{
+  "detector": "LIGO",
+  "data_mode": "pure",
+  "family": "SIS",
+  "variant": "delta_time_plus_true_sky_sep",
+  "method": "ep50_inceptiontime_bandpass_catalog_hgb_rerank",
+  "features": "log1p_delta_time_obs,oracle_sky_sep_from_ra_dec,waveform_score,waveform_reciprocal_rank",
+  "train_examples": 1503000,
+  "train_positive": 3000,
+  "val_auc_sampled": 0.9999999991111111,
+  "val_r@10": NaN,
+  "r@1": 0.9973333333333333,
+  "r@5": 0.998,
+  "r@10": 0.998,
+  "r@50": 0.998,
+  "r@100": 0.998,
+  "r@500": 0.998,
+  "median_true_rank": 1.0,
+  "valid": 3000,
+  "sky_sigma_rad": 1.5460455417633057,
+  "sky_val_mean_angular_error_rad": 1.5518271923065186,
+  "sky_val_median_angular_error_rad": 1.5460455417633057,
+  "train_s": 337.1991802714765,
+  "mean_epoch_s": 6.7435516525805,
+  "total_s_so_far": 538.0456266151741
+}
+VARIANT LIGO pure delta_time_plus_true_sky_overlap
+{
+  "detector": "LIGO",
+  "data_mode": "pure",
+  "family": "SIS",
+  "variant": "delta_time_plus_true_sky_overlap",
+  "method": "ep50_inceptiontime_bandpass_catalog_hgb_rerank",
+  "features": "log1p_delta_time_obs,oracle_log_sky_overlap_from_ra_dec,waveform_score,waveform_reciprocal_rank",
+  "train_examples": 1503000,
+  "train_positive": 3000,
+  "val_auc_sampled": 1.0,
+  "val_r@10": NaN,
+  "r@1": 0.997,
+  "r@5": 0.998,
+  "r@10": 0.9986666666666667,
+  "r@50": 0.999,
+  "r@100": 0.999,
+  "r@500": 0.999,
+  "median_true_rank": 1.0,
+  "valid": 3000,
+  "sky_sigma_rad": 1.5460455417633057,
+  "sky_val_mean_angular_error_rad": 1.5518271923065186,
+  "sky_val_median_angular_error_rad": 1.5460455417633057,
+  "train_s": 337.1991802714765,
+  "mean_epoch_s": 6.7435516525805,
+  "total_s_so_far": 638.5876123122871
+}
+VARIANT LIGO pure delta_time_plus_predicted_sky_overlap
+{
+  "detector": "LIGO",
+  "data_mode": "pure",
+  "family": "SIS",
+  "variant": "delta_time_plus_predicted_sky_overlap",
+  "method": "ep50_inceptiontime_bandpass_catalog_hgb_rerank",
+  "features": "log1p_delta_time_obs,predicted_log_sky_overlap_from_waveform_sky_model,waveform_score,waveform_reciprocal_rank",
+  "train_examples": 1503000,
+  "train_positive": 3000,
+  "val_auc_sampled": 0.9999608921111113,
+  "val_r@10": NaN,
+  "r@1": 0.8803333333333333,
+  "r@5": 0.9883333333333333,
+  "r@10": 0.994,
+  "r@50": 0.997,
+  "r@100": 0.998,
+  "r@500": 0.9993333333333333,
+  "median_true_rank": 1.0,
+  "valid": 3000,
+  "sky_sigma_rad": 1.5460455417633057,
+  "sky_val_mean_angular_error_rad": 1.5518271923065186,
+  "sky_val_median_angular_error_rad": 1.5460455417633057,
+  "train_s": 337.1991802714765,
+  "mean_epoch_s": 6.7435516525805,
+  "total_s_so_far": 693.4261140748858
+}
+TRAIN_OR_LOAD LIGO noisy runs/sis_ep50_aux_compare_20260608/ligo_noisy_sis_ep50
+{"epoch": 1, "loss": 3.2864880635820586, "epoch_s": 7.3168133078143, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 1902.4675653721474}
+{"epoch": 2, "loss": 1.4834066070359329, "epoch_s": 6.830636483617127, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2037.8774413462475}
+{"epoch": 3, "loss": 1.105588014372464, "epoch_s": 6.86722476221621, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2027.0197178616443}
+{"epoch": 4, "loss": 0.9823647873155001, "epoch_s": 6.786263265646994, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2051.2024740426696}
+{"epoch": 5, "loss": 0.9175803295497237, "epoch_s": 6.830176381394267, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2038.014719197993}
+{"epoch": 6, "loss": 0.8834605722591795, "epoch_s": 6.795729019679129, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2048.345359223469}
+{"epoch": 7, "loss": 0.8470578127893909, "epoch_s": 6.933914157561958, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2007.5241319247061}
+{"epoch": 8, "loss": 0.8181466723310536, "epoch_s": 6.826453761197627, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2039.126094887353}
+{"epoch": 9, "loss": 0.8003930539920412, "epoch_s": 6.907850969582796, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2015.098481610802}
+{"epoch": 10, "loss": 0.7535739721923039, "epoch_s": 6.527157478034496, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2132.6281841435957}
+{"epoch": 11, "loss": 0.7358800111145809, "epoch_s": 6.392980727367103, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2177.3880750822846}
+{"epoch": 12, "loss": 0.7260107642617719, "epoch_s": 6.726064800284803, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2069.560792725426}
+{"epoch": 13, "loss": 0.6884035281066236, "epoch_s": 6.939954779110849, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2005.7767583585664}
+{"epoch": 14, "loss": 0.6556606259839288, "epoch_s": 6.793604710139334, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2048.9858615448506}
+{"epoch": 15, "loss": 0.6396182691228801, "epoch_s": 6.882379890419543, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2022.556182836843}
+{"epoch": 16, "loss": 0.6162465934095711, "epoch_s": 6.833710108883679, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2036.9608570173752}
+{"epoch": 17, "loss": 0.5923277082114384, "epoch_s": 6.8507520612329245, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2031.8937067903212}
+{"epoch": 18, "loss": 0.5368668032103572, "epoch_s": 6.719890927895904, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2071.4621932648774}
+{"epoch": 19, "loss": 0.5731395772818861, "epoch_s": 6.720651776529849, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2071.2276819060953}
+{"epoch": 20, "loss": 0.5422887425998162, "epoch_s": 6.438015030696988, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2162.1571142080734}
+{"epoch": 21, "loss": 0.5171088830150407, "epoch_s": 6.7377085499465466, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2065.9842878051522}
+{"epoch": 22, "loss": 0.48945745496914306, "epoch_s": 6.835835003294051, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2036.3276751548617}
+{"epoch": 23, "loss": 0.44409490731255763, "epoch_s": 6.663795255124569, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2088.8997136121925}
+{"epoch": 24, "loss": 0.4216097483347202, "epoch_s": 6.533307429403067, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2130.620692568854}
+{"epoch": 25, "loss": 0.42339266528343333, "epoch_s": 6.222001473419368, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2237.2222281635227}
+{"epoch": 26, "loss": 0.40855366166295676, "epoch_s": 6.464647172950208, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2153.2497640776064}
+{"epoch": 27, "loss": 0.37721561291094485, "epoch_s": 6.371630150824785, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2184.6842441408976}
+{"epoch": 28, "loss": 0.3431900040856723, "epoch_s": 6.25976238399744, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2223.726580354762}
+{"epoch": 29, "loss": 0.34176859074625476, "epoch_s": 6.303267517127097, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2208.378426296661}
+{"epoch": 30, "loss": 0.32551699177972204, "epoch_s": 6.850665939040482, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2031.9192504589798}
+{"epoch": 31, "loss": 0.33710966955485017, "epoch_s": 6.873524321243167, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2025.1619619616602}
+{"epoch": 32, "loss": 0.2722996510308364, "epoch_s": 6.883097934536636, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2022.345189969621}
+{"epoch": 33, "loss": 0.340688322728564, "epoch_s": 6.854192208498716, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2030.8738909802062}
+{"epoch": 34, "loss": 0.23715473043507543, "epoch_s": 6.7591312527656555, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2059.4362617687457}
+{"epoch": 35, "loss": 0.25016232579304226, "epoch_s": 6.729020570404828, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2068.6517234353696}
+{"epoch": 36, "loss": 0.19982581157879584, "epoch_s": 6.6898878356441855, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2080.7523746262646}
+{"epoch": 37, "loss": 0.27114572765241407, "epoch_s": 6.805114137008786, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2045.5204306269857}
+{"epoch": 38, "loss": 0.14130016208851132, "epoch_s": 6.786877700127661, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2051.016773108813}
+{"epoch": 39, "loss": 0.20505924238341636, "epoch_s": 6.844770587049425, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2033.6693279884628}
+{"epoch": 40, "loss": 0.18820716128524007, "epoch_s": 6.768860009498894, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2056.4762722919}
+{"epoch": 41, "loss": 0.18022506603778438, "epoch_s": 6.855371872894466, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2030.524420569867}
+{"epoch": 42, "loss": 0.16768846351267963, "epoch_s": 6.812541474588215, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2043.2903127156956}
+{"epoch": 43, "loss": 0.20602512994845365, "epoch_s": 6.907253553159535, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2015.2727698308795}
+{"epoch": 44, "loss": 0.18154105154861663, "epoch_s": 6.790176963433623, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2050.0202093350163}
+{"epoch": 45, "loss": 0.11002845553809713, "epoch_s": 6.9075668985024095, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2015.1813517749522}
+{"epoch": 46, "loss": 0.18778567687961562, "epoch_s": 6.780701854266226, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2052.8848339264364}
+{"epoch": 47, "loss": 0.11272352695432973, "epoch_s": 6.840163358487189, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2035.039116825805}
+{"epoch": 48, "loss": 0.13696195403563566, "epoch_s": 6.792629905976355, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2049.279909649247}
+{"epoch": 49, "loss": 0.17161892237109613, "epoch_s": 6.829045290127397, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2038.352274530064}
+{"epoch": 50, "loss": 0.08879800721810295, "epoch_s": 6.924959099851549, "batches": 145, "batch_pairs": 13920, "pairs_per_s": 2010.1201753377006}
+VARIANT LIGO noisy waveform_only
+{
+  "detector": "LIGO",
+  "data_mode": "noisy",
+  "family": "SIS",
+  "variant": "waveform_only",
+  "method": "ep50_inceptiontime_bandpass_direct_retrieval",
+  "features": "waveform_embedding_cosine_similarity",
+  "val_auc_sampled": NaN,
+  "val_r@10": 0.035,
+  "r@1": 0.010666666666666666,
+  "r@5": 0.025666666666666667,
+  "r@10": 0.03866666666666667,
+  "r@50": 0.101,
+  "r@100": 0.15066666666666667,
+  "r@500": 0.344,
+  "median_true_rank": 1171.5,
+  "mrr": 0.02191405901618909,
+  "sky_sigma_rad": 1.5352531671524048,
+  "sky_val_mean_angular_error_rad": 1.5459765195846558,
+  "sky_val_median_angular_error_rad": 1.5352531671524048,
+  "train_s": 337.62048890814185,
+  "mean_epoch_s": 6.751954642049968,
+  "total_s_so_far": 396.0206720577553
+}
+VARIANT LIGO noisy delta_time_only
+{
+  "detector": "LIGO",
+  "data_mode": "noisy",
+  "family": "SIS",
+  "variant": "delta_time_only",
+  "method": "ep50_inceptiontime_bandpass_catalog_hgb_rerank",
+  "features": "log1p_delta_time_obs,waveform_score,waveform_reciprocal_rank",
+  "train_examples": 1503000,
+  "train_positive": 3000,
+  "val_auc_sampled": 0.9630426215555556,
+  "val_r@10": NaN,
+  "r@1": 0.08733333333333333,
+  "r@5": 0.184,
+  "r@10": 0.24766666666666667,
+  "r@50": 0.43066666666666664,
+  "r@100": 0.5483333333333333,
+  "r@500": 0.8433333333333334,
+  "median_true_rank": 74.0,
+  "valid": 3000,
+  "sky_sigma_rad": 1.5352531671524048,
+  "sky_val_mean_angular_error_rad": 1.5459765195846558,
+  "sky_val_median_angular_error_rad": 1.5352531671524048,
+  "train_s": 337.62048890814185,
+  "mean_epoch_s": 6.751954642049968,
+  "total_s_so_far": 477.7242298750207
+}
+VARIANT LIGO noisy delta_time_plus_true_sky_sep
+{
+  "detector": "LIGO",
+  "data_mode": "noisy",
+  "family": "SIS",
+  "variant": "delta_time_plus_true_sky_sep",
+  "method": "ep50_inceptiontime_bandpass_catalog_hgb_rerank",
+  "features": "log1p_delta_time_obs,oracle_sky_sep_from_ra_dec,waveform_score,waveform_reciprocal_rank",
+  "train_examples": 1503000,
+  "train_positive": 3000,
+  "val_auc_sampled": 0.9998901949999999,
+  "val_r@10": NaN,
+  "r@1": 0.799,
+  "r@5": 0.9773333333333334,
+  "r@10": 0.9983333333333333,
+  "r@50": 0.9993333333333333,
+  "r@100": 0.9993333333333333,
+  "r@500": 0.9993333333333333,
+  "median_true_rank": 1.0,
+  "valid": 3000,
+  "sky_sigma_rad": 1.5352531671524048,
+  "sky_val_mean_angular_error_rad": 1.5459765195846558,
+  "sky_val_median_angular_error_rad": 1.5352531671524048,
+  "train_s": 337.62048890814185,
+  "mean_epoch_s": 6.751954642049968,
+  "total_s_so_far": 517.9425535406917
+}
+VARIANT LIGO noisy delta_time_plus_true_sky_overlap
+{
+  "detector": "LIGO",
+  "data_mode": "noisy",
+  "family": "SIS",
+  "variant": "delta_time_plus_true_sky_overlap",
+  "method": "ep50_inceptiontime_bandpass_catalog_hgb_rerank",
+  "features": "log1p_delta_time_obs,oracle_log_sky_overlap_from_ra_dec,waveform_score,waveform_reciprocal_rank",
+  "train_examples": 1503000,
+  "train_positive": 3000,
+  "val_auc_sampled": 0.999913763111111,
+  "val_r@10": NaN,
+  "r@1": 0.7873333333333333,
+  "r@5": 0.981,
+  "r@10": 0.999,
+  "r@50": 0.9993333333333333,
+  "r@100": 0.9993333333333333,
+  "r@500": 0.9993333333333333,
+  "median_true_rank": 1.0,
+  "valid": 3000,
+  "sky_sigma_rad": 1.5352531671524048,
+  "sky_val_mean_angular_error_rad": 1.5459765195846558,
+  "sky_val_median_angular_error_rad": 1.5352531671524048,
+  "train_s": 337.62048890814185,
+  "mean_epoch_s": 6.751954642049968,
+  "total_s_so_far": 571.7386999474838
+}
+VARIANT LIGO noisy delta_time_plus_predicted_sky_overlap
+{
+  "detector": "LIGO",
+  "data_mode": "noisy",
+  "family": "SIS",
+  "variant": "delta_time_plus_predicted_sky_overlap",
+  "method": "ep50_inceptiontime_bandpass_catalog_hgb_rerank",
+  "features": "log1p_delta_time_obs,predicted_log_sky_overlap_from_waveform_sky_model,waveform_score,waveform_reciprocal_rank",
+  "train_examples": 1503000,
+  "train_positive": 3000,
+  "val_auc_sampled": 0.9734263092222223,
+  "val_r@10": NaN,
+  "r@1": 0.08066666666666666,
+  "r@5": 0.174,
+  "r@10": 0.22933333333333333,
+  "r@50": 0.42733333333333334,
+  "r@100": 0.523,
+  "r@500": 0.816,
+  "median_true_rank": 86.0,
+  "valid": 3000,
+  "sky_sigma_rad": 1.5352531671524048,
+  "sky_val_mean_angular_error_rad": 1.5459765195846558,
+  "sky_val_median_angular_error_rad": 1.5352531671524048,
+  "train_s": 337.62048890814185,
+  "mean_epoch_s": 6.751954642049968,
+  "total_s_so_far": 711.3958842605352
+}
+detector data_mode family                               variant                                         method                                                                                                       features  val_auc_sampled  val_r@10      r@1      r@5     r@10     r@50    r@100    r@500  median_true_rank      mrr  sky_sigma_rad  sky_val_mean_angular_error_rad  sky_val_median_angular_error_rad    train_s  mean_epoch_s  total_s_so_far  train_examples  train_positive  valid
+      ET      pure    SIS                         waveform_only   ep50_inceptiontime_bandpass_direct_retrieval                                                                           waveform_embedding_cosine_similarity              NaN     0.985 0.958333 0.978667 0.983000 0.993667 0.996333 0.998000               1.0 0.967820       1.584122                        1.591567                          1.584122 308.374099      6.167159      344.567061             NaN             NaN    NaN
+      ET      pure    SIS                       delta_time_only ep50_inceptiontime_bandpass_catalog_hgb_rerank                                                   log1p_delta_time_obs,waveform_score,waveform_reciprocal_rank         0.999924       NaN 0.848333 0.985667 0.993667 0.995333 0.996333 0.999667               1.0      NaN       1.584122                        1.591567                          1.584122 308.374099      6.167159      422.213869       1503000.0          3000.0 3000.0
+      ET      pure    SIS          delta_time_plus_true_sky_sep ep50_inceptiontime_bandpass_catalog_hgb_rerank                        log1p_delta_time_obs,oracle_sky_sep_from_ra_dec,waveform_score,waveform_reciprocal_rank         0.999999       NaN 0.998333 0.999333 0.999333 0.999333 0.999333 0.999333               1.0      NaN       1.584122                        1.591567                          1.584122 308.374099      6.167159      455.909212       1503000.0          3000.0 3000.0
+      ET      pure    SIS      delta_time_plus_true_sky_overlap ep50_inceptiontime_bandpass_catalog_hgb_rerank                log1p_delta_time_obs,oracle_log_sky_overlap_from_ra_dec,waveform_score,waveform_reciprocal_rank         1.000000       NaN 0.998667 0.999333 0.999333 0.999333 0.999333 0.999333               1.0      NaN       1.584122                        1.591567                          1.584122 308.374099      6.167159      500.726538       1503000.0          3000.0 3000.0
+      ET      pure    SIS delta_time_plus_predicted_sky_overlap ep50_inceptiontime_bandpass_catalog_hgb_rerank log1p_delta_time_obs,predicted_log_sky_overlap_from_waveform_sky_model,waveform_score,waveform_reciprocal_rank         0.999936       NaN 0.908000 0.984333 0.993667 0.995667 0.997333 0.999667               1.0      NaN       1.584122                        1.591567                          1.584122 308.374099      6.167159      552.744577       1503000.0          3000.0 3000.0
+      ET     noisy    SIS                         waveform_only   ep50_inceptiontime_bandpass_direct_retrieval                                                                           waveform_embedding_cosine_similarity              NaN     0.682 0.405333 0.579000 0.653333 0.789667 0.835333 0.914667               3.0 0.487080       1.558108                        1.551554                          1.558108 305.713692      6.113963      344.582627             NaN             NaN    NaN
+      ET     noisy    SIS                       delta_time_only ep50_inceptiontime_bandpass_catalog_hgb_rerank                                                   log1p_delta_time_obs,waveform_score,waveform_reciprocal_rank         0.997881       NaN 0.526667 0.725333 0.788333 0.872333 0.906667 0.972667               1.0      NaN       1.558108                        1.551554                          1.558108 305.713692      6.113963      484.792429       1503000.0          3000.0 3000.0
+      ET     noisy    SIS          delta_time_plus_true_sky_sep ep50_inceptiontime_bandpass_catalog_hgb_rerank                        log1p_delta_time_obs,oracle_sky_sep_from_ra_dec,waveform_score,waveform_reciprocal_rank         0.999987       NaN 0.956333 0.995333 0.999333 0.999333 0.999333 0.999333               1.0      NaN       1.558108                        1.551554                          1.558108 305.713692      6.113963      531.038298       1503000.0          3000.0 3000.0
+      ET     noisy    SIS      delta_time_plus_true_sky_overlap ep50_inceptiontime_bandpass_catalog_hgb_rerank                log1p_delta_time_obs,oracle_log_sky_overlap_from_ra_dec,waveform_score,waveform_reciprocal_rank         0.999993       NaN 0.955333 0.997667 1.000000 1.000000 1.000000 1.000000               1.0      NaN       1.558108                        1.551554                          1.558108 305.713692      6.113963      592.804720       1503000.0          3000.0 3000.0
+      ET     noisy    SIS delta_time_plus_predicted_sky_overlap ep50_inceptiontime_bandpass_catalog_hgb_rerank log1p_delta_time_obs,predicted_log_sky_overlap_from_waveform_sky_model,waveform_score,waveform_reciprocal_rank         0.998005       NaN 0.519333 0.715333 0.773333 0.873667 0.907333 0.972333               1.0      NaN       1.558108                        1.551554                          1.558108 305.713692      6.113963      725.647053       1503000.0          3000.0 3000.0
+    LIGO      pure    SIS                         waveform_only   ep50_inceptiontime_bandpass_direct_retrieval                                                                           waveform_embedding_cosine_similarity              NaN     0.991 0.947667 0.984667 0.988333 0.996333 0.999000 0.999667               1.0 0.963608       1.546046                        1.551827                          1.546046 337.199180      6.743552      398.842765             NaN             NaN    NaN
+    LIGO      pure    SIS                       delta_time_only ep50_inceptiontime_bandpass_catalog_hgb_rerank                                                   log1p_delta_time_obs,waveform_score,waveform_reciprocal_rank         0.999903       NaN 0.905333 0.985333 0.994000 0.998000 0.999000 0.999000               1.0      NaN       1.546046                        1.551827                          1.546046 337.199180      6.743552      440.237308       1503000.0          3000.0 3000.0
+    LIGO      pure    SIS          delta_time_plus_true_sky_sep ep50_inceptiontime_bandpass_catalog_hgb_rerank                        log1p_delta_time_obs,oracle_sky_sep_from_ra_dec,waveform_score,waveform_reciprocal_rank         1.000000       NaN 0.997333 0.998000 0.998000 0.998000 0.998000 0.998000               1.0      NaN       1.546046                        1.551827                          1.546046 337.199180      6.743552      538.045627       1503000.0          3000.0 3000.0
+    LIGO      pure    SIS      delta_time_plus_true_sky_overlap ep50_inceptiontime_bandpass_catalog_hgb_rerank                log1p_delta_time_obs,oracle_log_sky_overlap_from_ra_dec,waveform_score,waveform_reciprocal_rank         1.000000       NaN 0.997000 0.998000 0.998667 0.999000 0.999000 0.999000               1.0      NaN       1.546046                        1.551827                          1.546046 337.199180      6.743552      638.587612       1503000.0          3000.0 3000.0
+    LIGO      pure    SIS delta_time_plus_predicted_sky_overlap ep50_inceptiontime_bandpass_catalog_hgb_rerank log1p_delta_time_obs,predicted_log_sky_overlap_from_waveform_sky_model,waveform_score,waveform_reciprocal_rank         0.999961       NaN 0.880333 0.988333 0.994000 0.997000 0.998000 0.999333               1.0      NaN       1.546046                        1.551827                          1.546046 337.199180      6.743552      693.426114       1503000.0          3000.0 3000.0
+    LIGO     noisy    SIS                         waveform_only   ep50_inceptiontime_bandpass_direct_retrieval                                                                           waveform_embedding_cosine_similarity              NaN     0.035 0.010667 0.025667 0.038667 0.101000 0.150667 0.344000            1171.5 0.021914       1.535253                        1.545977                          1.535253 337.620489      6.751955      396.020672             NaN             NaN    NaN
+    LIGO     noisy    SIS                       delta_time_only ep50_inceptiontime_bandpass_catalog_hgb_rerank                                                   log1p_delta_time_obs,waveform_score,waveform_reciprocal_rank         0.963043       NaN 0.087333 0.184000 0.247667 0.430667 0.548333 0.843333              74.0      NaN       1.535253                        1.545977                          1.535253 337.620489      6.751955      477.724230       1503000.0          3000.0 3000.0
+    LIGO     noisy    SIS          delta_time_plus_true_sky_sep ep50_inceptiontime_bandpass_catalog_hgb_rerank                        log1p_delta_time_obs,oracle_sky_sep_from_ra_dec,waveform_score,waveform_reciprocal_rank         0.999890       NaN 0.799000 0.977333 0.998333 0.999333 0.999333 0.999333               1.0      NaN       1.535253                        1.545977                          1.535253 337.620489      6.751955      517.942554       1503000.0          3000.0 3000.0
+    LIGO     noisy    SIS      delta_time_plus_true_sky_overlap ep50_inceptiontime_bandpass_catalog_hgb_rerank                log1p_delta_time_obs,oracle_log_sky_overlap_from_ra_dec,waveform_score,waveform_reciprocal_rank         0.999914       NaN 0.787333 0.981000 0.999000 0.999333 0.999333 0.999333               1.0      NaN       1.535253                        1.545977                          1.535253 337.620489      6.751955      571.738700       1503000.0          3000.0 3000.0
+    LIGO     noisy    SIS delta_time_plus_predicted_sky_overlap ep50_inceptiontime_bandpass_catalog_hgb_rerank log1p_delta_time_obs,predicted_log_sky_overlap_from_waveform_sky_model,waveform_score,waveform_reciprocal_rank         0.973426       NaN 0.080667 0.174000 0.229333 0.427333 0.523000 0.816000              86.0      NaN       1.535253                        1.545977                          1.535253 337.620489      6.751955      711.395884       1503000.0          3000.0 3000.0
+
+R@10 pivot
+ variant             delta_time_only  delta_time_plus_predicted_sky_overlap  delta_time_plus_true_sky_overlap  delta_time_plus_true_sky_sep  waveform_only
+detector data_mode                                                                                                                                       
+ET       noisy             0.788333                               0.773333                          1.000000                      0.999333       0.653333
+         pure              0.993667                               0.993667                          0.999333                      0.999333       0.983000
+LIGO     noisy             0.247667                               0.229333                          0.999000                      0.998333       0.038667
+         pure              0.994000                               0.994000                          0.998667                      0.998000       0.988333
