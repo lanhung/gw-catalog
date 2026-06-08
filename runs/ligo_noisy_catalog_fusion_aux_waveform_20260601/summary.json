@@ -1,0 +1,48 @@
+[
+  {
+    "family": "SIS",
+    "mode": "realistic",
+    "method": "catalog_level_delta_time_sky_sep_waveform_hgb",
+    "features": [
+      "log1p_delta_time",
+      "sky_sep",
+      "waveform_score",
+      "waveform_reciprocal_rank"
+    ],
+    "neg_per_pos": 500,
+    "train_examples": 1503000,
+    "train_positive": 3000,
+    "val_auc_sampled": 0.9994140399999998,
+    "r@1": 0.438,
+    "r@5": 0.742,
+    "r@10": 0.8496666666666667,
+    "r@50": 0.9963333333333333,
+    "r@100": 1.0,
+    "r@500": 1.0,
+    "median_true_rank": 2.0,
+    "valid": 3000
+  },
+  {
+    "family": "PM",
+    "mode": "realistic",
+    "method": "catalog_level_delta_time_sky_sep_waveform_hgb",
+    "features": [
+      "log1p_delta_time",
+      "sky_sep",
+      "waveform_score",
+      "waveform_reciprocal_rank"
+    ],
+    "neg_per_pos": 500,
+    "train_examples": 1503000,
+    "train_positive": 3000,
+    "val_auc_sampled": 0.9999990493333334,
+    "r@1": 0.9523333333333334,
+    "r@5": 0.997,
+    "r@10": 0.997,
+    "r@50": 0.998,
+    "r@100": 0.998,
+    "r@500": 0.9996666666666667,
+    "median_true_rank": 1.0,
+    "valid": 3000
+  }
+]

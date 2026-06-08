@@ -1,0 +1,2 @@
+detector,data_mode,family,method,selection,weight_waveform,weight_rank,weight_time,weight_sky,val_r@1,val_r@5,val_r@10,val_r@50,val_r@100,val_r@500,val_median_rank,r@1,r@5,r@10,r@50,r@100,r@500,median_rank,valid
+LIGO,noisy,SIS,grid18_rank_fusion_weight_search,best validation R@1 then R@5/R@10/median_rank,1.0,0.0,0.5,0.5,0.08233333333333333,0.16966666666666666,0.217,0.37833333333333335,0.4533333333333333,0.6543333333333333,146.5,0.089,0.17033333333333334,0.21833333333333332,0.367,0.445,0.6533333333333333,159.0,3000

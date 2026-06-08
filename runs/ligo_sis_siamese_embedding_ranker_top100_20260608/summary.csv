@@ -1,0 +1,2 @@
+method,alpha,k_each,neg_per_anchor,candidate_recall,r@1,r@5,r@10,r@50,r@100,median_rank,valid
+siamese_embedding_softmax_ranker_top100_union,2.0,100,64,0.5753333333333334,0.0026666666666666666,0.021333333333333333,0.044,0.19433333333333333,0.3233333333333333,191.0,3000

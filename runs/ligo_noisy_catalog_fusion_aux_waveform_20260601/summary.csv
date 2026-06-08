@@ -1,0 +1,3 @@
+family,mode,method,features,neg_per_pos,train_examples,train_positive,val_auc_sampled,r@1,r@5,r@10,r@50,r@100,r@500,median_true_rank,valid
+SIS,realistic,catalog_level_delta_time_sky_sep_waveform_hgb,"['log1p_delta_time', 'sky_sep', 'waveform_score', 'waveform_reciprocal_rank']",500,1503000,3000,0.9994140399999998,0.438,0.742,0.8496666666666667,0.9963333333333333,1.0,1.0,2.0,3000
+PM,realistic,catalog_level_delta_time_sky_sep_waveform_hgb,"['log1p_delta_time', 'sky_sep', 'waveform_score', 'waveform_reciprocal_rank']",500,1503000,3000,0.9999990493333334,0.9523333333333334,0.997,0.997,0.998,0.998,0.9996666666666667,1.0,3000

@@ -1,0 +1,3 @@
+method,mode,features,candidate_recall,r@1,r@5,r@10,r@50,median_rank,valid
+hgb_union_top100,candidate_only,"wf,wf_z,rr,sky,sky_z,dt,dt_z,wf_rank_log,sky_rank_log,time_rank_log,sky_time_z,wf_sky_z,wf_time_z",0.5736666666666667,0.081,0.18333333333333332,0.23866666666666667,0.43566666666666665,75.0,3000
+logreg_union_top100,candidate_only,"wf,wf_z,rr,sky,sky_z,dt,dt_z,wf_rank_log,sky_rank_log,time_rank_log,sky_time_z,wf_sky_z,wf_time_z",0.5736666666666667,0.059,0.143,0.192,0.359,98.0,3000

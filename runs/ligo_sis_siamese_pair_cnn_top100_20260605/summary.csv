@@ -1,0 +1,2 @@
+method,alpha,k_each,neg_per_anchor,candidate_recall,r@1,r@5,r@10,r@50,r@100,median_rank,valid
+siamese_pair_cnn_top100_union,2.0,100,48,0.5753333333333334,0.0023333333333333335,0.015,0.027333333333333334,0.112,0.21866666666666668,250.0,3000

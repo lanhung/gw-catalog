@@ -1,0 +1,52 @@
+[
+  {
+    "family": "SIS",
+    "mode": "realistic",
+    "method": "catalog_level_extended_observable_hgb",
+    "features": [
+      "log1p_delta_time",
+      "sky_sep",
+      "chirp_mass_logdiff",
+      "mass_ratio_absdiff",
+      "chi_eff_absdiff",
+      "luminosity_distance_logdiff"
+    ],
+    "neg_per_pos": 500,
+    "train_examples": 1503000,
+    "train_positive": 3000,
+    "val_auc_sampled": 0.999897714888889,
+    "r@1": 0.6806666666666666,
+    "r@5": 0.9203333333333333,
+    "r@10": 0.9743333333333334,
+    "r@50": 0.9973333333333333,
+    "r@100": 0.9993333333333333,
+    "r@500": 1.0,
+    "median_true_rank": 1.0,
+    "valid": 3000
+  },
+  {
+    "family": "PM",
+    "mode": "realistic",
+    "method": "catalog_level_extended_observable_hgb",
+    "features": [
+      "log1p_delta_time",
+      "sky_sep",
+      "chirp_mass_logdiff",
+      "mass_ratio_absdiff",
+      "chi_eff_absdiff",
+      "luminosity_distance_logdiff"
+    ],
+    "neg_per_pos": 500,
+    "train_examples": 1503000,
+    "train_positive": 3000,
+    "val_auc_sampled": 0.9999999940000001,
+    "r@1": 0.9866666666666667,
+    "r@5": 1.0,
+    "r@10": 1.0,
+    "r@50": 1.0,
+    "r@100": 1.0,
+    "r@500": 1.0,
+    "median_true_rank": 1.0,
+    "valid": 3000
+  }
+]

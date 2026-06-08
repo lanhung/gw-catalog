@@ -1,0 +1,12 @@
+method,r@1,r@5,r@10,r@50,r@100,r@500,median_rank,r@candidate,candidate_max_size
+waveform,0.010666666666666666,0.024333333333333332,0.03966666666666667,0.10766666666666666,0.158,0.32233333333333336,1180.5,,
+sky_overlap,0.0006666666666666666,0.005,0.008,0.031,0.059666666666666666,0.23433333333333334,1503.5,,
+trigger_time,0.019,0.10866666666666666,0.17266666666666666,0.37833333333333335,0.5113333333333333,0.8393333333333334,94.5,,
+union_top5_each_oracle_candidate_recall,,,,,,,,0.12933333333333333,15.0
+union_top10_each_oracle_candidate_recall,,,,,,,,0.20133333333333334,30.0
+union_top20_each_oracle_candidate_recall,,,,,,,,0.2803333333333333,60.0
+union_top50_each_oracle_candidate_recall,,,,,,,,0.42933333333333334,150.0
+union_top100_each_oracle_candidate_recall,,,,,,,,0.5736666666666667,300.0
+union_top200_each_oracle_candidate_recall,,,,,,,,0.7123333333333334,600.0
+union_top500_each_oracle_candidate_recall,,,,,,,,0.8946666666666667,1500.0
+union_top1000_each_oracle_candidate_recall,,,,,,,,0.977,3000.0

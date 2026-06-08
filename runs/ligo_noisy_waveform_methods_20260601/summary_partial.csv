@@ -1,0 +1,2 @@
+family,method,returncode,out_dir,r@1,r@5,r@10,candidate_pair_recall,median_rank,mean_epoch_s
+SIS,base_bp40_580,0,runs/ligo_noisy_waveform_methods_20260601/SIS_base_bp40_580_n5000_ep25,0.017333333333333333,0.050666666666666665,0.078,,525.0,
