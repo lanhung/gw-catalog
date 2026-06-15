@@ -1,0 +1,3 @@
+detector,liao_label,liao_image_csv,liao_snr_threshold,liao_pair_count,liao_snr_ratio_median,liao_snr_ratio_p90,random_snr_ratio_median
+ET,GW-LMC ET BBH Any_Detected_SNR8,/root/autodl-tmp/GW-LMC/ET/BBH/Any_Detected_SNR8/BBH_ET_Any_Detected_SNR8_ImageParams.csv,8.0,4388,1.6140327476858123,3.19175121840789,2.5282416085094357
+LIGO,GW-LMC 2.5PLUS BBH Any_Detected_SNR1,/root/autodl-tmp/GW-LMC/2.5PLUS/BBH/Any_Detected_SNR1/BBH_2.5PLUS_Any_Detected_SNR1_ImageParams.csv,1.0,4498,1.5767498267498266,2.9750417415874653,2.414100368415961

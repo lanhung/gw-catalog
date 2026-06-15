@@ -1,0 +1,3 @@
+detector,liao_label,liao_delay_count,liao_delay_median_days,liao_delay_p90_days,sky_label,a90_ref_deg2,test_a90_median_deg2,test_a90_p90_deg2
+ET,GW-LMC ET BBH Any_Detected_SNR8,4388,37.378045,284.69784000000004,ET single-site baseline A90=300 deg2,300.0,50.0,354.44608587469935
+LIGO,GW-LMC 2.5PLUS BBH Any_Detected_SNR1,4498,32.384765,269.50177000000025,LIGO/2.5G HL-like baseline A90=100 deg2,100.0,399.35166964003207,500.0

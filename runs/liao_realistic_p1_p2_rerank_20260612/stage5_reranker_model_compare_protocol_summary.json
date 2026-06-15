@@ -1,0 +1,15 @@
+{
+  "stage": "stage5_reranker_model_compare",
+  "elapsed_s": 837.7275861306116,
+  "jobs": [
+    [
+      "ET",
+      "noisy"
+    ],
+    [
+      "LIGO",
+      "noisy"
+    ]
+  ],
+  "note": "Staged realistic rerank. Each stage changes one factor for ablation comparison."
+}

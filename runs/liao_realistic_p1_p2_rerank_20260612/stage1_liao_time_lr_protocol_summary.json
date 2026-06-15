@@ -1,0 +1,15 @@
+{
+  "stage": "stage1_liao_time_lr",
+  "elapsed_s": 58.891591041348875,
+  "jobs": [
+    [
+      "ET",
+      "noisy"
+    ],
+    [
+      "LIGO",
+      "noisy"
+    ]
+  ],
+  "note": "Staged realistic rerank. Each stage changes one factor for ablation comparison."
+}
