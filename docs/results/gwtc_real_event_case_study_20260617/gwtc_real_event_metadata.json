@@ -184,5 +184,181 @@
       "p95": 0.31563800573349,
       "p99": 0.4324094355106354
     }
-  ]
+  ],
+  "hybrid_real_in_sim_pair_ranks": [
+    {
+      "pair": "GW150914-GW151226",
+      "metric": "waveform",
+      "score": 1.0000001192092896,
+      "rank_from_a": 1,
+      "rank_from_b": 1,
+      "selected_lambda_time": ""
+    },
+    {
+      "pair": "GW150914-GW151226",
+      "metric": "liao_time_lr",
+      "score": 1.3230351209640503,
+      "rank_from_a": 180,
+      "rank_from_b": 331,
+      "selected_lambda_time": ""
+    },
+    {
+      "pair": "GW150914-GW151226",
+      "metric": "waveform_plus_1x_time_lr",
+      "score": 2.32303524017334,
+      "rank_from_a": 101,
+      "rank_from_b": 178,
+      "selected_lambda_time": 1.0
+    },
+    {
+      "pair": "GW150914-GW170817",
+      "metric": "waveform",
+      "score": 1.0,
+      "rank_from_a": 2,
+      "rank_from_b": 2,
+      "selected_lambda_time": ""
+    },
+    {
+      "pair": "GW150914-GW170817",
+      "metric": "liao_time_lr",
+      "score": -2.5282790660858154,
+      "rank_from_a": 2948,
+      "rank_from_b": 3686,
+      "selected_lambda_time": ""
+    },
+    {
+      "pair": "GW150914-GW170817",
+      "metric": "waveform_plus_1x_time_lr",
+      "score": -1.5282790660858154,
+      "rank_from_a": 1056,
+      "rank_from_b": 2313,
+      "selected_lambda_time": 1.0
+    },
+    {
+      "pair": "GW151226-GW170817",
+      "metric": "waveform",
+      "score": 1.0000001192092896,
+      "rank_from_a": 1,
+      "rank_from_b": 1,
+      "selected_lambda_time": ""
+    },
+    {
+      "pair": "GW151226-GW170817",
+      "metric": "liao_time_lr",
+      "score": -1.8753783702850342,
+      "rank_from_a": 1304,
+      "rank_from_b": 2296,
+      "selected_lambda_time": ""
+    },
+    {
+      "pair": "GW151226-GW170817",
+      "metric": "waveform_plus_1x_time_lr",
+      "score": -0.8753782510757446,
+      "rank_from_a": 1030,
+      "rank_from_b": 1768,
+      "selected_lambda_time": 1.0
+    }
+  ],
+  "hybrid_real_in_sim_top_candidates": [
+    {
+      "metric": "waveform",
+      "query_event": "GW150914",
+      "top10_labels": "GW151226;GW170817;sim_710;sim_2182;sim_4894;sim_6482;sim_6506;sim_3364;sim_1497;sim_2210",
+      "top10_scores": "1;1;0.67582;0.669429;0.648457;0.634758;0.622611;0.621378;0.621039;0.615545",
+      "best_label": "GW151226",
+      "best_score": 1.0000001192092896
+    },
+    {
+      "metric": "waveform",
+      "query_event": "GW151226",
+      "top10_labels": "GW150914;GW170817;sim_710;sim_2182;sim_4894;sim_6482;sim_6506;sim_3364;sim_1497;sim_2210",
+      "top10_scores": "1;1;0.67582;0.669429;0.648457;0.634758;0.622611;0.621378;0.621039;0.615545",
+      "best_label": "GW150914",
+      "best_score": 1.0000001192092896
+    },
+    {
+      "metric": "waveform",
+      "query_event": "GW170817",
+      "top10_labels": "GW151226;GW150914;sim_710;sim_2182;sim_4894;sim_6482;sim_6506;sim_3364;sim_1497;sim_2210",
+      "top10_scores": "1;1;0.67582;0.669429;0.648457;0.634758;0.622611;0.621378;0.621039;0.615545",
+      "best_label": "GW151226",
+      "best_score": 1.0000001192092896
+    },
+    {
+      "metric": "liao_time_lr",
+      "query_event": "GW150914",
+      "top10_labels": "sim_6937;sim_5437;sim_4560;sim_7581;sim_3453;sim_3911;sim_6060;sim_5594;sim_183;sim_1488",
+      "top10_scores": "4.78888;4.78888;4.76234;4.09729;4.06776;3.9835;3.9835;3.91699;3.91699;3.87594",
+      "best_label": "sim_6937",
+      "best_score": 4.788884162902832
+    },
+    {
+      "metric": "liao_time_lr",
+      "query_event": "GW151226",
+      "top10_labels": "sim_5147;sim_1282;sim_933;sim_3259;sim_2441;sim_2716;sim_7501;sim_6647;sim_4077;sim_1528",
+      "top10_scores": "5.58812;5.31618;5.31618;4.83996;4.78888;4.47116;4.36683;4.25257;4.06776;3.91699",
+      "best_label": "sim_5147",
+      "best_score": 5.588118076324463
+    },
+    {
+      "metric": "liao_time_lr",
+      "query_event": "GW170817",
+      "top10_labels": "sim_8351;sim_2198;sim_6596;sim_3638;sim_2538;sim_1611;sim_4087;sim_689;sim_850;sim_5651",
+      "top10_scores": "4.88255;4.78888;4.78888;4.76234;4.47116;4.40786;4.40786;4.40786;4.40786;4.40786",
+      "best_label": "sim_8351",
+      "best_score": 4.8825483322143555
+    },
+    {
+      "metric": "waveform_plus_1x_time_lr",
+      "query_event": "GW150914",
+      "top10_labels": "sim_5437;sim_4560;sim_6937;sim_183;sim_5594;sim_7094;sim_3453;sim_1488;sim_7581;sim_6060",
+      "top10_scores": "4.69897;4.6131;4.44762;4.19599;4.12215;4.04939;4.03076;3.99513;3.91937;3.91259",
+      "best_label": "sim_5437",
+      "best_score": 4.698965072631836
+    },
+    {
+      "metric": "waveform_plus_1x_time_lr",
+      "query_event": "GW151226",
+      "top10_labels": "sim_5147;sim_933;sim_1282;sim_3259;sim_2441;sim_7501;sim_1316;sim_6647;sim_2716;sim_653",
+      "top10_scores": "5.35038;5.3082;5.06737;4.97093;4.9449;4.65674;4.44323;4.43454;4.41975;4.1721",
+      "best_label": "sim_5147",
+      "best_score": 5.350375175476074
+    },
+    {
+      "metric": "waveform_plus_1x_time_lr",
+      "query_event": "GW170817",
+      "top10_labels": "sim_8351;sim_6596;sim_2198;sim_5096;sim_2538;sim_8508;sim_3638;sim_1611;sim_7093;sim_1227",
+      "top10_scores": "5.25929;5.15833;4.74963;4.56388;4.54586;4.4831;4.41953;4.40257;4.3072;4.29681",
+      "best_label": "sim_8351",
+      "best_score": 5.259293079376221
+    }
+  ],
+  "hybrid_real_in_sim_diagnostics": {
+    "hybrid_catalog_sim_size": 9000,
+    "hybrid_catalog_real_size": 3,
+    "hybrid_lambda_grid": [
+      0.25,
+      0.5,
+      1.0,
+      2.0,
+      4.0
+    ],
+    "selected_lambda_time": 1.0,
+    "selected_lambda_val_overall": {
+      "valid": 6000,
+      "r@1": 0.1625,
+      "r@5": 0.4015,
+      "r@10": 0.5146666666666667,
+      "r@50": 0.6728333333333333,
+      "r@100": 0.7235,
+      "r@500": 0.8683333333333333,
+      "median_true_rank": 10.0,
+      "top_1pct_k": 90,
+      "top_1pct": 0.7128333333333333,
+      "top_5pct_k": 450,
+      "top_5pct": 0.8593333333333333,
+      "top_10pct_k": 900,
+      "top_10pct": 0.916
+    }
+  }
 }
