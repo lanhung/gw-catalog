@@ -53,9 +53,9 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Run full LIGO H1+L1 fresh50 and realistic rerank experiments.")
     parser.add_argument(
         "--phase",
-        choices=["fresh", "p0", "pdf", "p1p2", "all"],
+        choices=["fresh", "p0", "pdf", "p1p2", "true_sky", "all"],
         default="all",
-        help="fresh trains/evaluates LIGO pure+noisy encoders; p0 runs stages 0-3; pdf runs PDF hard-mask baseline; p1p2 runs stages 4-6.",
+        help="fresh trains/evaluates LIGO pure+noisy encoders; p0 runs stages 0-3; pdf runs PDF hard-mask baseline; p1p2 runs stages 4-6; true_sky runs oracle true-ra/dec ablation.",
     )
     args = parser.parse_args()
     fresh, liao, pdf = configure_modules()
@@ -74,6 +74,9 @@ def main() -> None:
         liao.stage4_snr_amplitude_prior()
         liao.stage5_reranker_model_compare()
         liao.stage6_catalog_graph_discovery()
+    if args.phase in {"true_sky", "all"}:
+        true_sky = importlib.import_module("scripts.experiments.94_ligo_h1l1_true_sky_combinations")
+        true_sky.run()
 
     summarize_outputs()
     RERANK_ROOT.mkdir(parents=True, exist_ok=True)
