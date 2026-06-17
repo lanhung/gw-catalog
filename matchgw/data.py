@@ -127,8 +127,8 @@ def peak_flip(x: np.ndarray) -> np.ndarray:
 def _fft_band(x: np.ndarray, lo: int, hi: int) -> np.ndarray:
     sp = np.fft.rfft(x.astype(np.float32, copy=False))
     lo = max(0, int(lo))
-    hi = min(len(sp) - 1, int(hi))
-    mask = np.zeros(len(sp), dtype=bool)
+    hi = min(sp.shape[-1] - 1, int(hi))
+    mask = np.zeros(sp.shape[-1], dtype=bool)
     if hi >= lo:
         mask[lo:hi + 1] = True
     return np.fft.irfft(np.where(mask, sp, 0.0), n=x.shape[-1]).astype(np.float32, copy=False)
@@ -157,7 +157,7 @@ def zscore_channels(x: np.ndarray) -> np.ndarray:
 
 
 def peak_flip_channels(x: np.ndarray) -> np.ndarray:
-    ref = x if x.ndim == 1 else x[-1]
+    ref = x if x.ndim == 1 else np.sum(x, axis=0)
     return -x if ref[np.argmax(np.abs(ref))] < 0 else x
 
 
@@ -174,8 +174,8 @@ def spectral_preprocess(x: np.ndarray, cfg: MatchRunConfig) -> np.ndarray:
     sp = np.fft.rfft(x.astype(np.float32, copy=False))
     if "bandpass" in mode:
         lo = max(0, int(getattr(cfg, "bandpass_low", 0)))
-        hi = min(len(sp) - 1, int(getattr(cfg, "bandpass_high", len(sp) - 1)))
-        mask = np.zeros(len(sp), dtype=bool)
+        hi = min(sp.shape[-1] - 1, int(getattr(cfg, "bandpass_high", sp.shape[-1] - 1)))
+        mask = np.zeros(sp.shape[-1], dtype=bool)
         if hi >= lo:
             mask[lo:hi + 1] = True
         sp = np.where(mask, sp, 0.0)
@@ -185,29 +185,33 @@ def spectral_preprocess(x: np.ndarray, cfg: MatchRunConfig) -> np.ndarray:
         if k % 2 == 0:
             k += 1
         kernel = np.ones(k, dtype=np.float32) / float(k)
-        smooth = np.convolve(amp, kernel, mode="same")
+        if amp.ndim == 1:
+            smooth = np.convolve(amp, kernel, mode="same")
+        else:
+            smooth = np.apply_along_axis(lambda row: np.convolve(row, kernel, mode="same"), -1, amp)
         floor = np.percentile(smooth, 10) + 1e-6
         sp = sp / np.maximum(smooth, floor)
     return np.fft.irfft(sp, n=x.shape[-1]).astype(np.float32, copy=False)
 
 
-def augment(x: np.ndarray, cfg: MatchRunConfig, rng: np.random.Generator) -> np.ndarray:
+def augment_channels(x: np.ndarray, cfg: MatchRunConfig, rng: np.random.Generator) -> np.ndarray:
     # 训练期做轻量增强：平移、幅度扰动、少量噪声，提升 noisy/pure 泛化能力。
     y = x.copy()
     if cfg.aug_flip:
-        y = peak_flip(y)
+        y = peak_flip_channels(y)
     if cfg.aug_roll > 0:
-        y = np.roll(y, int(rng.integers(-cfg.aug_roll, cfg.aug_roll + 1)))
+        y = np.roll(y, int(rng.integers(-cfg.aug_roll, cfg.aug_roll + 1)), axis=-1)
     if cfg.aug_scale > 0:
         y = y * float(1.0 + rng.uniform(-cfg.aug_scale, cfg.aug_scale))
     if cfg.aug_noise > 0:
-        y = y + rng.normal(0.0, cfg.aug_noise * (float(y.std()) + 1e-8), size=y.shape)
-    return zscore(y)
+        y = y + rng.normal(0.0, cfg.aug_noise * (y.std(axis=-1, keepdims=True) + 1e-8), size=y.shape)
+    return zscore_channels(y)
 
 
 def to_channels(x: np.ndarray, use_hilbert: bool = False) -> np.ndarray:
     # 统一输出 channels x time。ET 的一维 strain 变为 1 通道；
     # LIGO 的 detector x time 保留为多通道。Hilbert 时每个原始通道拆成 real/imag 两通道。
+    x = np.asarray(x, dtype=np.float32)
     if use_hilbert:
         from scipy.signal import hilbert
         z = hilbert(x, axis=-1)
@@ -217,7 +221,16 @@ def to_channels(x: np.ndarray, use_hilbert: bool = False) -> np.ndarray:
         return np.concatenate([z.real, z.imag], axis=0).astype(np.float32)
     if x.ndim == 1:
         return x[None, :].astype(np.float32)
-    return x.reshape(-1, x.shape[-1]).astype(np.float32)
+    if x.ndim >= 2:
+        return x.reshape(-1, x.shape[-1]).astype(np.float32, copy=False)
+    raise ValueError(f"expected waveform shape [time] or [channels,time], got {x.shape}")
+
+
+def prepared_channel_count(sample: np.ndarray, cfg: MatchRunConfig) -> int:
+    x = pad_or_trim(sample, cfg.target_len, cfg.stride)
+    if str(getattr(cfg, "preprocess", "none")).lower() == "multiband":
+        return int(multiband_preprocess(x, cfg).shape[0])
+    return int(to_channels(x, cfg.use_hilbert).shape[0])
 
 
 class PairDataset(Dataset):
@@ -253,7 +266,7 @@ class PairDataset(Dataset):
                 mb = mb + self.rng.normal(0.0, self.cfg.aug_noise * (mb.std(axis=-1, keepdims=True) + 1e-8), size=mb.shape)
             return zscore_channels(mb).astype(np.float32, copy=False)
         y = spectral_preprocess(y, self.cfg)
-        y = augment(y, self.cfg, self.rng) if train else zscore(peak_flip(y) if self.cfg.aug_flip else y)
+        y = augment_channels(y, self.cfg, self.rng) if train else zscore_channels(peak_flip_channels(y) if self.cfg.aug_flip else y)
         return to_channels(y, self.cfg.use_hilbert)
 
     def __getitem__(self, idx: int) -> tuple[torch.Tensor, torch.Tensor]:
@@ -308,8 +321,8 @@ class EvaluationSet(Dataset):
             return torch.from_numpy(zscore_channels(x))
         x = spectral_preprocess(x, self.cfg)
         if self.cfg.aug_flip:
-            x = peak_flip(x)
-        return torch.from_numpy(to_channels(zscore(x), self.cfg.use_hilbert))
+            x = peak_flip_channels(x)
+        return torch.from_numpy(to_channels(zscore_channels(x), self.cfg.use_hilbert))
 
 
 def ground_truth_partner(meta: list[dict]) -> np.ndarray:

@@ -1,0 +1,2 @@
+detector,sky_label,scenario,sky_model,sky_sampling,snr_for_sky_mode,uses_h1l1_timing,uses_antenna_pattern_localization,uses_healpix_skymap,a90_ref_deg2,test_a90_median_deg2,test_a90_p90_deg2,test_sigma_median_rad
+ET3,ET three-arm network-SNR A90 approximation,ET_TRIANGLE,detector_dependent_A90_approximation,tangent_2d_gaussian,network,False,False,False,100.0,20.0,27.26257154112327,0.02052081413867755

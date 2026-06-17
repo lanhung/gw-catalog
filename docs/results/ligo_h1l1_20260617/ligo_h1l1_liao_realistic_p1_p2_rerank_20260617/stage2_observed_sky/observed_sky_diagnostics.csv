@@ -1,0 +1,2 @@
+detector,sky_label,scenario,sky_model,sky_sampling,snr_for_sky_mode,uses_h1l1_timing,uses_antenna_pattern_localization,uses_healpix_skymap,a90_ref_deg2,test_a90_median_deg2,test_a90_p90_deg2,test_sigma_median_rad
+LIGO,LIGO H1+L1 network A90 approximation,LIGO_HL,detector_dependent_A90_approximation,tangent_2d_gaussian,network,False,False,False,100.0,399.20113622580755,500.0,0.09168018324685909

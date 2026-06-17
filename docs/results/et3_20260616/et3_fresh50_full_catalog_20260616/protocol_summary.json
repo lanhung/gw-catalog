@@ -1,0 +1,6 @@
+{
+  "elapsed_s": 6015.55064514,
+  "epochs": 50,
+  "candidate_kind": "full_catalog",
+  "note": "Fresh 50-epoch mixed encoders are trained in a new output root, then evaluated against full SIS+PM+unlensed catalogs."
+}

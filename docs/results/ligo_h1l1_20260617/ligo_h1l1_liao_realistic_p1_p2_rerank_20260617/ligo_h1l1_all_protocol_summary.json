@@ -1,0 +1,26 @@
+{
+  "phase": "all",
+  "elapsed_s": 6322.835575884208,
+  "fresh_root": "runs/ligo_h1l1_fresh50_full_catalog_20260617",
+  "rerank_root": "runs/ligo_h1l1_liao_realistic_p1_p2_rerank_20260617",
+  "jobs": {
+    "fresh": [
+      [
+        "LIGO",
+        "pure"
+      ],
+      [
+        "LIGO",
+        "noisy"
+      ]
+    ],
+    "rerank": [
+      [
+        "LIGO",
+        "noisy"
+      ]
+    ]
+  },
+  "sky_scenario": "LIGO_HL",
+  "note": "LIGO H1+L1 rerun after observed-sky handling audit. Sky is network-SNR A90 approximation, not true H1-L1 skymap."
+}

@@ -1,0 +1,25 @@
+{
+  "phase": "all",
+  "elapsed_s": 7548.486776164733,
+  "match_root": "/root/autodl-tmp/createdata/et3_10000_20260616_1006_match_root",
+  "fresh_root": "runs/et3_fresh50_full_catalog_20260616",
+  "rerank_root": "runs/et3_liao_realistic_p1_p2_rerank_20260616",
+  "jobs": {
+    "fresh": [
+      [
+        "ET3",
+        "pure"
+      ],
+      [
+        "ET3",
+        "noisy"
+      ]
+    ],
+    "rerank": [
+      [
+        "ET3",
+        "noisy"
+      ]
+    ]
+  }
+}
