@@ -26,6 +26,7 @@ OUT_DIR = Path("runs/gwtc_real_event_case_study_20260617")
 DOC_PATH = Path("docs/gwtc_real_event_case_study_20260617_cn.md")
 EVENTS = ["GW150914", "GW151226", "GW170817"]
 CASE_PAIRS = [("GW150914", "GW151226"), ("GW150914", "GW170817")]
+HYBRID_LAMBDA_GRID = [0.25, 0.5, 1.0, 2.0, 4.0]
 CATALOG = "GWTC-1-confident"
 DETECTORS = ["H1", "L1"]
 SAMPLE_RATE_KHZ = 4
@@ -211,6 +212,126 @@ def liao_time_lr_for_days(dt_days: float, prior: dict) -> float:
     return float(lr[idx])
 
 
+def liao_time_lr_matrix_from_times(times: np.ndarray, prior: dict) -> np.ndarray:
+    times = np.asarray(times, dtype=np.float64)
+    n = len(times)
+    out = np.empty((n, n), dtype=np.float32)
+    for start in range(0, n, liao.CHUNK_ROWS):
+        rows = slice(start, min(start + liao.CHUNK_ROWS, n))
+        dt_days = np.abs(times[rows, None] - times[None, :]) / liao.SECONDS_PER_DAY
+        x = np.log10(np.maximum(dt_days, 1e-6))
+        idx = np.searchsorted(prior["edges"], x, side="right") - 1
+        idx = np.clip(idx, 0, len(prior["lr"]) - 1)
+        out[rows] = prior["lr"][idx].astype(np.float32)
+    np.fill_diagonal(out, -np.inf)
+    return out
+
+
+def select_hybrid_lambda(loaded: dict, prior: dict) -> tuple[float, dict]:
+    val_ds, _val_raw, val_time, val_gt, val_scores = loaded["val"]
+    val_time_lr = liao_time_lr_matrix_from_times(
+        val_time["trigger_time_obs"].to_numpy(dtype=np.float64),
+        prior,
+    )
+    best_lam = HYBRID_LAMBDA_GRID[0]
+    best_metrics = None
+    best_key = (-1.0, -1.0, -1.0)
+    for lam in HYBRID_LAMBDA_GRID:
+        score = val_scores + lam * val_time_lr
+        np.fill_diagonal(score, -np.inf)
+        metrics = liao.evaluate_score(score, val_gt, val_ds.meta)
+        key = (
+            metrics["overall"]["r@10"],
+            metrics["overall"]["r@5"],
+            metrics["overall"]["r@1"],
+        )
+        if key > best_key:
+            best_key = key
+            best_lam = lam
+            best_metrics = metrics
+    return float(best_lam), best_metrics
+
+
+def rank_candidate(row: np.ndarray, candidate_index: int) -> int:
+    score = float(row[candidate_index])
+    return int(1 + np.sum(row > score))
+
+
+def run_hybrid_real_in_sim_ranking(
+    real_emb: np.ndarray,
+    metas: list[dict],
+    event_to_index: dict[str, int],
+    test_emb: np.ndarray,
+    test_time: pd.DataFrame,
+    loaded: dict,
+    prior: dict,
+    output_dir: Path,
+) -> tuple[list[dict], list[dict], dict]:
+    selected_lambda, lambda_metrics = select_hybrid_lambda(loaded, prior)
+    sim_labels = [f"sim_{idx}" for idx in range(test_emb.shape[0])]
+    real_labels = [meta["event"] for meta in metas]
+    labels = sim_labels + real_labels
+    real_global = {event: len(sim_labels) + idx for event, idx in event_to_index.items()}
+
+    all_emb = np.vstack([test_emb, real_emb]).astype(np.float32)
+    all_emb /= np.maximum(np.linalg.norm(all_emb, axis=1, keepdims=True), 1e-8)
+    waveform = all_emb @ all_emb.T
+    np.fill_diagonal(waveform, -np.inf)
+
+    sim_times = test_time["trigger_time_obs"].to_numpy(dtype=np.float64)
+    real_times = np.asarray([float(meta["gps"]) for meta in metas], dtype=np.float64)
+    all_times = np.concatenate([sim_times, real_times])
+    time_lr = liao_time_lr_matrix_from_times(all_times, prior)
+    combined = waveform + selected_lambda * time_lr
+    np.fill_diagonal(combined, -np.inf)
+
+    metric_matrices = {
+        "waveform": waveform,
+        "liao_time_lr": time_lr,
+        f"waveform_plus_{selected_lambda:g}x_time_lr": combined,
+    }
+    top_rows = []
+    for metric, matrix in metric_matrices.items():
+        for event in real_labels:
+            query_idx = real_global[event]
+            row = matrix[query_idx].copy()
+            order = np.argsort(-row)[:10]
+            top_rows.append({
+                "metric": metric,
+                "query_event": event,
+                "top10_labels": ";".join(labels[int(i)] for i in order),
+                "top10_scores": ";".join(f"{float(row[int(i)]):.6g}" for i in order),
+                "best_label": labels[int(order[0])],
+                "best_score": float(row[int(order[0])]),
+            })
+
+    pair_rows = []
+    all_pairs = [(a, b) for i, a in enumerate(real_labels) for b in real_labels[i + 1:]]
+    for event_a, event_b in all_pairs:
+        ia = real_global[event_a]
+        ib = real_global[event_b]
+        for metric, matrix in metric_matrices.items():
+            pair_rows.append({
+                "pair": f"{event_a}-{event_b}",
+                "metric": metric,
+                "score": float(matrix[ia, ib]),
+                "rank_from_a": rank_candidate(matrix[ia], ib),
+                "rank_from_b": rank_candidate(matrix[ib], ia),
+                "selected_lambda_time": selected_lambda if metric.startswith("waveform_plus_") else "",
+            })
+
+    pd.DataFrame(top_rows).to_csv(output_dir / "gwtc_hybrid_real_in_sim_top_candidates.csv", index=False)
+    pd.DataFrame(pair_rows).to_csv(output_dir / "gwtc_hybrid_real_pair_ranks.csv", index=False)
+    diag = {
+        "hybrid_catalog_sim_size": int(test_emb.shape[0]),
+        "hybrid_catalog_real_size": int(len(metas)),
+        "hybrid_lambda_grid": HYBRID_LAMBDA_GRID,
+        "selected_lambda_time": selected_lambda,
+        "selected_lambda_val_overall": lambda_metrics["overall"] if lambda_metrics else None,
+    }
+    return pair_rows, top_rows, diag
+
+
 def describe_distribution(name: str, values: np.ndarray) -> dict:
     values = values[np.isfinite(values)]
     return {
@@ -233,7 +354,7 @@ def percentile_rank(value: float, values: np.ndarray) -> float:
     return float(100.0 * np.mean(values <= value))
 
 
-def write_doc(case_rows: list[dict], dist_rows: list[dict], output_dir: Path) -> None:
+def write_doc(case_rows: list[dict], dist_rows: list[dict], hybrid_pair_rows: list[dict], output_dir: Path) -> None:
     def fmt(x) -> str:
         if isinstance(x, str):
             return x
@@ -274,6 +395,22 @@ def write_doc(case_rows: list[dict], dist_rows: list[dict], output_dir: Path) ->
         "",
         "注意：本次真实 strain 的 waveform-only score 暴露出明显 OOD 问题，不能单独作为真实事件透镜判断。更可靠的 sanity check 是后续处理中的时间一致性 prior。",
         "",
+        "## 真实事件混入模拟库 ranking",
+        "",
+        "该检查把 3 个真实 GWTC 事件插入当前 LIGO H1+L1 模拟 test catalog，只作为 query/candidate 参与检索，不参与训练。`waveform_plus_4x_time_lr` 中的 `4.0` 是在模拟 validation catalog 上从 `[0.25, 0.5, 1.0, 2.0, 4.0]` 选择得到。",
+        "",
+        "| pair | metric | score | rank_from_a | rank_from_b |",
+        "| --- | --- | ---: | ---: | ---: |",
+    ]
+    for row in hybrid_pair_rows:
+        lines.append(
+            f"| {row['pair']} | {row['metric']} | {fmt(row['score'])} | "
+            f"{row['rank_from_a']} | {row['rank_from_b']} |"
+        )
+    lines += [
+        "",
+        "解释：rank 是在 `9000` 个模拟 test 样本 + `3` 个真实事件构成的候选库中计算，rank 越小表示越靠前。waveform-only 会把真实事件彼此排到最前，说明真实 strain 对当前模拟训练 encoder 存在 OOD 高相似问题；加入 Liao time-delay prior 后，明显非透镜的长时间间隔事件会被压到几百到几千名。",
+        "",
         "## 模拟参照分布",
         "",
         "| distribution | count | mean | std | p05 | median | p95 | p99 |",
@@ -298,6 +435,8 @@ def write_doc(case_rows: list[dict], dist_rows: list[dict], output_dir: Path) ->
         f"- 输出目录：`{output_dir}`",
         "- `gwtc_real_event_case_study_summary.csv`",
         "- `gwtc_real_event_reference_distributions.csv`",
+        "- `gwtc_hybrid_real_in_sim_top_candidates.csv`",
+        "- `gwtc_hybrid_real_pair_ranks.csv`",
         "- `gwtc_real_event_embeddings.npy`",
     ]
     DOC_PATH.parent.mkdir(parents=True, exist_ok=True)
@@ -374,6 +513,16 @@ def main() -> None:
         describe_distribution("real_event_to_sim_catalog_scores_event_a", real_to_sim[0]),
         describe_distribution("real_event_to_sim_catalog_scores_event_b", real_to_sim[1]),
     ]
+    hybrid_pair_rows, hybrid_top_rows, hybrid_diag = run_hybrid_real_in_sim_ranking(
+        real_emb,
+        metas,
+        event_to_index,
+        test_emb,
+        _test_time,
+        loaded,
+        prior,
+        OUT_DIR,
+    )
 
     pd.DataFrame(case_rows).to_csv(OUT_DIR / "gwtc_real_event_case_study_summary.csv", index=False)
     pd.DataFrame(dist_rows).to_csv(OUT_DIR / "gwtc_real_event_reference_distributions.csv", index=False)
@@ -382,10 +531,14 @@ def main() -> None:
         "events": metas,
         "cases": case_rows,
         "reference_distributions": dist_rows,
+        "hybrid_real_in_sim_pair_ranks": hybrid_pair_rows,
+        "hybrid_real_in_sim_top_candidates": hybrid_top_rows,
+        "hybrid_real_in_sim_diagnostics": hybrid_diag,
     }, indent=2, ensure_ascii=False), encoding="utf-8")
-    write_doc(case_rows, dist_rows, OUT_DIR)
+    write_doc(case_rows, dist_rows, hybrid_pair_rows, OUT_DIR)
     print(pd.DataFrame(case_rows).to_string(index=False), flush=True)
     print(pd.DataFrame(dist_rows).to_string(index=False), flush=True)
+    print(pd.DataFrame(hybrid_pair_rows).to_string(index=False), flush=True)
 
 
 if __name__ == "__main__":
