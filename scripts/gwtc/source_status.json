@@ -1,0 +1,493 @@
+{
+  "generated_at_utc": "2026-06-17T07:16:08.542885+00:00",
+  "gwosc_event_api": {
+    "url": "https://gwosc.org/eventapi/csv/allevents/",
+    "reachable": true,
+    "error": null,
+    "row_count": 671,
+    "columns": [
+      "id",
+      "commonName",
+      "version",
+      "catalog.shortName",
+      "GPS",
+      "reference",
+      "jsonurl",
+      "mass_1_source",
+      "mass_1_source_lower",
+      "mass_1_source_upper",
+      "mass_2_source",
+      "mass_2_source_lower",
+      "mass_2_source_upper",
+      "network_matched_filter_snr",
+      "network_matched_filter_snr_lower",
+      "network_matched_filter_snr_upper",
+      "luminosity_distance",
+      "luminosity_distance_lower",
+      "luminosity_distance_upper",
+      "chi_eff",
+      "chi_eff_lower",
+      "chi_eff_upper",
+      "total_mass_source",
+      "total_mass_source_lower",
+      "total_mass_source_upper",
+      "chirp_mass_source",
+      "chirp_mass_source_lower",
+      "chirp_mass_source_upper",
+      "chirp_mass",
+      "chirp_mass_lower",
+      "chirp_mass_upper",
+      "redshift",
+      "redshift_lower",
+      "redshift_upper",
+      "far",
+      "far_lower",
+      "far_upper",
+      "p_astro",
+      "p_astro_lower",
+      "p_astro_upper",
+      "final_mass_source",
+      "final_mass_source_lower",
+      "final_mass_source_upper"
+    ],
+    "detected_columns": {
+      "event_name": "commonName",
+      "gps_time": "GPS",
+      "network_snr": "network_matched_filter_snr",
+      "ra": null,
+      "dec": null,
+      "chirp_mass": "chirp_mass",
+      "catalog": "catalog.shortName"
+    },
+    "catalog_counts": {
+      "GWTC-5.0": 161,
+      "GWTC-4.1": 140,
+      "GWTC-4.0": 129,
+      "GWTC-2.1-confident": 54,
+      "IAS-O3a": 42,
+      "GWTC-2": 39,
+      "GWTC-3-confident": 35,
+      "GWTC-1-marginal": 14,
+      "O1_O2-Preliminary": 12,
+      "GWTC-1-confident": 11,
+      "O3_Discovery_Papers": 8,
+      "O4_Discovery_Papers": 8,
+      "GWTC-3-marginal": 7,
+      "O3_IMBH_marginal": 5,
+      "Initial_LIGO_Virgo": 2,
+      "GWTC-2.1-auxiliary": 2,
+      "GWTC-2.1-marginal": 2
+    },
+    "gwtc5_or_o4b_count": 169,
+    "has_required_core_columns": true,
+    "has_sky_or_mass_columns": true
+  },
+  "zenodo_gwtc3": {
+    "url": "https://zenodo.org/api/records/8177023",
+    "reachable": true,
+    "error": null,
+    "record_id": 8177023,
+    "title": "GWTC-3: Compact Binary Coalescences Observed by LIGO and Virgo During the Second Part of the Third Observing Run — Parameter estimation data release",
+    "file_count": 76,
+    "patterns": {
+      "gwtc3_mixed_nocosmo_h5": {
+        "pattern": "IGWN-GWTC3p0-v2-GW.*_PEDataRelease_mixed_nocosmo\\.h5$",
+        "count": 36,
+        "sample": [
+          "IGWN-GWTC3p0-v2-GW191204_171526_PEDataRelease_mixed_nocosmo.h5",
+          "IGWN-GWTC3p0-v2-GW191216_213338_PEDataRelease_mixed_nocosmo.h5",
+          "IGWN-GWTC3p0-v2-GW191129_134029_PEDataRelease_mixed_nocosmo.h5",
+          "IGWN-GWTC3p0-v2-GW191127_050227_PEDataRelease_mixed_nocosmo.h5",
+          "IGWN-GWTC3p0-v2-GW200208_130117_PEDataRelease_mixed_nocosmo.h5",
+          "IGWN-GWTC3p0-v2-GW191103_012549_PEDataRelease_mixed_nocosmo.h5",
+          "IGWN-GWTC3p0-v2-GW200129_065458_PEDataRelease_mixed_nocosmo.h5",
+          "IGWN-GWTC3p0-v2-GW191126_115259_PEDataRelease_mixed_nocosmo.h5",
+          "IGWN-GWTC3p0-v2-GW200112_155838_PEDataRelease_mixed_nocosmo.h5",
+          "IGWN-GWTC3p0-v2-GW200220_061928_PEDataRelease_mixed_nocosmo.h5",
+          "IGWN-GWTC3p0-v2-GW191105_143521_PEDataRelease_mixed_nocosmo.h5",
+          "IGWN-GWTC3p0-v2-GW191215_223052_PEDataRelease_mixed_nocosmo.h5",
+          "IGWN-GWTC3p0-v2-GW200208_222617_PEDataRelease_mixed_nocosmo.h5",
+          "IGWN-GWTC3p0-v2-GW200210_092254_PEDataRelease_mixed_nocosmo.h5",
+          "IGWN-GWTC3p0-v2-GW200311_115853_PEDataRelease_mixed_nocosmo.h5",
+          "IGWN-GWTC3p0-v2-GW200306_093714_PEDataRelease_mixed_nocosmo.h5",
+          "IGWN-GWTC3p0-v2-GW191204_110529_PEDataRelease_mixed_nocosmo.h5",
+          "IGWN-GWTC3p0-v2-GW200128_022011_PEDataRelease_mixed_nocosmo.h5",
+          "IGWN-GWTC3p0-v2-GW200224_222234_PEDataRelease_mixed_nocosmo.h5",
+          "IGWN-GWTC3p0-v2-GW200219_094415_PEDataRelease_mixed_nocosmo.h5"
+        ]
+      },
+      "gwtc3_mixed_cosmo_h5": {
+        "pattern": "IGWN-GWTC3p0-v2-GW.*_PEDataRelease_mixed_cosmo\\.h5$",
+        "count": 36,
+        "sample": [
+          "IGWN-GWTC3p0-v2-GW200311_115853_PEDataRelease_mixed_cosmo.h5",
+          "IGWN-GWTC3p0-v2-GW200308_173609_PEDataRelease_mixed_cosmo.h5",
+          "IGWN-GWTC3p0-v2-GW200208_130117_PEDataRelease_mixed_cosmo.h5",
+          "IGWN-GWTC3p0-v2-GW200210_092254_PEDataRelease_mixed_cosmo.h5",
+          "IGWN-GWTC3p0-v2-GW200129_065458_PEDataRelease_mixed_cosmo.h5",
+          "IGWN-GWTC3p0-v2-GW200224_222234_PEDataRelease_mixed_cosmo.h5",
+          "IGWN-GWTC3p0-v2-GW200302_015811_PEDataRelease_mixed_cosmo.h5",
+          "IGWN-GWTC3p0-v2-GW200209_085452_PEDataRelease_mixed_cosmo.h5",
+          "IGWN-GWTC3p0-v2-GW191126_115259_PEDataRelease_mixed_cosmo.h5",
+          "IGWN-GWTC3p0-v2-GW200115_042309_PEDataRelease_mixed_cosmo.h5",
+          "IGWN-GWTC3p0-v2-GW200306_093714_PEDataRelease_mixed_cosmo.h5",
+          "IGWN-GWTC3p0-v2-GW191129_134029_PEDataRelease_mixed_cosmo.h5",
+          "IGWN-GWTC3p0-v2-GW200112_155838_PEDataRelease_mixed_cosmo.h5",
+          "IGWN-GWTC3p0-v2-GW200316_215756_PEDataRelease_mixed_cosmo.h5",
+          "IGWN-GWTC3p0-v2-GW191204_110529_PEDataRelease_mixed_cosmo.h5",
+          "IGWN-GWTC3p0-v2-GW191109_010717_PEDataRelease_mixed_cosmo.h5",
+          "IGWN-GWTC3p0-v2-GW191216_213338_PEDataRelease_mixed_cosmo.h5",
+          "IGWN-GWTC3p0-v2-GW191113_071753_PEDataRelease_mixed_cosmo.h5",
+          "IGWN-GWTC3p0-v2-GW200128_022011_PEDataRelease_mixed_cosmo.h5",
+          "IGWN-GWTC3p0-v2-GW191103_012549_PEDataRelease_mixed_cosmo.h5"
+        ]
+      },
+      "gwtc3_skymap_tar": {
+        "pattern": "IGWN-GWTC3p0-v2-PESkyLocalizations\\.tar\\.gz$",
+        "count": 1,
+        "sample": [
+          "IGWN-GWTC3p0-v2-PESkyLocalizations.tar.gz"
+        ]
+      }
+    },
+    "sample_files": [
+      "IGWN-GWTC3p0-v2-GW191204_171526_PEDataRelease_mixed_nocosmo.h5",
+      "IGWN-GWTC3p0-v2-GW191216_213338_PEDataRelease_mixed_nocosmo.h5",
+      "IGWN-GWTC3p0-v2-GW191129_134029_PEDataRelease_mixed_nocosmo.h5",
+      "IGWN-GWTC3p0-v2-GW191127_050227_PEDataRelease_mixed_nocosmo.h5",
+      "IGWN-GWTC3p0-v2-GW200311_115853_PEDataRelease_mixed_cosmo.h5",
+      "IGWN-GWTC3p0-v2-GW200308_173609_PEDataRelease_mixed_cosmo.h5",
+      "IGWN-GWTC3p0-v2-GW200208_130117_PEDataRelease_mixed_cosmo.h5",
+      "IGWN-GWTC3p0-v2-GW200208_130117_PEDataRelease_mixed_nocosmo.h5",
+      "IGWN-GWTC3p0-v2-GW191103_012549_PEDataRelease_mixed_nocosmo.h5",
+      "IGWN-GWTC3p0-v2-GW200129_065458_PEDataRelease_mixed_nocosmo.h5",
+      "IGWN-GWTC3p0-v2-GW191126_115259_PEDataRelease_mixed_nocosmo.h5",
+      "IGWN-GWTC3p0-v2-GW200112_155838_PEDataRelease_mixed_nocosmo.h5",
+      "IGWN-GWTC3p0-v2-GW200220_061928_PEDataRelease_mixed_nocosmo.h5",
+      "IGWN-GWTC3p0-v2-GW200210_092254_PEDataRelease_mixed_cosmo.h5",
+      "IGWN-GWTC3p0-v2-GW191105_143521_PEDataRelease_mixed_nocosmo.h5",
+      "IGWN-GWTC3p0-v2-GW200129_065458_PEDataRelease_mixed_cosmo.h5",
+      "IGWN-GWTC3p0-v2-GW200224_222234_PEDataRelease_mixed_cosmo.h5",
+      "IGWN-GWTC3p0-v2-GW200302_015811_PEDataRelease_mixed_cosmo.h5",
+      "IGWN-GWTC3p0-v2-GW191215_223052_PEDataRelease_mixed_nocosmo.h5",
+      "IGWN-GWTC3p0-v2-GW200208_222617_PEDataRelease_mixed_nocosmo.h5"
+    ]
+  },
+  "zenodo_gwtc21": {
+    "url": "https://zenodo.org/api/records/6513631",
+    "reachable": true,
+    "error": null,
+    "record_id": 6513631,
+    "title": "GWTC-2.1: Deep Extended Catalog of Compact Binary Coalescences Observed by LIGO and Virgo During the First Half of the Third Observing Run - Parameter Estimation Data Release",
+    "file_count": 164,
+    "patterns": {
+      "gwtc21_h5": {
+        "pattern": "\\.h5$",
+        "count": 108,
+        "sample": [
+          "IGWN-GWTC2p1-v2-GW190707_093326_PEDataRelease_mixed_cosmo.h5",
+          "IGWN-GWTC2p1-v2-GW190707_093326_PEDataRelease_mixed_nocosmo.h5",
+          "IGWN-GWTC2p1-v2-GW190828_065509_PEDataRelease_mixed_cosmo.h5",
+          "IGWN-GWTC2p1-v2-GW190708_232457_PEDataRelease_mixed_cosmo.h5",
+          "IGWN-GWTC2p1-v2-GW190828_063405_PEDataRelease_mixed_nocosmo.h5",
+          "IGWN-GWTC2p1-v2-GW190708_232457_PEDataRelease_mixed_nocosmo.h5",
+          "IGWN-GWTC2p1-v2-GW190828_063405_PEDataRelease_mixed_cosmo.h5",
+          "IGWN-GWTC2p1-v2-GW170809_082821_PEDataRelease_mixed_nocosmo.h5",
+          "IGWN-GWTC2p1-v2-GW190719_215514_PEDataRelease_mixed_cosmo.h5",
+          "IGWN-GWTC2p1-v2-GW190814_211039_PEDataRelease_mixed_nocosmo.h5",
+          "IGWN-GWTC2p1-v2-GW190814_211039_PEDataRelease_mixed_cosmo.h5",
+          "IGWN-GWTC2p1-v2-GW190805_211137_PEDataRelease_mixed_nocosmo.h5",
+          "IGWN-GWTC2p1-v2-GW190805_211137_PEDataRelease_mixed_cosmo.h5",
+          "IGWN-GWTC2p1-v2-GW190803_022701_PEDataRelease_mixed_nocosmo.h5",
+          "IGWN-GWTC2p1-v2-GW190719_215514_PEDataRelease_mixed_nocosmo.h5",
+          "IGWN-GWTC2p1-v2-GW190803_022701_PEDataRelease_mixed_cosmo.h5",
+          "IGWN-GWTC2p1-v2-GW190915_235702_PEDataRelease_mixed_cosmo.h5",
+          "IGWN-GWTC2p1-v2-GW190720_000836_PEDataRelease_mixed_cosmo.h5",
+          "IGWN-GWTC2p1-v2-GW190910_112807_PEDataRelease_mixed_nocosmo.h5",
+          "IGWN-GWTC2p1-v2-GW190728_064510_PEDataRelease_mixed_cosmo.h5"
+        ]
+      },
+      "gwtc21_skymap": {
+        "pattern": "Sky|sky|fits|tar",
+        "count": 55,
+        "sample": [
+          "IGWN-GWTC2p1-v2-GW190707_093326_PEDataRelease_skymap_stats.txt",
+          "IGWN-GWTC2p1-v2-GW190828_063405_PEDataRelease_skymap_stats.txt",
+          "IGWN-GWTC2p1-v2-GW190708_232457_PEDataRelease_skymap_stats.txt",
+          "IGWN-GWTC2p1-v2-GW190814_211039_PEDataRelease_skymap_stats.txt",
+          "IGWN-GWTC2p1-v2-GW190805_211137_PEDataRelease_skymap_stats.txt",
+          "IGWN-GWTC2p1-v2-GW190803_022701_PEDataRelease_skymap_stats.txt",
+          "IGWN-GWTC2p1-v2-GW170809_082821_PEDataRelease_skymap_stats.txt",
+          "IGWN-GWTC2p1-v2-GW190719_215514_PEDataRelease_skymap_stats.txt",
+          "IGWN-GWTC2p1-v2-GW190731_140936_PEDataRelease_skymap_stats.txt",
+          "IGWN-GWTC2p1-v2-GW190910_112807_PEDataRelease_skymap_stats.txt",
+          "IGWN-GWTC2p1-v2-GW190503_185404_PEDataRelease_skymap_stats.txt",
+          "IGWN-GWTC2p1-v2-GW190512_180714_PEDataRelease_skymap_stats.txt",
+          "IGWN-GWTC2p1-v2-GW190426_190642_PEDataRelease_skymap_stats.txt",
+          "IGWN-GWTC2p1-v2-GW190425_081805_PEDataRelease_skymap_stats.txt",
+          "IGWN-GWTC2p1-v2-GW190421_213856_PEDataRelease_skymap_stats.txt",
+          "IGWN-GWTC2p1-v2-GW190513_205428_PEDataRelease_skymap_stats.txt",
+          "IGWN-GWTC2p1-v2-GW190514_065416_PEDataRelease_skymap_stats.txt",
+          "IGWN-GWTC2p1-v2-GW151012_095443_PEDataRelease_skymap_stats.txt",
+          "IGWN-GWTC2p1-v2-GW190413_134308_PEDataRelease_skymap_stats.txt",
+          "IGWN-GWTC2p1-v2-GW190517_055101_PEDataRelease_skymap_stats.txt"
+        ]
+      },
+      "gw170104": {
+        "pattern": "GW170104",
+        "count": 3,
+        "sample": [
+          "IGWN-GWTC2p1-v2-GW170104_101158_PEDataRelease_mixed_cosmo.h5",
+          "IGWN-GWTC2p1-v2-GW170104_101158_PEDataRelease_mixed_nocosmo.h5",
+          "IGWN-GWTC2p1-v2-GW170104_101158_PEDataRelease_skymap_stats.txt"
+        ]
+      },
+      "gw170814": {
+        "pattern": "GW170814",
+        "count": 3,
+        "sample": [
+          "IGWN-GWTC2p1-v2-GW170814_103043_PEDataRelease_skymap_stats.txt",
+          "IGWN-GWTC2p1-v2-GW170814_103043_PEDataRelease_mixed_nocosmo.h5",
+          "IGWN-GWTC2p1-v2-GW170814_103043_PEDataRelease_mixed_cosmo.h5"
+        ]
+      }
+    },
+    "sample_files": [
+      "IGWN-GWTC2p1-v2-GW190707_093326_PEDataRelease_mixed_cosmo.h5",
+      "IGWN-GWTC2p1-v2-GW190707_093326_PEDataRelease_mixed_nocosmo.h5",
+      "IGWN-GWTC2p1-v2-GW190707_093326_PEDataRelease_skymap_stats.txt",
+      "IGWN-GWTC2p1-v2-GW190828_065509_PEDataRelease_mixed_cosmo.h5",
+      "IGWN-GWTC2p1-v2-GW190828_063405_PEDataRelease_skymap_stats.txt",
+      "IGWN-GWTC2p1-v2-GW190708_232457_PEDataRelease_mixed_cosmo.h5",
+      "IGWN-GWTC2p1-v2-GW190828_063405_PEDataRelease_mixed_nocosmo.h5",
+      "IGWN-GWTC2p1-v2-GW190708_232457_PEDataRelease_mixed_nocosmo.h5",
+      "IGWN-GWTC2p1-v2-GW190708_232457_PEDataRelease_skymap_stats.txt",
+      "IGWN-GWTC2p1-v2-GW190828_063405_PEDataRelease_mixed_cosmo.h5",
+      "IGWN-GWTC2p1-v2-GW170809_082821_PEDataRelease_mixed_nocosmo.h5",
+      "IGWN-GWTC2p1-v2-GW190814_211039_PEDataRelease_skymap_stats.txt",
+      "IGWN-GWTC2p1-v2-GW190719_215514_PEDataRelease_mixed_cosmo.h5",
+      "IGWN-GWTC2p1-v2-GW190814_211039_PEDataRelease_mixed_nocosmo.h5",
+      "IGWN-GWTC2p1-v2-GW190814_211039_PEDataRelease_mixed_cosmo.h5",
+      "IGWN-GWTC2p1-v2-GW190805_211137_PEDataRelease_skymap_stats.txt",
+      "IGWN-GWTC2p1-v2-GW190805_211137_PEDataRelease_mixed_nocosmo.h5",
+      "IGWN-GWTC2p1-v2-GW190805_211137_PEDataRelease_mixed_cosmo.h5",
+      "IGWN-GWTC2p1-v2-GW190803_022701_PEDataRelease_skymap_stats.txt",
+      "IGWN-GWTC2p1-v2-GW170809_082821_PEDataRelease_skymap_stats.txt"
+    ]
+  },
+  "zenodo_gwtc5_candidate_bayestar": {
+    "url": "https://zenodo.org/api/records/20276130",
+    "reachable": true,
+    "error": null,
+    "record_id": 20276130,
+    "title": "GWTC-5.0: Candidate data release",
+    "file_count": 4,
+    "patterns": {
+      "fits_or_fits_gz": {
+        "pattern": "\\.fits(\\.gz)?$",
+        "count": 0,
+        "sample": []
+      },
+      "bayestar": {
+        "pattern": "Bayestar|bayestar|BAYESTAR",
+        "count": 0,
+        "sample": []
+      },
+      "csv": {
+        "pattern": "\\.csv$",
+        "count": 0,
+        "sample": []
+      }
+    },
+    "sample_files": [
+      "md5sums.txt",
+      "IGWN-GWTC5p0-59d160a18_25-SearchSummaryTable.hdf5",
+      "IGWN-GWTC5p0-59d160a18_25-Archived_SearchResults.tar.gz",
+      "GWTC5p0_search_data_release.ipynb"
+    ]
+  },
+  "zenodo_gwtc5_pe_search": {
+    "url": "https://zenodo.org/api/records?q=GWTC-5.0%20parameter%20estimation",
+    "reachable": true,
+    "error": null,
+    "hits": [
+      {
+        "id": 20348005,
+        "title": "GWTC-5.0: Parameter estimation data release (Part 1 of 2)",
+        "created": "2026-05-26T21:05:48.380084+00:00",
+        "file_count": 87,
+        "sample_files": [
+          "IGWN-GWTC5p0-29ebe06b7_25-GW240530_012417-combined_PEDataRelease.hdf5",
+          "IGWN-GWTC5p0-29ebe06b7_25-GW240520_213616-combined_PEDataRelease.hdf5",
+          "IGWN-GWTC5p0-29ebe06b7_25-GW240527_183429-combined_PEDataRelease.hdf5",
+          "IGWN-GWTC5p0-29ebe06b7_25-GW240513_183302-combined_PEDataRelease.hdf5",
+          "IGWN-GWTC5p0-29ebe06b7_25-GW240511_031507-combined_PEDataRelease.hdf5",
+          "IGWN-GWTC5p0-29ebe06b7_25-GW240428_225440-combined_PEDataRelease.hdf5",
+          "IGWN-GWTC5p0-29ebe06b7_25-GW240414_054515-combined_PEDataRelease.hdf5",
+          "IGWN-GWTC5p0-29ebe06b7_25-GW240413_022019-combined_PEDataRelease.hdf5",
+          "IGWN-GWTC5p0-29ebe06b7_25-GW240420_175625-combined_PEDataRelease.hdf5",
+          "IGWN-GWTC5p0-29ebe06b7_25-GW240426_031451-combined_PEDataRelease.hdf5"
+        ],
+        "full_pe_hint": true
+      },
+      {
+        "id": 20348006,
+        "title": "GWTC-5.0: Parameter estimation data release (Part 2 of 2)",
+        "created": "2026-05-26T21:06:01.699333+00:00",
+        "file_count": 21,
+        "sample_files": [
+          "IGWN-GWTC5p0-29ebe06b7_25-GW250108_152221-combined_PEDataRelease.hdf5",
+          "IGWN-GWTC5p0-29ebe06b7_25-GW250119_190238-combined_PEDataRelease.hdf5",
+          "IGWN-GWTC5p0-29ebe06b7_25-GW250116_015318-combined_PEDataRelease.hdf5",
+          "IGWN-GWTC5p0-29ebe06b7_25-GW250109_074552-combined_PEDataRelease.hdf5",
+          "IGWN-GWTC5p0-29ebe06b7_25-GW241225_042553-combined_PEDataRelease.hdf5",
+          "IGWN-GWTC5p0-29ebe06b7_25-GW250101_011205-combined_PEDataRelease.hdf5",
+          "IGWN-GWTC5p0-29ebe06b7_25-GW241210_060606-combined_PEDataRelease.hdf5",
+          "IGWN-GWTC5p0-29ebe06b7_25-GW250114_082203-combined_PEDataRelease.hdf5",
+          "IGWN-GWTC5p0-29ebe06b7_25-GW241201_055758-combined_PEDataRelease.hdf5",
+          "IGWN-GWTC5p0-29ebe06b7_25-GW241230_084504-combined_PEDataRelease.hdf5"
+        ],
+        "full_pe_hint": true
+      },
+      {
+        "id": 20275769,
+        "title": "GWTC-4.1: Parameter estimation data release",
+        "created": "2026-05-26T14:11:00.192430+00:00",
+        "file_count": 92,
+        "sample_files": [
+          "IGWN-GWTC4p1-18965dda8_5-GW230606_004305-combined_PEDataRelease.hdf5",
+          "IGWN-GWTC4p1-18965dda8_5-GW231108_125142-combined_PEDataRelease.hdf5",
+          "IGWN-GWTC4p1-18965dda8_5-GW230914_111401-combined_PEDataRelease.hdf5",
+          "IGWN-GWTC4p1-18965dda8_5-GW230627_015337-combined_PEDataRelease.hdf5",
+          "IGWN-GWTC4p1-18965dda8_5-GW230518_125908-combined_PEDataRelease.hdf5",
+          "IGWN-GWTC4p1-18965dda8_5-GW231110_040320-combined_PEDataRelease.hdf5",
+          "IGWN-GWTC4p1-18965dda8_5-GW230601_224134-combined_PEDataRelease.hdf5",
+          "IGWN-GWTC4p1-18965dda8_5-GW230805_034249-combined_PEDataRelease.hdf5",
+          "IGWN-GWTC4p1-18965dda8_5-GW231014_040532-combined_PEDataRelease.hdf5",
+          "IGWN-GWTC4p1-18965dda8_5-GW230630_125806-combined_PEDataRelease.hdf5"
+        ],
+        "full_pe_hint": true
+      },
+      {
+        "id": 17602505,
+        "title": "GWTC-4.0: Parameter estimation data release",
+        "created": "2026-05-22T16:41:00.644798+00:00",
+        "file_count": 90,
+        "sample_files": [
+          "GWTC4p0_PE_data_release.ipynb",
+          "IGWN-GWTC4p0-38214bd95_724-GW230630_125806-combined_PEDataRelease.hdf5",
+          "IGWN-GWTC4p0-38214bd95_724-GW230811_032116-combined_PEDataRelease.hdf5",
+          "IGWN-GWTC4p0-38214bd95_724-GW230704_021211-combined_PEDataRelease.hdf5",
+          "IGWN-GWTC4p0-38214bd95_724-GW230704_212616-combined_PEDataRelease.hdf5",
+          "IGWN-GWTC4p0-38214bd95_724-GW230706_104333-combined_PEDataRelease.hdf5",
+          "IGWN-GWTC4p0-38214bd95_724-GW230723_101834-combined_PEDataRelease.hdf5",
+          "IGWN-GWTC4p0-38214bd95_724-GW230726_002940-combined_PEDataRelease.hdf5",
+          "IGWN-GWTC4p0-38214bd95_724-GW230729_082317-combined_PEDataRelease.hdf5",
+          "IGWN-GWTC4p0-38214bd95_724-GW230803_033412-combined_PEDataRelease.hdf5"
+        ],
+        "full_pe_hint": true
+      },
+      {
+        "id": 14691458,
+        "title": "Data release: Searching for binary black hole sub-populations in gravitational wave data using binned Gaussian processes",
+        "created": "2025-01-20T13:38:24.458715+00:00",
+        "file_count": 10,
+        "sample_files": [
+          "gppop_spin_dev_ee5ffc421.tar.gz",
+          "bbh_subpopulations_scripts_de88f931.tar.gz",
+          "gwtc3_lvk_pop_results.tar.gz",
+          "sims_peak+aligned.tar.gz",
+          "sims_peak+isotropic.tar.gz",
+          "sims_q_chieff_correlated.tar.gz",
+          "sims_z_chieff_correlated.tar.gz",
+          "sims_uncorrelated.tar.gz",
+          "gwtc3_data.tar.gz",
+          "o3_sensitivity_injections_psd.tar.gz"
+        ],
+        "full_pe_hint": false
+      },
+      {
+        "id": 20348004,
+        "title": "GWTC-5.0: Candidate data release",
+        "created": "2026-05-26T21:05:39.216949+00:00",
+        "file_count": 4,
+        "sample_files": [
+          "IGWN-GWTC5p0-29ebe06b7_25-Archived_SearchResults.tar.gz",
+          "IGWN-GWTC5p0-29ebe06b7_25-SearchSummaryTable.hdf5",
+          "md5sums.txt",
+          "GWTC5p0_search_data_release.ipynb"
+        ],
+        "full_pe_hint": false
+      },
+      {
+        "id": 19500052,
+        "title": "GWTC-5.0: Cumulative Search Sensitivity Estimates",
+        "created": "2026-05-26T14:18:46.602648+00:00",
+        "file_count": 6,
+        "sample_files": [
+          "mixture-semi_o1_o2-real_o3_o4a_o4b-polar_spins_20260410130052UTC-clipped.hdf",
+          "psds-o1234ab.tar.gz",
+          "gwtc-5_o1234ab_sensitivity-estimates.md",
+          "mixture-real_o3_o4a_o4b-cartesian_spins_20260410130052UTC-clipped.hdf",
+          "mixture-real_o3_o4a_o4b-polar_spins_20260410130052UTC-clipped.hdf",
+          "mixture-semi_o1_o2-real_o3_o4a_o4b-cartesian_spins_20260410130052UTC-clipped.hdf"
+        ],
+        "full_pe_hint": false
+      },
+      {
+        "id": 19500064,
+        "title": "GWTC-5.0: O4a+O4b Search Sensitivity Estimates",
+        "created": "2026-05-26T14:18:17.772863+00:00",
+        "file_count": 3,
+        "sample_files": [
+          "gwtc-5_o4ab_sensitivity-estimates.md",
+          "samples-rpo4ab-1366933504-55469568-clipped.hdf",
+          "psds-o4ab.tar.gz"
+        ],
+        "full_pe_hint": true
+      },
+      {
+        "id": 20292639,
+        "title": "GWTC-5.0: Population Properties of Merging Compact Binaries",
+        "created": "2026-05-26T15:00:38.177346+00:00",
+        "file_count": 6,
+        "sample_files": [
+          "README.md",
+          "GWTC-4.0-aux.tar.gz",
+          "Event_list.tar.gz",
+          "figures.tar.gz",
+          "scripts.tar.gz",
+          "popsummary_files.tar.gz"
+        ],
+        "full_pe_hint": false
+      },
+      {
+        "id": 20283666,
+        "title": "Data Behind Figures of \"GWTC-5.0: An Introduction to Version 5.0 of the Gravitational Wave Transient Catalog\"",
+        "created": "2026-05-26T15:01:13.197128+00:00",
+        "file_count": 3,
+        "sample_files": [
+          "data_behind_fig1.py",
+          "data_behind_fig3.py",
+          "data_behind_fig2.py"
+        ],
+        "full_pe_hint": false
+      }
+    ],
+    "full_pe_candidate_found": true
+  },
+  "capabilities": {
+    "levels": [
+      "FULL_GWTC3",
+      "GWTC5_OBSERVABLES",
+      "GWTC5_FULL"
+    ],
+    "FULL_GWTC3": true,
+    "GWTC5_OBSERVABLES": true,
+    "GWTC5_FULL": true,
+    "gwtc3_full_pe": true,
+    "gwtc5_observables": true,
+    "gwtc5_full_pe": true,
+    "recommended_path": "FULL_GWTC3 first; then GWTC5 observable-only scalability; optionally GWTC5 full PE"
+  }
+}

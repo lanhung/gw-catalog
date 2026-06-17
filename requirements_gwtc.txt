@@ -1,0 +1,11 @@
+gwosc
+pesummary
+ligo.skymap
+healpy
+astropy
+numpy
+pandas
+h5py
+requests
+zenodo_get
+matplotlib
