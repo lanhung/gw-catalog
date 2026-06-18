@@ -20,6 +20,10 @@
 5. `gwtc_dual_source_real_event_analysis_report_20260617_cn.md`
    - GWTC 双数据源真实事件分析。
 
+6. `nc_gating_p3_results_20260619_cn.md`
+   - §12.1 前三项 gating 实验：端到端闭环、posterior-summary kNN baseline、
+     GWTC-5 strict-BBH observable-only 扩展。
+
 ## 方法与阶段报告
 
 - `liao_realistic_rerank_overall_scheme_20260615_cn.md`：realistic prior
