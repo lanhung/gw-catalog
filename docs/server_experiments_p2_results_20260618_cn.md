@@ -1,5 +1,12 @@
 # 服务器端 P2 实验执行结果报告
 
+> **复核更新（2026-06-18）：** 本文第 4 节早期 P2-A 中的
+> `recall@10 vs dense=0.12--0.20` 已确认来自 dense top-200 集合未排序的
+> baseline 实现错误，不是 HNSW 召回失败。修复后 ET-3 noisy 原生目录的
+> HNSW recall@10 vs exact dense 为 0.99895，且 partner R@10 与 dense 同为
+> 0.8565。请以 `docs/server_experiments_p2_final_assessment_20260618_cn.md`
+> 作为 P2-A 的最终口径；本文 P2-B/P2-C 数值仍有效。
+
 日期：2026-06-18  
 服务器项目目录：`/root/autodl-tmp/gw-catalog`  
 脚本目录：`scripts/server_experiments/`
