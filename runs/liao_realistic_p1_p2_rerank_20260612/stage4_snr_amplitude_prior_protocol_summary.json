@@ -1,0 +1,15 @@
+{
+  "stage": "stage4_snr_amplitude_prior",
+  "elapsed_s": 267.3522859206423,
+  "jobs": [
+    [
+      "ET",
+      "noisy"
+    ],
+    [
+      "LIGO",
+      "noisy"
+    ]
+  ],
+  "note": "Staged realistic rerank. Each stage changes one factor for ablation comparison."
+}

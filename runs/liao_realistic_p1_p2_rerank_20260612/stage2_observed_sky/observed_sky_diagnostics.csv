@@ -1,0 +1,3 @@
+detector,sky_label,a90_ref_deg2,test_a90_median_deg2,test_a90_p90_deg2,test_sigma_median_rad
+ET,ET single-site baseline A90=300 deg2,300.0,50.0,344.56466253016436,0.032446256059603724
+LIGO,LIGO/2.5G HL-like baseline A90=100 deg2,100.0,399.20113622580755,500.0,0.09168018324685909

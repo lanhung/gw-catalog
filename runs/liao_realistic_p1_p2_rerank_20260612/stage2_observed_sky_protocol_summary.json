@@ -1,0 +1,15 @@
+{
+  "stage": "stage2_observed_sky",
+  "elapsed_s": 202.9859258234501,
+  "jobs": [
+    [
+      "ET",
+      "noisy"
+    ],
+    [
+      "LIGO",
+      "noisy"
+    ]
+  ],
+  "note": "Staged realistic rerank. Each stage changes one factor for ablation comparison."
+}

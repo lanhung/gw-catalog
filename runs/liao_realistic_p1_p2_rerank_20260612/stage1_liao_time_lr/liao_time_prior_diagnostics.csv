@@ -1,0 +1,3 @@
+detector,liao_label,liao_image_csv,liao_snr_threshold,liao_delay_count,liao_delay_median_days,liao_delay_p90_days,random_delay_count,random_delay_median_days
+ET,GW-LMC ET BBH Any_Detected_SNR8,/root/autodl-tmp/GW-LMC/ET/BBH/Any_Detected_SNR8/BBH_ET_Any_Detected_SNR8_ImageParams.csv,8.0,4388,37.378045,284.69784000000004,2000000,1087.216818702414
+LIGO,GW-LMC 2.5PLUS BBH Any_Detected_SNR1,/root/autodl-tmp/GW-LMC/2.5PLUS/BBH/Any_Detected_SNR1/BBH_2.5PLUS_Any_Detected_SNR1_ImageParams.csv,1.0,4498,32.384765,269.50177000000025,2000000,1087.216818666382
