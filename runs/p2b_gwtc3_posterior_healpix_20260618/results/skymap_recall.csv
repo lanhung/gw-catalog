@@ -1,0 +1,3 @@
+model,R@1,R@5,R@10,R@50
+gaussian_surrogate,0.0,0.0,0.0,0.5
+real_healpix,0.0,1.0,1.0,1.0

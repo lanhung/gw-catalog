@@ -337,3 +337,19 @@ GWTC-5 当前 strict BBH 为 105。如果要展示更大规模：
 - 真实候选 GW170104-GW170814 的 time-downweight 被复现，但 sky/parameter 一致性需要更完整 posterior/baseline 方法，不能只靠 median sky + A90。
 
 因此，这一版结果可以作为论文或汇报中的“真实事件可运行性 + 注入恢复合理性”证据，但如果要支撑“复现历史候选参数一致性”的叙事，需要继续补 Prompt 5 baseline。
+
+## 13. 2026-06-18 P2 服务器实验补充
+
+根据 `scripts/server_experiments/README.md` 的建议，已追加运行 P2-C/P2-A/P2-B 服务器实验。详细报告见：
+
+`docs/server_experiments_p2_results_20260618_cn.md`
+
+这次补充对本报告中的三个点作如下修正：
+
+1. **GW170104-GW170814 sky 低排名重新定性**：此前 median-sky + A90 Gaussian surrogate 下 sky rank 很低，不能解释为真实 sky posterior 不一致。P2-B 从 PE H5 posterior RA/Dec 样本生成 nside=256 HEALPix maps 后，真实 posterior overlap 将 GW170104-GW170814 排到 top-5：两个方向的 HEALPix partner rank 分别为 4 和 2，而 Gaussian surrogate rank 为 57 和 43。因此更准确的结论是：Gaussian surrogate 抓不住复杂 posterior 形状，但真实 posterior-map overlap 支持该历史候选的 sky consistency。
+
+2. **A90 中位数约 1020 deg² 的解释**：抽查显示 GW150914、GW170104、GW170814、GW190412、GW190521 的 A90 多数直接来自 skymap stats；A90 大主要反映真实 catalog 中早期/低定位精度事件的长尾。部分无 stats 事件使用 posterior RA/Dec Gaussian fallback，会进一步放大长尾。因此应写成“真实定位质量限制 sky 通道强度”，而不是简单当作代码错误。
+
+3. **注入-回收实验定位**：注入-回收使用的 time/sky 生成假设与 reranker 打分假设部分共享，因此它应作为 mechanism sanity check，证明机制在受控条件下能回收同源 pair；不能单独作为“能发现真实透镜”的证据。
+
+另外，P2-A ANN/HNSW 已在 synthetic 1e6 events 上跑通，工程上证明候选边可从 O(N²) 降为 O(NK)。但当前 LIGO noisy mixed SIS+PM waveform embeddings 的 partner recall 很低，因此该结果只能作为扩展性证据，不能包装成检索性能已经解决。
