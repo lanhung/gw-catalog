@@ -635,22 +635,22 @@ scripts/experiments/93_ligo_h1l1_modality_combinations.py
 
 建议后续按以下顺序推进：
 
-1. 完成 LIGO/H1L1 全量结果整理  
+1. 完成 LIGO/H1L1 全量结果整理
    当前后台正在跑，完成后需要和 ET3 做同口径对比。
 
-2. 扩展 observed sky 模型  
+2. 扩展 observed sky 模型
    从圆形二维高斯扩展到椭圆 Gaussian，再到 toy HEALPix skymap，最终替换为真实 localization posterior。
 
-3. 系统 sweep A90 和 clip_min  
+3. 系统 sweep A90 和 clip_min
    ET3 当前大量事件被 A90=20 deg2 下限截断，需要评估更保守定位误差下的稳健性。
 
-4. 优化 learned reranker  
+4. 优化 learned reranker
    当前 tabular model 未超过 weighted sum，后续需要更严格的负样本构造、校准和 family-aware 验证。
 
-5. graph discovery 后处理  
+5. graph discovery 后处理
    把 pair rank 转换成 catalog graph，分析候选簇、误报边、多像系统扩展能力。
 
-6. 统一文档和复现实验入口  
+6. 统一文档和复现实验入口
    对 ET3/LIGO/后续 ET+CE 统一 runner、summary schema、report 模板，方便长期比较。
 
 ## 17. 推荐表述

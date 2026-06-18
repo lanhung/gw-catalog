@@ -73,4 +73,3 @@ baseline Top 1% = 0.0873
    - noise-aware denoising encoder；
    - supervised pair classifier 或 hard negative pair ranking；
    - 按 SNR、time delay、magnification ratio 做重采样或加权训练。
-

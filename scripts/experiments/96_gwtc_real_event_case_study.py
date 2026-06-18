@@ -450,7 +450,7 @@ def write_doc(case_rows: list[dict], dist_rows: list[dict], hybrid_pair_rows: li
         "- `gwtc_real_event_embeddings.npy`",
     ]
     DOC_PATH.parent.mkdir(parents=True, exist_ok=True)
-    DOC_PATH.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    DOC_PATH.write_text("\n".join(lines), encoding="utf-8")
 
 
 def main() -> None:

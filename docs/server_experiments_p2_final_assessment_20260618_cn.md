@@ -1,7 +1,7 @@
 # P2 服务器实验最终复核与论文使用报告
 
-日期：2026-06-18  
-项目：`/root/autodl-tmp/gw-catalog`  
+日期：2026-06-18
+项目：`/root/autodl-tmp/gw-catalog`
 结论口径：本报告替代同日早期 P2-A 的 ANN 召回解释；P2-B/P2-C 的原始数值保持有效。
 
 ## 1. 执行结论
@@ -220,6 +220,21 @@ top candidates 主要是较短时间差、相对邻近天空位置的 pairs，�
 - “synthetic 1M partner recall 表示真实 ET-3 百万目录性能。”不成立。
 - “P2-B 使用 BAYESTAR skymaps。”不准确。
 - “null test 的 top candidates 是 lensing detections。”不成立。
+
+## 12.1 NC 投稿前 gating checklist
+
+当前结果已经把 ANN scaling、真实事件密度、真实稀有度和 graph 指标问题推进到可写入论文的程度，但若目标是 Nature Communications，仍不应把此版本当成最终稿。优先级如下：
+
+1. **端到端 triage + confirmation 闭环**：在接近真实 density 且 `f_lens=1e-3` 的设置下，报告 HNSW retrieval -> physical shortlist -> posterior-overlap / fast Bayes confirmation 的 final recall、final precision/FDR、Bayesian follow-up 次数和总计算时间。核心问题是证明 triage 让原本不可行的 Bayesian follow-up 变成可计算，而不是只证明 triage 自身会留下大量 false candidates。
+2. **至少一个领域强 baseline**：加入 posterior-summary kNN、posterior overlap、phase/Morse consistency 或 fast lensing Bayes factor 中至少一项。与 logistic/HGB/LightGBM 的比较只能说明 tested classification-based fusion models 没有超过 weighted sum，不能替代 GW-lensing 领域基线。
+3. **真实目录扩大**：GWTC-3 的 63 个 PE-supported BBH 只能作为 case study/null demonstration。投稿前应尽量加入 GWTC-4/O4a 或 GWTC-5 strict-BBH observable catalog；若完整 PE 不可得，要明确写成 candidate-skymap observable-only analysis。
+4. **rarity tail 置信区间**：`1e-3` 和 `1e-4` 下的 false-candidate/year 应报告 sampled unlensed pairs、threshold grid、tail-estimation 方法、Poisson/binomial 区间和多 seed 变化，避免给出过度精确的尾部数字。
+5. **graph 表格补齐**：正文或 supplement 中的 graph table 必须包含 exact precision/recall、B-cubed precision/recall、over-merge、fragmentation、singleton precision/recall 和 max component size。旧 `system_precision` 只能作为历史对照，不能作为主指标。
+6. **公开发布边界**：在 Data/code availability 中准确区分 GitHub code、Zenodo release、derived CSV、selected embeddings/checkpoints 和因体积未发布的数据。不能写“All simulated catalogs and derived data are openly available”，除非这些产物确实有 DOI 或公开下载路径。
+
+建议投稿中心句调整为：
+
+> A physics-guided sparse retrieval stage reduces catalog-scale gravitational-wave lensing search to a tractable Bayesian follow-up problem, with quantified recall, false-association burden and computational cost under realistic event density and source rarity.
 
 ## 13. 输出文件
 

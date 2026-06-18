@@ -446,41 +446,41 @@ Top1% = 0.9630
 
 当前 LIGO 结果有几个需要明确的问题：
 
-1. LIGO noisy waveform-only 异常弱  
+1. LIGO noisy waveform-only 异常弱
    R@10 只有 0.0235，和 pure 下 0.9898 差距极大。需要后续检查 noisy 数据强度、预处理、模型容量、训练目标和 H1/L1 通道归一化。
 
-2. waveform 与辅助分数标定不一致  
+2. waveform 与辅助分数标定不一致
    多个融合实验中，加入 waveform 后反而不稳定，Stage5 也把 waveform rank/margin 权重选为 0。
 
-3. observed sky 不是真实 skymap  
+3. observed sky 不是真实 skymap
    当前只是 H1+L1 network-SNR A90 approximation，未使用真实双站时间差、antenna pattern 或 HEALPix posterior。
 
-4. LIGO sky A90 触达上限  
+4. LIGO sky A90 触达上限
    p90 为 500 deg2，说明空间误差较宽，且 clip 上限影响明显。
 
-5. SIS 比 PM 更难  
+5. SIS 比 PM 更难
    time prior 对 PM 很强，但对 SIS 很弱；SIS 需要更依赖 waveform 或更真实 sky/amp prior。
 
 ## 19. 后续建议
 
 建议按以下顺序推进：
 
-1. 复查 LIGO noisy waveform pipeline  
+1. 复查 LIGO noisy waveform pipeline
    重点检查 H1/L1 两通道预处理、SNR 分布、噪声注入、bandpass、标准化、训练 loss 和 hard negative。
 
-2. 引入真实 H1-L1 localization 特征  
+2. 引入真实 H1-L1 localization 特征
    至少加入双站 arrival-time delay、antenna response、相对相位/振幅，再逐步升级到 toy HEALPix skymap。
 
-3. 对 LIGO sky A90 做 sweep  
+3. 对 LIGO sky A90 做 sweep
    当前 median 399 deg2，p90 500 deg2；建议测试更保守/更乐观 A90 和 clip 设置。
 
-4. family-aware rerank  
+4. family-aware rerank
    PM 和 SIS 对 time/sky/waveform 的依赖差异很大，可尝试 family-aware 或 mixture-of-experts reranker。
 
-5. 加强 SIS 检索  
+5. 加强 SIS 检索
    SIS 是当前 LIGO noisy 的主要短板，需要增强 waveform 或 sky 约束。
 
-6. 汇总 ET3 vs LIGO 对比报告  
+6. 汇总 ET3 vs LIGO 对比报告
    当前 ET3 和 LIGO 都已完整跑完，下一步可以做统一对比表和结论。
 
 ## 20. 结论
@@ -735,25 +735,25 @@ LIGO pure 和 noisy 的差距非常大：
 
 建议排查项：
 
-1. H1/L1 noisy strain 的 SNR 分布  
+1. H1/L1 noisy strain 的 SNR 分布
    检查 noisy waveform 是否低到模型无法识别。
 
-2. 每通道标准化  
+2. 每通道标准化
    确认 H1/L1 没有被错误 broadcast、错误 zscore 或通道顺序错位。
 
-3. bandpass 和裁剪窗口  
+3. bandpass 和裁剪窗口
    检查信号是否在裁剪窗口内，bandpass 是否对 LIGO 参数过强。
 
-4. hard negative 采样  
+4. hard negative 采样
    当前 hard negative 可能在 noisy 下太难或不稳定。
 
-5. pure/noisy label 与 split 对齐  
+5. pure/noisy label 与 split 对齐
    检查 noisy 的 L1/L2 是否和 meta/gt 正确对应。
 
-6. H1/L1 单通道消融  
+6. H1/L1 单通道消融
    分别训练 H1-only、L1-only、H1+L1，确认是某一通道问题还是双通道融合问题。
 
-7. waveform 可视化与 embedding 分布  
+7. waveform 可视化与 embedding 分布
    抽样看同源 pair 的 embedding cosine 是否显著高于随机 pair。
 
 ## 28. LIGO 与 ET3 的解释差异

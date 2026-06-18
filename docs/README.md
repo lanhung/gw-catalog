@@ -11,6 +11,8 @@
    - ANN、posterior-sample HEALPix overlap、null test 的最终复核口径。
    - 本文明确替代同日较早的 `server_experiments_p2_results_20260618_cn.md`
      中有关 P2-A ANN 的解释。
+   - 写论文时以该文件的谨慎措辞为准：百万规模只代表 ANN 工程 scaling，
+     GWTC 只代表 null/case-study，不代表真实透镜确认。
 3. `et3_full_experiment_report_20260616_cn.md`
    - ET3 三臂 full-catalog 实验细节。
 4. `ligo_h1l1_full_experiment_report_20260617_cn.md`
@@ -36,8 +38,14 @@
   不作为当前结果入口。
 - `server_experiments_p2_results_20260618_cn.md` 是修复前记录；涉及 ANN
   fidelity、百万规模耗时或 dense top-k 时，以 final assessment 为准。
+- `stage6_catalog_graph_discovery_report_20260612_cn.md` 使用旧的宽松
+  connected-component `system_precision`，只能作为历史记录。投稿表格应改用
+  `scripts/server_experiments/exp3_graph.py` 产生的 exact-match、B-cubed、
+  over-merge、fragmentation 和 singleton precision/recall。
 - true sky 只能用于生成模拟观测量或 oracle 上限，主 rerank 不应直接使用。
 - synthetic 百万目录只支持工程 scaling 结论，不支持真实科学 recall 结论。
+- “Realistic class imbalance”仅可用于真实稀有度实验；10% lensed 设置应写成
+  high-prevalence/intermediate imbalance stress test。
 
 ## 文件卫生
 

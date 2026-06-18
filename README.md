@@ -30,6 +30,24 @@ amplitude/SNR information.
 - The million-event ANN result is an engineering scaling stress test; its full
   query time is extrapolated and it is not evidence of scientific recall at
   that catalog size.
+- GWTC real-event analyses are null/case-study tests of observable triage and
+  posterior-sample sky overlap. They do not claim any GWTC pair is lensed.
+- Graph-reconstruction claims should use exact-match, B-cubed,
+  over-merge/fragmentation and singleton metrics from
+  `scripts/server_experiments/exp3_graph.py`; older connected-component
+  `system_precision` summaries are deprecated for manuscript use.
+
+## Manuscript caution flags
+
+- Say "the three-interferometer triangular Einstein Telescope configuration",
+  not an independent three-site detector network.
+- Say "ANN candidate generation was benchmarked at one million embeddings",
+  not that scientific retrieval was validated at one million events.
+- Say "tested classification-based fusion models" for logistic/HGB/LightGBM
+  comparisons unless a ranking objective is actually used.
+- Say "posterior-sample HEALPix overlap restores the sky consistency of a
+  previously discussed candidate pair", not that the real catalog validates a
+  lensing detection.
 
 See `docs/gw_lensing_identification_overall_scheme_detailed_20260617_cn.md` and
 `docs/server_experiments_p2_final_assessment_20260618_cn.md` for definitions,

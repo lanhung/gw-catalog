@@ -7,8 +7,8 @@
 > 0.8565。请以 `docs/server_experiments_p2_final_assessment_20260618_cn.md`
 > 作为 P2-A 的最终口径；本文 P2-B/P2-C 数值仍有效。
 
-日期：2026-06-18  
-服务器项目目录：`/root/autodl-tmp/gw-catalog`  
+日期：2026-06-18
+服务器项目目录：`/root/autodl-tmp/gw-catalog`
 脚本目录：`scripts/server_experiments/`
 
 ## 1. 执行范围

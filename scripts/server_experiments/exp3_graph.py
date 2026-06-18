@@ -8,8 +8,15 @@ Fixes the reviewer's two graph criticisms:
   (b) naive top-k connected components over-merge -> compare against
       maximum-weight matching (the natural doublet-optimal method).
 """
-import numpy as np, pandas as pd, sys
-sys.path.insert(0, '.')
+import sys
+from pathlib import Path
+
+import numpy as np, pandas as pd
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+REPO_ROOT = SCRIPT_DIR.parents[1]
+sys.path.insert(0, str(SCRIPT_DIR))
+sys.path.insert(0, str(REPO_ROOT))
 from observable_simulator import simulate_catalog, T_START, T_END
 from rerank_engine import (build_pair_scores, fuse, TimeDelayPrior,
                            true_partner_map, build_graph_components,
@@ -74,7 +81,8 @@ def main(seeds=(0, 1, 2)):
     pd.set_option('display.width', 200); pd.set_option('display.max_columns', 20)
     print("\n=== GRAPH RECONSTRUCTION (mean over seeds) ===")
     show = agg[['method', 'exact_precision', 'exact_recall', 'bcubed_precision',
-                'bcubed_recall', 'overmerge_rate', 'singleton_recall',
+                'bcubed_recall', 'overmerge_rate', 'fragmentation_rate',
+                'singleton_precision', 'singleton_recall',
                 'max_component_size']].copy()
     for c in show.columns[1:]:
         if show[c].dtype.kind == 'f':
@@ -83,14 +91,25 @@ def main(seeds=(0, 1, 2)):
     print("\nKEY CONTRASTS:")
     cc5 = agg[agg.method == 'CC_topk5_no_tau'].iloc[0]
     print(f"  CC top-5 (giant): exact_precision={cc5.exact_precision:.3f} "
-          f"exact_recall={cc5.exact_recall:.3f} max_comp={int(cc5.max_component_size)} "
+          f"exact_recall={cc5.exact_recall:.3f} "
+          f"bcubed_recall={cc5.bcubed_recall:.3f} "
+          f"fragmentation={cc5.fragmentation_rate:.3f} "
+          f"max_comp={int(cc5.max_component_size)} "
           f"(loose precision would be ~1.0 -- this is the artifact)")
     best_mwm = agg[agg.method.str.startswith('MWM')].sort_values('exact_recall').iloc[-1]
     print(f"  Best MWM: {best_mwm.method} exact_precision={best_mwm.exact_precision:.3f} "
-          f"exact_recall={best_mwm.exact_recall:.3f} singleton_recall={best_mwm.singleton_recall:.3f}")
+          f"exact_recall={best_mwm.exact_recall:.3f} "
+          f"bcubed_precision={best_mwm.bcubed_precision:.3f} "
+          f"bcubed_recall={best_mwm.bcubed_recall:.3f} "
+          f"singleton_precision={best_mwm.singleton_precision:.3f} "
+          f"singleton_recall={best_mwm.singleton_recall:.3f}")
     best_cc = agg[agg.method.str.startswith('CC_topk1_tau')].sort_values('exact_recall').iloc[-1]
     print(f"  Best CC+tau: {best_cc.method} exact_precision={best_cc.exact_precision:.3f} "
-          f"exact_recall={best_cc.exact_recall:.3f} singleton_recall={best_cc.singleton_recall:.3f}")
+          f"exact_recall={best_cc.exact_recall:.3f} "
+          f"bcubed_precision={best_cc.bcubed_precision:.3f} "
+          f"bcubed_recall={best_cc.bcubed_recall:.3f} "
+          f"singleton_precision={best_cc.singleton_precision:.3f} "
+          f"singleton_recall={best_cc.singleton_recall:.3f}")
     print("\nsaved results_graph_metrics[_agg].csv")
 
 

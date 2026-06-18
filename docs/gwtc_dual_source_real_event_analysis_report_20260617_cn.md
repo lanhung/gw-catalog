@@ -1,7 +1,7 @@
 # GWTC-3/GWTC-5 真实事件双数据源实验结果报告
 
-日期：2026-06-17  
-仓库：`lanhung/gw-catalog`  
+日期：2026-06-17
+仓库：`lanhung/gw-catalog`
 主结果文件：`scripts/gwtc/RESULTS_gwtc.md`
 
 ## 1. 实验目标

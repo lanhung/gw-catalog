@@ -421,19 +421,19 @@ top_1pct = 1.0000
 
 当前方案的边界必须明确：
 
-1. 不是真实 PE skymap  
+1. 不是真实 PE skymap
    当前没有运行 Bayesian parameter estimation，也没有生成 HEALPix posterior。
 
-2. 不是真实 ET 三臂定位反演  
+2. 不是真实 ET 三臂定位反演
    `ET_TRIANGLE` 使用 network SNR 改变 A90，而不是通过三臂 antenna pattern、到达时间、相位和振幅响应做定位。
 
-3. posterior 形状是圆形二维高斯  
+3. posterior 形状是圆形二维高斯
    真实 skymap 往往是非高斯、非圆形、多峰或有长尾结构。
 
-4. A90 与 SNR 的关系是经验近似  
+4. A90 与 SNR 的关系是经验近似
    当前使用 `A90 ∝ SNR^-2` 和 lognormal scatter，适合做工程级 rerank 实验，不等同于真实探测器 localization pipeline。
 
-5. ET3 高 SNR 事件大量触发 A90 下限  
+5. ET3 高 SNR 事件大量触发 A90 下限
    当前 median A90 为 20 deg2，说明 clip 下限对主分布影响较大；后续如果要更保守，可以提高 `clip_min_deg2` 或扩大 `a90_ref_deg2`。
 
 ## 16. 可复现实验入口
@@ -472,19 +472,19 @@ sky = exp.make_observed_sky(
 
 建议按风险和收益分层扩展：
 
-1. A90 sweep 更系统化  
+1. A90 sweep 更系统化
    当前已测 50/100/300 deg2。后续可加入 `clip_min_deg2` sweep，特别检查 ET3 高 SNR 下限对结果的影响。
 
-2. 椭圆二维高斯  
+2. 椭圆二维高斯
    用 major/minor axis 和 position angle 替代圆形 sigma，更接近真实 skymap。
 
-3. HEALPix toy skymap  
+3. HEALPix toy skymap
    先生成简化 HEALPix posterior，再用积分 overlap 替代当前解析 log-overlap。
 
-4. detector response localization  
+4. detector response localization
    引入 ET 三臂 antenna pattern、相对到达时间、相对相位/振幅，生成更接近真实 ET3 的 sky posterior。
 
-5. learned calibration  
+5. learned calibration
    保留 `sky_step` 的鲁棒性，同时用 validation 学习 `sky_log_overlap`、time、SNR、waveform 的标定关系，避免简单加权时不同分数尺度互相干扰。
 
 ## 18. 当前结论

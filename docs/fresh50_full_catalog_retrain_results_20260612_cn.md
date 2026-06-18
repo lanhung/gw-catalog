@@ -1,8 +1,8 @@
 # Fresh 50ep Full-Catalog Ranking 重新训练结果总结
 
-生成时间：2026-06-12  
-实验目录：`runs/fresh50_full_catalog_ranking_20260611/`  
-结果表：`runs/fresh50_full_catalog_ranking_20260611/fresh50_full_catalog_summary.csv`  
+生成时间：2026-06-12
+实验目录：`runs/fresh50_full_catalog_ranking_20260611/`
+结果表：`runs/fresh50_full_catalog_ranking_20260611/fresh50_full_catalog_summary.csv`
 实验脚本：`scripts/experiments/84_fresh50_full_catalog_ranking.py`
 
 ## 1. 实验目的
@@ -62,7 +62,7 @@
 
 ## 4. 与旧 full-catalog 结果的差距
 
-旧结果文件：`runs/time_matched_full_catalog_ranking_20260611/full_catalog_summary.csv`  
+旧结果文件：`runs/time_matched_full_catalog_ranking_20260611/full_catalog_summary.csv`
 新结果文件：`runs/fresh50_full_catalog_ranking_20260611/fresh50_full_catalog_summary.csv`
 
 | 数据 | 方法 | 旧 R@10 | 新 R@10 | 差值 |

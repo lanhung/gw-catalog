@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import json
 import time
-import os
 from pathlib import Path
 from dataclasses import asdict
 
@@ -47,29 +46,10 @@ def _loader_kwargs(cfg: MatchRunConfig, device: torch.device, train: bool = Fals
     return kwargs
 
 
-def _raw_waveform_channels(cfg: MatchRunConfig) -> int:
-    # 根据原始 npy 形状自动识别 detector 通道数。
-    # ET: (N, T) -> 1；LIGO: (N, detector, T) -> detector。
-    # 若设置 MATCHGW_CHANNEL_MODE 为 single/combined 模式，则模型输入退化为 1 通道。
-    try:
-        mode = os.environ.get("MATCHGW_CHANNEL_MODE", "all").lower()
-        if mode not in {"", "all", "multi", "detectors"}:
-            return 1
-        arr = np.load(cfg.l1_path, mmap_mode="r")
-        shape = arr.shape[1:-1]
-        return int(np.prod(shape)) if shape else 1
-    except Exception:
-        return 1
-
-
 def build_model(cfg: MatchRunConfig, in_channels: int | None = None) -> torch.nn.Module:
     # 根据配置创建 encoder。最终结果使用 inceptiontime；cnn 保留作 baseline。
     if in_channels is None:
-        in_channels = _raw_waveform_channels(cfg)
-        if str(getattr(cfg, "preprocess", "none")).lower() == "multiband":
-            in_channels *= 4
-        if cfg.use_hilbert:
-            in_channels *= 2
+        in_channels = 4 if str(getattr(cfg, "preprocess", "none")).lower() == "multiband" else (2 if cfg.use_hilbert else 1)
     if cfg.model_backbone == "inceptiontime":
         return InceptionTimeEncoder1D(in_channels=in_channels, d_model=cfg.d_model, emb_dim=cfg.emb_dim, width_scale=cfg.width_scale)
     if cfg.model_backbone == "attnresnet":

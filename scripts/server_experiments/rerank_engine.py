@@ -33,7 +33,7 @@ RAD2DEG = 180.0 / np.pi
 # ----------------------------------------------------------------------
 def a90_to_sigma_rad(a90_deg2):
     """90% credible AREA (deg^2) -> 1-sigma angular radius (rad).
-    For a 2D Gaussian, 90% area A => sigma = sqrt(A / (2 pi ln(10)))? 
+    For a 2D Gaussian, 90% area A => sigma = sqrt(A / (2 pi ln(10)))?
     Repo uses: 90% contour radius theta_90 with A90 = pi theta_90^2, and
     theta_90 = sigma sqrt(-2 ln(0.1)) = sigma sqrt(2 ln 10). So
     sigma = sqrt(A90/pi) / sqrt(2 ln10)."""

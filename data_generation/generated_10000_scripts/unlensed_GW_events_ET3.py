@@ -216,4 +216,3 @@ shutil.move(tmp_t, final_t)
 shutil.move(tmp_snr_single, final_snr_single)
 shutil.move(tmp_snr_net, final_snr_net)
 shutil.move(tmp_snr_compat, final_snr_compat)
-
