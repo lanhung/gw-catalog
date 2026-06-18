@@ -33,6 +33,8 @@ ROOTS = {
     ("SIS", "LIGO"): Path("/root/autodl-tmp/gw_ligo_10000_matchstyle_20260527_091859"),
     ("PM", "ET"): Path("data_generation/pm_mass_1e4_1e10_td_min24s_matchroots/ET"),
     ("PM", "LIGO"): Path("data_generation/pm_mass_1e4_1e10_td_min24s_matchroots/LIGO"),
+    ("SIS", "ET3"): Path("/root/autodl-tmp/createdata/et3_10000_20260616_1006_match_root"),
+    ("PM", "ET3"): Path("/root/autodl-tmp/createdata/et3_10000_20260616_1006_match_root"),
 }
 JOBS = [("ET", "pure"), ("ET", "noisy"), ("LIGO", "pure"), ("LIGO", "noisy")]
 FAMILIES = ["SIS", "PM"]
@@ -143,13 +145,13 @@ def loader_kwargs(cfg: MatchRunConfig, device: torch.device, train: bool = False
 
 
 def prepare_waveform(x: np.ndarray, cfg: MatchRunConfig, train: bool, rng: np.random.Generator | None = None) -> np.ndarray:
-    x = data_mod.detector_channel_view(x)
+    x = np.asarray(x, dtype=np.float32)
     y = data_mod.pad_or_trim(x, cfg.target_len, cfg.stride)
     y = data_mod.spectral_preprocess(y, cfg)
     if train:
         y = y.copy()
         if cfg.aug_flip:
-            y = data_mod.peak_flip(y)
+            y = data_mod.peak_flip_channels(y)
         if cfg.aug_roll > 0:
             if rng is None:
                 raise ValueError("rng required in train mode")
@@ -157,11 +159,11 @@ def prepare_waveform(x: np.ndarray, cfg: MatchRunConfig, train: bool, rng: np.ra
         if cfg.aug_scale > 0:
             y = y * float(1.0 + rng.uniform(-cfg.aug_scale, cfg.aug_scale))
         if cfg.aug_noise > 0:
-            scale = float(y.std()) + 1e-8
+            scale = y.std(axis=-1, keepdims=True) + 1e-8 if y.ndim > 1 else float(y.std()) + 1e-8
             y = y + rng.normal(0.0, cfg.aug_noise * scale, size=y.shape)
     elif cfg.aug_flip:
-        y = data_mod.peak_flip(y)
-    return data_mod.to_channels(data_mod.zscore(y), cfg.use_hilbert)
+        y = data_mod.peak_flip_channels(y)
+    return data_mod.to_channels(data_mod.zscore_channels(y), cfg.use_hilbert)
 
 
 class MixedPairDataset(Dataset):
@@ -399,8 +401,9 @@ def fit_sky_predictor(train_raw: pd.DataFrame, train_emb: np.ndarray, val_raw: p
 def train_or_load_encoder(cfg: MatchRunConfig, arrays: dict[str, FamilyArrays], splits: dict[str, dict[str, np.ndarray]]):
     model_path = cfg.out_dir / "model.pt"
     summary_path = cfg.out_dir / "waveform_summary.json"
+    in_channels = data_mod.prepared_channel_count(arrays[FAMILIES[0]].l1[0], cfg)
     if model_path.exists() and summary_path.exists():
-        model = build_model(cfg)
+        model = build_model(cfg, in_channels=in_channels)
         ckpt = torch.load(model_path, map_location="cpu")
         model.load_state_dict(ckpt["model"], strict=True)
         train_info = json.loads(summary_path.read_text(encoding="utf-8")).get("timing", {})
@@ -408,7 +411,7 @@ def train_or_load_encoder(cfg: MatchRunConfig, arrays: dict[str, FamilyArrays], 
     device = _device()
     train_ds = MixedPairDataset(arrays, splits, "train", cfg)
     dl = DataLoader(train_ds, batch_size=cfg.batch_size, shuffle=True, drop_last=True, **loader_kwargs(cfg, device, True))
-    model = build_model(cfg).to(device)
+    model = build_model(cfg, in_channels=in_channels).to(device)
     loss_fn = NTXentLoss(cfg.tau)
     opt = torch.optim.AdamW(model.parameters(), lr=cfg.lr, weight_decay=cfg.weight_decay)
     scaler = torch.amp.GradScaler("cuda", enabled=bool(cfg.amp and cfg.amp_dtype == "fp16" and device.type == "cuda"))

@@ -24,11 +24,16 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from matchgw.aux_priors import (
+    DETECTOR_SKY_SCENARIOS,
+    build_observed_sky_table,
     observed_sky_pair_features,
+    public_observed_sky_features,
     rank_feature_matrices,
+    scenario_for_detector,
     select_best_weighted_lambdas,
     time_step_score_matrix,
 )
+from matchgw.aux_priors.observed_sky import with_a90_ref
 
 base = importlib.import_module("scripts.experiments.80_mixed_sis_pm_catalog_modality_compare")
 hard = importlib.import_module("scripts.experiments.81_time_matched_hard_negative_mixed_catalog")
@@ -52,6 +57,11 @@ LIAO_PRIOR_CONFIG = {
         "image_csv": GW_LMC_ROOT / "ET/BBH/Any_Detected_SNR8/BBH_ET_Any_Detected_SNR8_ImageParams.csv",
         "snr_threshold": 8.0,
     },
+    "ET3": {
+        "label": "GW-LMC ET BBH Any_Detected_SNR8",
+        "image_csv": GW_LMC_ROOT / "ET/BBH/Any_Detected_SNR8/BBH_ET_Any_Detected_SNR8_ImageParams.csv",
+        "snr_threshold": 8.0,
+    },
     "LIGO": {
         "label": "GW-LMC 2.5PLUS BBH Any_Detected_SNR1",
         "image_csv": GW_LMC_ROOT / "2.5PLUS/BBH/Any_Detected_SNR1/BBH_2.5PLUS_Any_Detected_SNR1_ImageParams.csv",
@@ -61,25 +71,25 @@ LIAO_PRIOR_CONFIG = {
 
 OBSERVED_SKY_CONFIG = {
     "ET": {
-        "label": "ET single-site baseline A90=300 deg2",
-        "a90_ref_deg2": 300.0,
-        "rho_ref": 12.0,
-        "clip_min_deg2": 50.0,
-        "clip_max_deg2": 2000.0,
-        "lognormal_sigma": 0.35,
+        "scenario": "ET_SINGLE",
+        "label": DETECTOR_SKY_SCENARIOS["ET_SINGLE"].label,
+        "a90_ref_deg2": DETECTOR_SKY_SCENARIOS["ET_SINGLE"].a90_ref_deg2,
+    },
+    "ET3": {
+        "scenario": "ET_TRIANGLE",
+        "label": DETECTOR_SKY_SCENARIOS["ET_TRIANGLE"].label,
+        "a90_ref_deg2": DETECTOR_SKY_SCENARIOS["ET_TRIANGLE"].a90_ref_deg2,
     },
     "LIGO": {
-        "label": "LIGO/2.5G HL-like baseline A90=100 deg2",
-        "a90_ref_deg2": 100.0,
-        "rho_ref": 12.0,
-        "clip_min_deg2": 10.0,
-        "clip_max_deg2": 500.0,
-        "lognormal_sigma": 0.35,
+        "scenario": "LIGO_HL",
+        "label": DETECTOR_SKY_SCENARIOS["LIGO_HL"].label,
+        "a90_ref_deg2": DETECTOR_SKY_SCENARIOS["LIGO_HL"].a90_ref_deg2,
     },
 }
 
 SKY_A90_SWEEP = {
     "ET": [100.0, 300.0, 1000.0],
+    "ET3": [50.0, 100.0, 300.0],
     "LIGO": [50.0, 100.0, 200.0],
 }
 
@@ -148,11 +158,14 @@ def row_z(score: np.ndarray) -> np.ndarray:
     return out.astype(np.float32)
 
 
-def load_model_only(cfg):
+def load_model_only(cfg, arrays=None):
     model_path = cfg.out_dir / "model.pt"
     if not model_path.exists():
         raise FileNotFoundError(f"Missing fresh50 model: {model_path}")
-    model = base.build_model(cfg)
+    in_channels = None
+    if arrays is not None:
+        in_channels = base.data_mod.prepared_channel_count(arrays[FAMILIES[0]].l1[0], cfg)
+    model = base.build_model(cfg, in_channels=in_channels)
     ckpt = torch.load(model_path, map_location="cpu")
     model.load_state_dict(ckpt["model"], strict=True)
     return model
@@ -166,7 +179,7 @@ def load_job(detector: str, mode: str):
     for index, family in enumerate(FAMILIES):
         splits[family] = base.split_indices(len(arrays[family].l1), cfg.seed + index)
         splits[f"{family}_U"] = base.split_indices(len(arrays[family].unlensed), cfg.seed + 100 + index)
-    model = load_model_only(cfg)
+    model = load_model_only(cfg, arrays)
     val_ds, val_raw, val_time, val_gt, val_emb, val_scores = base.split_pack(detector, "val", cfg, arrays, splits, model)
     test_ds, test_raw, test_time, test_gt, test_emb, test_scores = base.split_pack(detector, "test", cfg, arrays, splits, model)
     return {
@@ -405,35 +418,17 @@ def make_observed_sky(
     time_obs: pd.DataFrame,
     seed: int,
     a90_ref_deg2: float | None = None,
+    scenario_name: str | None = None,
+    sampling: str = "tangent_2d_gaussian",
 ) -> pd.DataFrame:
-    cfg = dict(OBSERVED_SKY_CONFIG[detector])
-    if a90_ref_deg2 is not None:
-        cfg["a90_ref_deg2"] = float(a90_ref_deg2)
-        cfg["label"] = f"{cfg['label']} sweep A90={float(a90_ref_deg2):g} deg2"
     rng = np.random.default_rng(seed)
-    snr = time_obs["snr"].to_numpy(dtype=np.float64)
-    jitter = rng.lognormal(mean=0.0, sigma=cfg["lognormal_sigma"], size=len(time_obs))
-    a90 = cfg["a90_ref_deg2"] * (cfg["rho_ref"] / np.maximum(snr, 1.0)) ** 2 * jitter
-    a90 = np.clip(a90, cfg["clip_min_deg2"], cfg["clip_max_deg2"])
-    sigma = sky_sigma_from_a90_deg2(a90)
-    true_vec = unit_from_radec(raw_obs["ra"].to_numpy(dtype=np.float64), raw_obs["dec"].to_numpy(dtype=np.float64))
-    noise = rng.normal(size=true_vec.shape)
-    noise -= np.sum(noise * true_vec, axis=1, keepdims=True) * true_vec
-    noise_norm = noise / np.maximum(np.linalg.norm(noise, axis=1, keepdims=True), EPS)
-    radial = rng.normal(loc=0.0, scale=sigma)
-    obs_vec = true_vec * np.cos(radial)[:, None] + noise_norm * np.sin(radial)[:, None]
-    obs_vec = obs_vec / np.maximum(np.linalg.norm(obs_vec, axis=1, keepdims=True), EPS)
-    ra_obs, dec_obs = radec_from_unit(obs_vec)
-    return pd.DataFrame({
-        "ra_obs": ra_obs,
-        "dec_obs": dec_obs,
-        "sky_area90_deg2": a90,
-        "sky_sigma_rad": sigma,
-    })
+    scenario = scenario_for_detector(detector, scenario_name)
+    scenario = with_a90_ref(scenario, a90_ref_deg2)
+    return build_observed_sky_table(raw_obs, time_obs, scenario, rng, sampling=sampling)
 
 
 def observed_sky_score_matrices(sky_obs: pd.DataFrame) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
-    features = observed_sky_pair_features(sky_obs, chunk_rows=CHUNK_ROWS)
+    features = observed_sky_pair_features(public_observed_sky_features(sky_obs), chunk_rows=CHUNK_ROWS)
     return features["sky_step_weight"], features["sky_gaussian_weight"], features["sky_log_overlap"]
 
 
@@ -610,11 +605,20 @@ def stage2_observed_sky() -> pd.DataFrame:
         test_ds, test_raw, test_time, test_gt, test_scores = loaded["test"]
         val_sky = make_observed_sky(detector, val_raw, val_time, seed=301000 + (0 if detector == "ET" else 1))
         test_sky = make_observed_sky(detector, test_raw, test_time, seed=302000 + (0 if detector == "ET" else 1))
+        val_sky.to_csv(out_dir / f"{detector}_{mode}_val_observed_sky_audit.csv", index=False)
+        test_sky.to_csv(out_dir / f"{detector}_{mode}_test_observed_sky_audit.csv", index=False)
         val_step, val_gauss, val_log = observed_sky_score_matrices(val_sky)
         test_step, test_gauss, test_log = observed_sky_score_matrices(test_sky)
         sky_diag_rows.append({
             "detector": detector,
             "sky_label": OBSERVED_SKY_CONFIG[detector]["label"],
+            "scenario": str(test_sky["scenario"].iloc[0]),
+            "sky_model": str(test_sky["sky_model"].iloc[0]),
+            "sky_sampling": str(test_sky["sky_sampling"].iloc[0]),
+            "snr_for_sky_mode": str(test_sky["snr_for_sky_mode"].iloc[0]),
+            "uses_h1l1_timing": bool(test_sky["uses_h1l1_timing"].iloc[0]),
+            "uses_antenna_pattern_localization": bool(test_sky["uses_antenna_pattern_localization"].iloc[0]),
+            "uses_healpix_skymap": bool(test_sky["uses_healpix_skymap"].iloc[0]),
             "a90_ref_deg2": OBSERVED_SKY_CONFIG[detector]["a90_ref_deg2"],
             "test_a90_median_deg2": float(np.median(test_sky["sky_area90_deg2"])),
             "test_a90_p90_deg2": float(np.percentile(test_sky["sky_area90_deg2"], 90)),
@@ -1002,9 +1006,9 @@ def maybe_lightgbm_model():
 def load_stage4_lambdas(detector: str) -> dict[str, float]:
     summary = OUT_ROOT / "stage4_snr_amplitude_prior" / "stage4_snr_amplitude_prior_summary.csv"
     defaults = {
-        "liao_time_lr": 1.0 if detector == "ET" else 2.0,
+        "liao_time_lr": 1.0 if detector in {"ET", "ET3"} else 2.0,
         "sky_log_overlap": 4.0,
-        "amp_time_lr": 0.0 if detector == "ET" else 0.25,
+        "amp_time_lr": 0.0 if detector in {"ET", "ET3"} else 0.25,
         "raw_snr_ratio": 0.0,
     }
     if not summary.exists():

@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
-import os
 
 import numpy as np
 import torch
@@ -22,38 +21,6 @@ class MatchArrays:
     l1_pure: np.ndarray | None = None
     l2_pure: np.ndarray | None = None
     unlensed_pure: np.ndarray | None = None
-
-
-def detector_channel_view(x: np.ndarray) -> np.ndarray:
-    """Optional detector-channel view for LIGO experiments.
-
-    MATCHGW_CHANNEL_MODE can be:
-    - all: keep detector x time channels (default)
-    - first / second: use one detector only
-    - mean: average detector strains
-    - diff: channel0 - channel1
-    - rss: root-sum-square envelope, sign from channel mean
-    """
-    if x.ndim <= 1:
-        return x
-    mode = os.environ.get("MATCHGW_CHANNEL_MODE", "all").lower()
-    channels = x.reshape(-1, x.shape[-1])
-    if mode in {"", "all", "multi", "detectors"}:
-        return x
-    if mode in {"first", "h1", "0", "det0"}:
-        return channels[0]
-    if mode in {"second", "l1", "1", "det1"}:
-        return channels[min(1, len(channels) - 1)]
-    if mode == "mean":
-        return channels.mean(axis=0)
-    if mode == "diff":
-        return channels[0] - channels[min(1, len(channels) - 1)]
-    if mode == "rss":
-        rss = np.sqrt(np.mean(channels.astype(np.float32) ** 2, axis=0))
-        sign = np.sign(channels.mean(axis=0))
-        sign[sign == 0] = 1.0
-        return (rss * sign).astype(np.float32, copy=False)
-    return x
 
 
 def _load_npy_matrix(path: Path, limit: int | None = None) -> np.ndarray:
@@ -119,16 +86,14 @@ def zscore(x: np.ndarray) -> np.ndarray:
 
 def peak_flip(x: np.ndarray) -> np.ndarray:
     # 统一主峰符号，减少整体相位翻转给 embedding 带来的不必要差异。
-    # LIGO 数据可能是 detector x time 的二维数组，因此先展平找全局主峰。
-    flat = x.reshape(-1)
-    return -x if flat[np.argmax(np.abs(flat))] < 0 else x
+    return -x if x[np.argmax(np.abs(x))] < 0 else x
 
 
 def _fft_band(x: np.ndarray, lo: int, hi: int) -> np.ndarray:
     sp = np.fft.rfft(x.astype(np.float32, copy=False))
     lo = max(0, int(lo))
-    hi = min(len(sp) - 1, int(hi))
-    mask = np.zeros(len(sp), dtype=bool)
+    hi = min(sp.shape[-1] - 1, int(hi))
+    mask = np.zeros(sp.shape[-1], dtype=bool)
     if hi >= lo:
         mask[lo:hi + 1] = True
     return np.fft.irfft(np.where(mask, sp, 0.0), n=x.shape[-1]).astype(np.float32, copy=False)
@@ -137,15 +102,12 @@ def _fft_band(x: np.ndarray, lo: int, hi: int) -> np.ndarray:
 def multiband_preprocess(x: np.ndarray, cfg: MatchRunConfig) -> np.ndarray:
     # 多频带 waveform-only 输入：让模型自己学习不同频段的可靠性。
     # 这里仍只使用 waveform 本身，不使用任何物理辅助参数。
-    # ET 是一维 strain；LIGO 是 detector x time，保留每个探测器并展开为 detector*band 通道。
     bands = [(40, 160), (160, 320), (320, 580), (cfg.bandpass_low, cfg.bandpass_high)]
-    if x.ndim == 1:
-        return np.stack([_fft_band(x, lo, hi) for lo, hi in bands], axis=0).astype(np.float32, copy=False)
-    channels = x.reshape(-1, x.shape[-1])
-    out = []
-    for ch in channels:
-        out.extend(_fft_band(ch, lo, hi) for lo, hi in bands)
-    return np.stack(out, axis=0).astype(np.float32, copy=False)
+    y = np.stack([_fft_band(x, lo, hi) for lo, hi in bands], axis=0).astype(np.float32, copy=False)
+    if y.ndim == 3:
+        # 输入为 detector channels 时，输出通道按 band x detector 展平给 Conv1d。
+        y = y.reshape(y.shape[0] * y.shape[1], y.shape[2])
+    return y
 
 
 def zscore_channels(x: np.ndarray) -> np.ndarray:
@@ -157,25 +119,21 @@ def zscore_channels(x: np.ndarray) -> np.ndarray:
 
 
 def peak_flip_channels(x: np.ndarray) -> np.ndarray:
-    ref = x if x.ndim == 1 else x[-1]
+    ref = x if x.ndim == 1 else np.sum(x, axis=0)
     return -x if ref[np.argmax(np.abs(ref))] < 0 else x
 
 
 def spectral_preprocess(x: np.ndarray, cfg: MatchRunConfig) -> np.ndarray:
     # 只基于 waveform 自身做频域处理，不读取任何辅助参数。
     # bandpass 去掉明显低/高频噪声；whiten 压平样本自己的平滑谱包络，降低 ET 噪声形态影响。
-    # 对 LIGO 多探测器数据，逐 detector 通道做同样处理。
-    if x.ndim > 1:
-        channels = x.reshape(-1, x.shape[-1])
-        return np.stack([spectral_preprocess(ch, cfg) for ch in channels], axis=0).astype(np.float32, copy=False)
     mode = str(getattr(cfg, "preprocess", "none")).lower()
     if mode in {"none", ""}:
         return x.astype(np.float32, copy=False)
     sp = np.fft.rfft(x.astype(np.float32, copy=False))
     if "bandpass" in mode:
         lo = max(0, int(getattr(cfg, "bandpass_low", 0)))
-        hi = min(len(sp) - 1, int(getattr(cfg, "bandpass_high", len(sp) - 1)))
-        mask = np.zeros(len(sp), dtype=bool)
+        hi = min(sp.shape[-1] - 1, int(getattr(cfg, "bandpass_high", sp.shape[-1] - 1)))
+        mask = np.zeros(sp.shape[-1], dtype=bool)
         if hi >= lo:
             mask[lo:hi + 1] = True
         sp = np.where(mask, sp, 0.0)
@@ -185,39 +143,49 @@ def spectral_preprocess(x: np.ndarray, cfg: MatchRunConfig) -> np.ndarray:
         if k % 2 == 0:
             k += 1
         kernel = np.ones(k, dtype=np.float32) / float(k)
-        smooth = np.convolve(amp, kernel, mode="same")
+        if amp.ndim == 1:
+            smooth = np.convolve(amp, kernel, mode="same")
+        else:
+            smooth = np.apply_along_axis(lambda row: np.convolve(row, kernel, mode="same"), -1, amp)
         floor = np.percentile(smooth, 10) + 1e-6
         sp = sp / np.maximum(smooth, floor)
     return np.fft.irfft(sp, n=x.shape[-1]).astype(np.float32, copy=False)
 
 
-def augment(x: np.ndarray, cfg: MatchRunConfig, rng: np.random.Generator) -> np.ndarray:
+def augment_channels(x: np.ndarray, cfg: MatchRunConfig, rng: np.random.Generator) -> np.ndarray:
     # 训练期做轻量增强：平移、幅度扰动、少量噪声，提升 noisy/pure 泛化能力。
     y = x.copy()
     if cfg.aug_flip:
-        y = peak_flip(y)
+        y = peak_flip_channels(y)
     if cfg.aug_roll > 0:
-        y = np.roll(y, int(rng.integers(-cfg.aug_roll, cfg.aug_roll + 1)))
+        y = np.roll(y, int(rng.integers(-cfg.aug_roll, cfg.aug_roll + 1)), axis=-1)
     if cfg.aug_scale > 0:
         y = y * float(1.0 + rng.uniform(-cfg.aug_scale, cfg.aug_scale))
     if cfg.aug_noise > 0:
-        y = y + rng.normal(0.0, cfg.aug_noise * (float(y.std()) + 1e-8), size=y.shape)
-    return zscore(y)
+        y = y + rng.normal(0.0, cfg.aug_noise * (y.std(axis=-1, keepdims=True) + 1e-8), size=y.shape)
+    return zscore_channels(y)
 
 
 def to_channels(x: np.ndarray, use_hilbert: bool = False) -> np.ndarray:
-    # 统一输出 channels x time。ET 的一维 strain 变为 1 通道；
-    # LIGO 的 detector x time 保留为多通道。Hilbert 时每个原始通道拆成 real/imag 两通道。
+    x = np.asarray(x, dtype=np.float32)
     if use_hilbert:
         from scipy.signal import hilbert
         z = hilbert(x, axis=-1)
-        if z.ndim == 1:
+        if x.ndim == 1:
             return np.stack([z.real, z.imag], axis=0).astype(np.float32)
-        z = z.reshape(-1, z.shape[-1])
         return np.concatenate([z.real, z.imag], axis=0).astype(np.float32)
     if x.ndim == 1:
         return x[None, :].astype(np.float32)
-    return x.reshape(-1, x.shape[-1]).astype(np.float32)
+    if x.ndim == 2:
+        return x.astype(np.float32, copy=False)
+    raise ValueError(f"expected waveform shape [time] or [channels,time], got {x.shape}")
+
+
+def prepared_channel_count(sample: np.ndarray, cfg: MatchRunConfig) -> int:
+    x = pad_or_trim(sample, cfg.target_len, cfg.stride)
+    if str(getattr(cfg, "preprocess", "none")).lower() == "multiband":
+        return int(multiband_preprocess(x, cfg).shape[0])
+    return int(to_channels(x, cfg.use_hilbert).shape[0])
 
 
 class PairDataset(Dataset):
@@ -239,7 +207,6 @@ class PairDataset(Dataset):
         return len(self.items)
 
     def _prepare(self, x: np.ndarray, train: bool) -> np.ndarray:
-        x = detector_channel_view(x)
         y = pad_or_trim(x, self.cfg.target_len, self.cfg.stride)
         if str(getattr(self.cfg, "preprocess", "none")).lower() == "multiband":
             mb = multiband_preprocess(y, self.cfg)
@@ -253,7 +220,7 @@ class PairDataset(Dataset):
                 mb = mb + self.rng.normal(0.0, self.cfg.aug_noise * (mb.std(axis=-1, keepdims=True) + 1e-8), size=mb.shape)
             return zscore_channels(mb).astype(np.float32, copy=False)
         y = spectral_preprocess(y, self.cfg)
-        y = augment(y, self.cfg, self.rng) if train else zscore(peak_flip(y) if self.cfg.aug_flip else y)
+        y = augment_channels(y, self.cfg, self.rng) if train else zscore_channels(peak_flip_channels(y) if self.cfg.aug_flip else y)
         return to_channels(y, self.cfg.use_hilbert)
 
     def __getitem__(self, idx: int) -> tuple[torch.Tensor, torch.Tensor]:
@@ -299,8 +266,7 @@ class EvaluationSet(Dataset):
         return len(self.waveforms)
 
     def __getitem__(self, idx: int) -> torch.Tensor:
-        x = detector_channel_view(self.waveforms[idx])
-        x = pad_or_trim(x, self.cfg.target_len, self.cfg.stride)
+        x = pad_or_trim(self.waveforms[idx], self.cfg.target_len, self.cfg.stride)
         if str(getattr(self.cfg, "preprocess", "none")).lower() == "multiband":
             x = multiband_preprocess(x, self.cfg)
             if self.cfg.aug_flip:
@@ -308,8 +274,8 @@ class EvaluationSet(Dataset):
             return torch.from_numpy(zscore_channels(x))
         x = spectral_preprocess(x, self.cfg)
         if self.cfg.aug_flip:
-            x = peak_flip(x)
-        return torch.from_numpy(to_channels(zscore(x), self.cfg.use_hilbert))
+            x = peak_flip_channels(x)
+        return torch.from_numpy(to_channels(zscore_channels(x), self.cfg.use_hilbert))
 
 
 def ground_truth_partner(meta: list[dict]) -> np.ndarray:

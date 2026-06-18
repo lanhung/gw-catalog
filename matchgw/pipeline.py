@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import json
 import time
-import os
 from pathlib import Path
 from dataclasses import asdict
 
@@ -12,7 +11,7 @@ import torch
 from torch.utils.data import DataLoader, Dataset, get_worker_info
 
 from .config import MatchRunConfig
-from .data import EvaluationSet, PairDataset, ground_truth_partner, load_match_arrays, split_indices
+from .data import EvaluationSet, PairDataset, ground_truth_partner, load_match_arrays, prepared_channel_count, split_indices
 from .matching import evaluate_scores, similarity_matrix, tune_matching, topk_edges
 from .rerank import calibrated_candidate_report, fit_pair_calibrator, candidate_feature_frame
 from .catalog import catalog_system_report
@@ -47,28 +46,10 @@ def _loader_kwargs(cfg: MatchRunConfig, device: torch.device, train: bool = Fals
     return kwargs
 
 
-def _raw_waveform_channels(cfg: MatchRunConfig) -> int:
-    # 根据原始 npy 形状自动识别 detector 通道数。
-    # ET: (N, T) -> 1；LIGO: (N, detector, T) -> detector。
-    # 若设置 MATCHGW_CHANNEL_MODE 为 single/combined 模式，则模型输入退化为 1 通道。
-    try:
-        mode = os.environ.get("MATCHGW_CHANNEL_MODE", "all").lower()
-        if mode not in {"", "all", "multi", "detectors"}:
-            return 1
-        arr = np.load(cfg.l1_path, mmap_mode="r")
-        shape = arr.shape[1:-1]
-        return int(np.prod(shape)) if shape else 1
-    except Exception:
-        return 1
-
-
-def build_model(cfg: MatchRunConfig) -> torch.nn.Module:
+def build_model(cfg: MatchRunConfig, in_channels: int | None = None) -> torch.nn.Module:
     # 根据配置创建 encoder。最终结果使用 inceptiontime；cnn 保留作 baseline。
-    in_channels = _raw_waveform_channels(cfg)
-    if str(getattr(cfg, "preprocess", "none")).lower() == "multiband":
-        in_channels *= 4
-    if cfg.use_hilbert:
-        in_channels *= 2
+    if in_channels is None:
+        in_channels = 4 if str(getattr(cfg, "preprocess", "none")).lower() == "multiband" else (2 if cfg.use_hilbert else 1)
     if cfg.model_backbone == "inceptiontime":
         return InceptionTimeEncoder1D(in_channels=in_channels, d_model=cfg.d_model, emb_dim=cfg.emb_dim, width_scale=cfg.width_scale)
     if cfg.model_backbone == "attnresnet":
@@ -181,6 +162,7 @@ def train_encoder(cfg: MatchRunConfig, cpu: bool = False) -> tuple[MatchEncoder1
     load_s = time.perf_counter() - load_t0
 
     train_ds = PairDataset(arrays, splits["lensed"]["train"], splits["unlensed"]["train"], cfg)
+    in_channels = prepared_channel_count(arrays.l1[0], cfg)
     device = _device(cpu)
     train_dl = DataLoader(
         train_ds,
@@ -189,7 +171,7 @@ def train_encoder(cfg: MatchRunConfig, cpu: bool = False) -> tuple[MatchEncoder1
         drop_last=True,
         **_loader_kwargs(cfg, device, train=True),
     )
-    model = build_model(cfg).to(device)
+    model = build_model(cfg, in_channels=in_channels).to(device)
     if cfg.compile_model and device.type == "cuda":
         model = torch.compile(model)
     loss_fn = NTXentLoss(cfg.tau)
@@ -246,6 +228,7 @@ def train_encoder(cfg: MatchRunConfig, cpu: bool = False) -> tuple[MatchEncoder1
         "num_workers": int(cfg.num_workers),
         "pin_memory": bool(cfg.pin_memory and device.type == "cuda"),
         "compile_model": bool(cfg.compile_model and device.type == "cuda"),
+        "in_channels": int(in_channels),
         "mean_epoch_s": float(np.mean([r["epoch_s"] for r in history])) if history else 0.0,
         "mean_pairs_per_s": float(np.mean([r["pairs_per_s"] for r in history])) if history else 0.0,
     }

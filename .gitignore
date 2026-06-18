@@ -8,6 +8,7 @@ results/
 *.egg-info/
 *.bak_*
 runs/
+LATEST_*.txt
 # Large experiment/data artifacts
 *.npy
 *.npz
