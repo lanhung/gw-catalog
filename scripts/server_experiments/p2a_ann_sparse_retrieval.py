@@ -31,8 +31,9 @@ can still measure ANN scaling; it clearly labels such runs as synthetic.
 
 Outputs (under --out):
   * ann_scaling.csv : for each N and method (dense vs ANN), wall-clock build +
-                      query time, peak memory, recall@k vs the exhaustive
-                      dense baseline, and candidate-edge count.
+                      sampled-query time, RSS delta, recall@k vs the exhaustive
+                      dense baseline, candidate-edge count, and a clearly
+                      labelled full-query runtime projection.
   * ann_scaling.{png,pdf} : runtime & recall vs N (the key scalability figure).
 
 Dependencies: faiss-gpu or faiss-cpu, numpy, pandas, psutil, matplotlib.
@@ -58,13 +59,30 @@ except Exception:
 
 
 # ----------------------------------------------------------------------
+DEFAULT_ET3_EMBEDDINGS = (
+    'runs/et3_fresh50_full_catalog_20260616/fresh_mixed_encoders/'
+    'et3_noisy_mixed_sis_pm_ep50/test_embeddings.npy'
+)
+DEFAULT_ET3_META = 'runs/p2a_ann_et3_noisy_meta_20260618/catalog_meta.csv'
+
+
 def load_inputs(emb_path, meta_path):
     emb = np.load(emb_path).astype('float32')
     meta = pd.read_csv(meta_path)
     assert len(emb) == len(meta), f"emb {len(emb)} != meta {len(meta)}"
+    norms = np.linalg.norm(emb, axis=1)
+    norm_audit = {
+        'norm_min_before': float(norms.min()),
+        'norm_mean_before': float(norms.mean()),
+        'norm_max_before': float(norms.max()),
+        'zero_norm_count': int(np.sum(norms < 1e-9)),
+    }
     # L2-normalise so inner product = cosine
     emb /= (np.linalg.norm(emb, axis=1, keepdims=True) + 1e-9)
-    return emb, meta
+    norm_audit['max_abs_norm_error_after'] = float(
+        np.max(np.abs(np.linalg.norm(emb, axis=1) - 1.0))
+    )
+    return emb, meta, norm_audit
 
 
 def synthesize_catalog(emb, meta, target_N, seed=0):
@@ -113,6 +131,11 @@ def dense_retrieval(emb, queries, topk):
     for s in range(0, N, block):
         e = b = emb[s:s + block]
         sims = qE @ e.T  # (nq, block)
+        # Do not let the query itself consume one of the requested neighbours.
+        in_block = (queries >= s) & (queries < s + e.shape[0])
+        if np.any(in_block):
+            rows = np.flatnonzero(in_block)
+            sims[rows, queries[rows] - s] = -np.inf
         # merge into running top-k
         cand_idx = np.arange(s, s + e.shape[0])
         allsims = np.concatenate([sims_topk, sims], axis=1)
@@ -120,22 +143,32 @@ def dense_retrieval(emb, queries, topk):
         part = np.argpartition(-allsims, topk, axis=1)[:, :topk]
         sims_topk = np.take_along_axis(allsims, part, axis=1)
         idx_topk = np.take_along_axis(allidx, part, axis=1)
+    # argpartition returns the correct top-k set in arbitrary order. Metrics at
+    # k<topk require an exact descending order within that set.
+    order = np.argsort(-sims_topk, axis=1)
+    idx_topk = np.take_along_axis(idx_topk, order, axis=1)
     dt = time.time() - t0
     return idx_topk, dt
 
 
-def ann_retrieval(emb, queries, topk, hnsw_M=32, ef=128):
+def ann_retrieval(emb, queries, topk, hnsw_M=32,
+                  ef_construction=256, ef_search=512):
     """FAISS HNSW approximate retrieval. O(N log N) build, O(K log N) query."""
     d = emb.shape[1]
     t0 = time.time()
     index = faiss.IndexHNSWFlat(d, hnsw_M, faiss.METRIC_INNER_PRODUCT)
-    index.hnsw.efConstruction = ef
+    index.hnsw.efConstruction = ef_construction
     index.add(emb)
     build_t = time.time() - t0
-    index.hnsw.efSearch = ef
+    index.hnsw.efSearch = max(ef_search, topk + 1)
     t0 = time.time()
-    _, I = index.search(emb[queries], topk)
+    # Search one extra item, then remove the exact self match per query.
+    _, raw_I = index.search(emb[queries], topk + 1)
     query_t = time.time() - t0
+    I = np.full((len(queries), topk), -1, dtype=np.int64)
+    for row, query in enumerate(queries):
+        keep = raw_I[row][raw_I[row] != query]
+        I[row, :min(topk, len(keep))] = keep[:topk]
     return I, build_t, query_t
 
 
@@ -176,23 +209,45 @@ def partner_recall(neigh_idx, meta, queries, ks=(1, 10, 50)):
 # ----------------------------------------------------------------------
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--embeddings', required=True)
-    ap.add_argument('--meta', required=True)
-    ap.add_argument('--sizes', type=int, nargs='+', default=[10000, 100000, 1000000])
+    ap.add_argument('--embeddings', default=DEFAULT_ET3_EMBEDDINGS,
+                    help='defaults to the validated ET-3 noisy test embeddings')
+    ap.add_argument('--meta', default=DEFAULT_ET3_META,
+                    help='defaults to the matching ET-3 noisy test metadata')
+    ap.add_argument('--sizes', type=int, nargs='+', default=[9000, 10000, 100000, 1000000])
     ap.add_argument('--topk', type=int, default=200)
+    ap.add_argument('--hnsw-m', type=int, default=32)
+    ap.add_argument('--ef-construction', type=int, default=256)
+    ap.add_argument('--ef-search', type=int, default=512)
+    ap.add_argument('--faiss-threads', type=int, default=0,
+                    help='0 keeps the FAISS/OpenMP default')
     ap.add_argument('--synthesize', action='store_true',
                     help='tile/perturb real data up to each size (label synthetic)')
     ap.add_argument('--max_queries', type=int, default=2000,
                     help='cap lensed queries for timing (recall is unbiased)')
-    ap.add_argument('--out', default='runs/p2a_ann')
+    ap.add_argument('--out', default='runs/p2a_ann_et3_noisy_retuned_20260618')
     args = ap.parse_args()
     os.makedirs(args.out, exist_ok=True)
 
-    emb0, meta0 = load_inputs(args.embeddings, args.meta)
+    emb0, meta0, norm_audit = load_inputs(args.embeddings, args.meta)
     print(f"loaded {len(emb0)} real events, dim={emb0.shape[1]}")
+    print('embedding norm audit:', json.dumps(norm_audit, sort_keys=True))
     if not HAVE_FAISS:
         print("WARNING: faiss not installed; install faiss-cpu or faiss-gpu. "
               "Running dense-only.")
+
+    if HAVE_FAISS and args.faiss_threads > 0:
+        faiss.omp_set_num_threads(args.faiss_threads)
+    run_config = {
+        **vars(args),
+        'embedding_shape': list(emb0.shape),
+        'embedding_norm_audit': norm_audit,
+        'faiss_version': getattr(faiss, '__version__', None) if HAVE_FAISS else None,
+        'faiss_threads': faiss.omp_get_max_threads() if HAVE_FAISS else None,
+        'metric': 'cosine_via_l2_normalized_inner_product',
+        'self_matches_excluded': True,
+    }
+    with open(os.path.join(args.out, 'run_config.json'), 'w') as f:
+        json.dump(run_config, f, indent=2, sort_keys=True)
 
     rows = []
     for N in args.sizes:
@@ -223,7 +278,12 @@ def main():
             pr_dense = partner_recall(dense_idx, meta, q_all)
             rows.append(dict(N=N, synthetic=synth, method='dense_exhaustive',
                              build_s=0.0, query_s=dense_t, total_s=dense_t,
-                             peak_mem_mb=mem_dense, n_candidate_edges=N * (N - 1) // 2,
+                             n_queries=len(q_all),
+                             query_s_per_1k=dense_t * 1000 / max(len(q_all), 1),
+                             projected_full_query_s=dense_t * N / max(len(q_all), 1),
+                             projected_full_total_s=dense_t * N / max(len(q_all), 1),
+                             rss_delta_mb=mem_dense,
+                             n_candidate_edges=N * (N - 1) // 2,
                              **pr_dense))
             print(f"N={N} dense: query={dense_t:.1f}s mem={mem_dense:.0f}MB "
                   f"partner_recall@10={pr_dense.get('partner_recall@10', float('nan')):.3f}")
@@ -231,14 +291,30 @@ def main():
         # ANN
         if HAVE_FAISS:
             m0 = peak_mem_mb()
-            ann_idx, build_t, query_t = ann_retrieval(emb, q_all, args.topk)
+            ann_idx, build_t, query_t = ann_retrieval(
+                emb, q_all, args.topk,
+                hnsw_M=args.hnsw_m,
+                ef_construction=args.ef_construction,
+                ef_search=args.ef_search,
+            )
             mem_ann = peak_mem_mb() - m0
             pr_ann = partner_recall(ann_idx, meta, q_all)
             rec = recall_vs_dense(ann_idx, dense_idx) if dense_idx is not None else {}
             rows.append(dict(N=N, synthetic=synth, method='ann_hnsw',
                              build_s=build_t, query_s=query_t,
-                             total_s=build_t + query_t, peak_mem_mb=mem_ann,
-                             n_candidate_edges=N * args.topk, **pr_ann, **rec))
+                             total_s=build_t + query_t,
+                             n_queries=len(q_all),
+                             query_s_per_1k=query_t * 1000 / max(len(q_all), 1),
+                             projected_full_query_s=query_t * N / max(len(q_all), 1),
+                             projected_full_total_s=(
+                                 build_t + query_t * N / max(len(q_all), 1)
+                             ),
+                             rss_delta_mb=mem_ann,
+                             n_candidate_edges=N * args.topk,
+                             hnsw_M=args.hnsw_m,
+                             ef_construction=args.ef_construction,
+                             ef_search=args.ef_search,
+                             **pr_ann, **rec))
             print(f"N={N} ANN: build={build_t:.1f}s query={query_t:.2f}s mem={mem_ann:.0f}MB "
                   f"partner_recall@10={pr_ann.get('partner_recall@10', float('nan')):.3f} "
                   f"recall_vs_dense@10={rec.get('recall@10_vs_dense', float('nan')):.3f}")
@@ -252,17 +328,21 @@ def main():
         import matplotlib
         matplotlib.use('Agg')
         import matplotlib.pyplot as plt
-        fig, axes = plt.subplots(1, 2, figsize=(8, 3.2))
+        fig, axes = plt.subplots(1, 3, figsize=(12, 3.2))
         for meth, mk in [('dense_exhaustive', '-o'), ('ann_hnsw', '-s')]:
             sub = df[df.method == meth].sort_values('N')
             if len(sub):
-                axes[0].loglog(sub.N, sub.total_s, mk, label=meth)
-                axes[1].semilogx(sub.N, [sub.iloc[i].get('partner_recall@10', np.nan)
-                                         for i in range(len(sub))], mk, label=meth)
-        axes[0].set_xlabel('catalog size N'); axes[0].set_ylabel('wall-clock (s)')
-        axes[0].set_title('Runtime: ANN vs exhaustive'); axes[0].legend(); axes[0].grid(alpha=.3, which='both')
-        axes[1].set_xlabel('catalog size N'); axes[1].set_ylabel('partner recall@10')
-        axes[1].set_title('Retrieval quality preserved'); axes[1].legend(); axes[1].grid(alpha=.3)
+                axes[0].loglog(sub.N, sub.projected_full_total_s, mk, label=meth)
+                axes[2].semilogx(sub.N, sub['partner_recall@10'], mk, label=meth)
+        ann = df[df.method == 'ann_hnsw'].sort_values('N')
+        if len(ann) and 'recall@10_vs_dense' in ann:
+            axes[1].semilogx(ann.N, ann['recall@10_vs_dense'], '-s', color='C1')
+        axes[0].set_xlabel('catalog size N'); axes[0].set_ylabel('projected full-query time (s)')
+        axes[0].set_title('End-to-end runtime projection'); axes[0].legend(); axes[0].grid(alpha=.3, which='both')
+        axes[1].set_xlabel('catalog size N'); axes[1].set_ylabel('ANN recall@10 vs exact')
+        axes[1].set_ylim(0, 1.02); axes[1].set_title('ANN fidelity'); axes[1].grid(alpha=.3)
+        axes[2].set_xlabel('catalog size N'); axes[2].set_ylabel('partner recall@10')
+        axes[2].set_title('Native + synthetic stress test'); axes[2].legend(); axes[2].grid(alpha=.3)
         plt.tight_layout()
         plt.savefig(os.path.join(args.out, 'ann_scaling.png'), dpi=200)
         plt.savefig(os.path.join(args.out, 'ann_scaling.pdf'))

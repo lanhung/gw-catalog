@@ -9,6 +9,13 @@ results/
 *.bak_*
 runs/
 # Large experiment/data artifacts
+LATEST_*_LOG_DIR.txt
+LATEST_*_RUN_ROOT.txt
+LATEST_*_MATCHSTYLE.txt
+data_generation/**/*_outputs/
+data_generation/**/*_matchroots/
+data_generation/**/*_run_logs/
+data/gwtc_raw/
 *.npy
 *.npz
 *.pt
