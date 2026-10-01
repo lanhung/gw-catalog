@@ -1,0 +1,584 @@
+%apsrev4-2.bst 2019-01-14 (MD) hand-edited version of apsrev4-1.bst
+%Control: key (0)
+%Control: author (8) initials jnrlst
+%Control: editor formatted (1) identically to author
+%Control: production of article title (0) allowed
+%Control: page (0) single
+%Control: year (1) truncated
+%Control: production of eprint (0) enabled
+\begin{thebibliography}{48}%
+\makeatletter
+\providecommand \@ifxundefined [1]{%
+ \@ifx{#1\undefined}
+}%
+\providecommand \@ifnum [1]{%
+ \ifnum #1\expandafter \@firstoftwo
+ \else \expandafter \@secondoftwo
+ \fi
+}%
+\providecommand \@ifx [1]{%
+ \ifx #1\expandafter \@firstoftwo
+ \else \expandafter \@secondoftwo
+ \fi
+}%
+\providecommand \natexlab [1]{#1}%
+\providecommand \enquote  [1]{``#1''}%
+\providecommand \bibnamefont  [1]{#1}%
+\providecommand \bibfnamefont [1]{#1}%
+\providecommand \citenamefont [1]{#1}%
+\providecommand \href@noop [0]{\@secondoftwo}%
+\providecommand \href [0]{\begingroup \@sanitize@url \@href}%
+\providecommand \@href[1]{\@@startlink{#1}\@@href}%
+\providecommand \@@href[1]{\endgroup#1\@@endlink}%
+\providecommand \@sanitize@url [0]{\catcode `\\12\catcode `\$12\catcode
+  `\&12\catcode `\#12\catcode `\^12\catcode `\_12\catcode `\%12\relax}%
+\providecommand \@@startlink[1]{}%
+\providecommand \@@endlink[0]{}%
+\providecommand \url  [0]{\begingroup\@sanitize@url \@url }%
+\providecommand \@url [1]{\endgroup\@href {#1}{\urlprefix }}%
+\providecommand \urlprefix  [0]{URL }%
+\providecommand \Eprint [0]{\href }%
+\providecommand \doibase [0]{https://doi.org/}%
+\providecommand \selectlanguage [0]{\@gobble}%
+\providecommand \bibinfo  [0]{\@secondoftwo}%
+\providecommand \bibfield  [0]{\@secondoftwo}%
+\providecommand \translation [1]{[#1]}%
+\providecommand \BibitemOpen [0]{}%
+\providecommand \bibitemStop [0]{}%
+\providecommand \bibitemNoStop [0]{.\EOS\space}%
+\providecommand \EOS [0]{\spacefactor3000\relax}%
+\providecommand \BibitemShut  [1]{\csname bibitem#1\endcsname}%
+\let\auto@bib@innerbib\@empty
+%</preamble>
+\bibitem [{\citenamefont {Schneider}\ \emph {et~al.}(1992)\citenamefont
+  {Schneider}, \citenamefont {Ehlers},\ and\ \citenamefont
+  {Falco}}]{SchneiderEhlersFalco}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {P.}~\bibnamefont
+  {Schneider}}, \bibinfo {author} {\bibfnamefont {J.}~\bibnamefont {Ehlers}},\
+  and\ \bibinfo {author} {\bibfnamefont {E.~E.}\ \bibnamefont {Falco}},\
+  }\href@noop {} {\emph {\bibinfo {title} {Gravitational Lenses}}}\ (\bibinfo
+  {publisher} {Springer},\ \bibinfo {address} {Berlin},\ \bibinfo {year}
+  {1992})\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Narayan}\ and\ \citenamefont
+  {Bartelmann}(1996)}]{NarayanBartelmann}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {R.}~\bibnamefont
+  {Narayan}}\ and\ \bibinfo {author} {\bibfnamefont {M.}~\bibnamefont
+  {Bartelmann}},\ }\href@noop {} {\bibinfo {title} {Lectures on gravitational
+  lensing}} (\bibinfo {year} {1996}),\ \Eprint
+  {https://arxiv.org/abs/astro-ph/9606001} {arXiv:astro-ph/9606001}
+  \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Wang}\ \emph {et~al.}(1996)\citenamefont {Wang},
+  \citenamefont {Stebbins},\ and\ \citenamefont {Turner}}]{Wang1996}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {Y.}~\bibnamefont
+  {Wang}}, \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont {Stebbins}},\
+  and\ \bibinfo {author} {\bibfnamefont {E.~L.}\ \bibnamefont {Turner}},\
+  }\bibfield  {title} {\bibinfo {title} {Gravitational lensing of gravitational
+  waves from merging neutron star binaries},\ }\href@noop {} {\bibfield
+  {journal} {\bibinfo  {journal} {Phys. Rev. Lett.}\ }\textbf {\bibinfo
+  {volume} {77}},\ \bibinfo {pages} {2875} (\bibinfo {year}
+  {1996})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Nakamura}(1998)}]{Nakamura1998}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {T.~T.}\ \bibnamefont
+  {Nakamura}},\ }\bibfield  {title} {\bibinfo {title} {Gravitational lensing of
+  gravitational waves from inspiraling binaries by a point mass lens},\
+  }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Phys. Rev. Lett.}\
+  }\textbf {\bibinfo {volume} {80}},\ \bibinfo {pages} {1138} (\bibinfo {year}
+  {1998})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Takahashi}\ and\ \citenamefont
+  {Nakamura}(2003)}]{TakahashiNakamura2003}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {R.}~\bibnamefont
+  {Takahashi}}\ and\ \bibinfo {author} {\bibfnamefont {T.}~\bibnamefont
+  {Nakamura}},\ }\bibfield  {title} {\bibinfo {title} {Wave effects in the
+  gravitational lensing of gravitational waves from chirping binaries},\
+  }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Astrophys. J.}\
+  }\textbf {\bibinfo {volume} {595}},\ \bibinfo {pages} {1039} (\bibinfo {year}
+  {2003})},\ \Eprint {https://arxiv.org/abs/astro-ph/0305055}
+  {arXiv:astro-ph/0305055} \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Dai}\ and\ \citenamefont
+  {Venumadhav}(2017)}]{DaiVenumadhav2017}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {L.}~\bibnamefont
+  {Dai}}\ and\ \bibinfo {author} {\bibfnamefont {T.}~\bibnamefont
+  {Venumadhav}},\ }\href@noop {} {\bibinfo {title} {On the waveforms of
+  gravitationally lensed gravitational waves}} (\bibinfo {year} {2017}),\
+  \Eprint {https://arxiv.org/abs/1702.04724} {arXiv:1702.04724} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Ezquiaga}\ \emph {et~al.}(2021)\citenamefont
+  {Ezquiaga}, \citenamefont {Holz}, \citenamefont {Hu}, \citenamefont {Lagos},\
+  and\ \citenamefont {Wald}}]{Ezquiaga2021}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.~M.}\ \bibnamefont
+  {Ezquiaga}}, \bibinfo {author} {\bibfnamefont {D.~E.}\ \bibnamefont {Holz}},
+  \bibinfo {author} {\bibfnamefont {W.}~\bibnamefont {Hu}}, \bibinfo {author}
+  {\bibfnamefont {M.}~\bibnamefont {Lagos}},\ and\ \bibinfo {author}
+  {\bibfnamefont {R.~M.}\ \bibnamefont {Wald}},\ }\bibfield  {title} {\bibinfo
+  {title} {Phase effects from strong gravitational lensing of gravitational
+  waves},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Phys.
+  Rev. D}\ }\textbf {\bibinfo {volume} {103}},\ \bibinfo {pages} {064047}
+  (\bibinfo {year} {2021})},\ \Eprint {https://arxiv.org/abs/2008.12814}
+  {arXiv:2008.12814} \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Haris}\ \emph {et~al.}(2018)\citenamefont {Haris},
+  \citenamefont {Mehta}, \citenamefont {Kumar}, \citenamefont {Venumadhav},\
+  and\ \citenamefont {Ajith}}]{Haris2018}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {K.}~\bibnamefont
+  {Haris}}, \bibinfo {author} {\bibfnamefont {A.~K.}\ \bibnamefont {Mehta}},
+  \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont {Kumar}}, \bibinfo
+  {author} {\bibfnamefont {T.}~\bibnamefont {Venumadhav}},\ and\ \bibinfo
+  {author} {\bibfnamefont {P.}~\bibnamefont {Ajith}},\ }\href@noop {} {\bibinfo
+  {title} {Identifying strongly lensed gravitational wave signals from binary
+  black hole mergers}} (\bibinfo {year} {2018}),\ \Eprint
+  {https://arxiv.org/abs/1807.07062} {arXiv:1807.07062} \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Oguri}(2018)}]{Oguri2018}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {M.}~\bibnamefont
+  {Oguri}},\ }\bibfield  {title} {\bibinfo {title} {Effect of gravitational
+  lensing on the distribution of gravitational waves from distant binary black
+  hole mergers},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal}
+  {Mon. Not. R. Astron. Soc.}\ }\textbf {\bibinfo {volume} {480}},\ \bibinfo
+  {pages} {3842} (\bibinfo {year} {2018})},\ \Eprint
+  {https://arxiv.org/abs/1807.02584} {arXiv:1807.02584} \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Xu}\ \emph {et~al.}(2022)\citenamefont {Xu},
+  \citenamefont {Ezquiaga},\ and\ \citenamefont {Holz}}]{Xu2022}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {F.}~\bibnamefont
+  {Xu}}, \bibinfo {author} {\bibfnamefont {J.~M.}\ \bibnamefont {Ezquiaga}},\
+  and\ \bibinfo {author} {\bibfnamefont {D.~E.}\ \bibnamefont {Holz}},\
+  }\bibfield  {title} {\bibinfo {title} {Please repeat: Strong lensing of
+  gravitational waves as a probe of compact binary and galaxy populations},\
+  }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Astrophys. J.}\
+  }\textbf {\bibinfo {volume} {929}},\ \bibinfo {pages} {9} (\bibinfo {year}
+  {2022})},\ \Eprint {https://arxiv.org/abs/2105.14390} {arXiv:2105.14390}
+  \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Hannuksela}\ \emph {et~al.}(2020)\citenamefont
+  {Hannuksela}, \citenamefont {Collett}, \citenamefont
+  {{\c{C}}al{\i}{\c{s}}kan},\ and\ \citenamefont {Li}}]{Hannuksela2020loc}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {O.~A.}\ \bibnamefont
+  {Hannuksela}}, \bibinfo {author} {\bibfnamefont {T.~E.}\ \bibnamefont
+  {Collett}}, \bibinfo {author} {\bibfnamefont {M.}~\bibnamefont
+  {{\c{C}}al{\i}{\c{s}}kan}},\ and\ \bibinfo {author} {\bibfnamefont
+  {T.~G.~F.}\ \bibnamefont {Li}},\ }\bibfield  {title} {\bibinfo {title}
+  {Localizing merging black holes with sub-arcsecond precision using
+  gravitational-wave lensing},\ }\href@noop {} {\bibfield  {journal} {\bibinfo
+  {journal} {Mon. Not. R. Astron. Soc.}\ }\textbf {\bibinfo {volume} {498}},\
+  \bibinfo {pages} {3395} (\bibinfo {year} {2020})},\ \Eprint
+  {https://arxiv.org/abs/2004.13811} {arXiv:2004.13811} \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Ng}\ \emph {et~al.}(2018)\citenamefont {Ng},
+  \citenamefont {Wong}, \citenamefont {Broadhurst},\ and\ \citenamefont
+  {Li}}]{Ng2018}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {K.~K.~Y.}\
+  \bibnamefont {Ng}}, \bibinfo {author} {\bibfnamefont {K.~W.~K.}\ \bibnamefont
+  {Wong}}, \bibinfo {author} {\bibfnamefont {T.}~\bibnamefont {Broadhurst}},\
+  and\ \bibinfo {author} {\bibfnamefont {T.~G.~F.}\ \bibnamefont {Li}},\
+  }\bibfield  {title} {\bibinfo {title} {Precise {LIGO} lensing rate
+  predictions for binary black holes},\ }\href@noop {} {\bibfield  {journal}
+  {\bibinfo  {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume} {97}},\
+  \bibinfo {pages} {023012} (\bibinfo {year} {2018})},\ \Eprint
+  {https://arxiv.org/abs/1703.06319} {arXiv:1703.06319} \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Li}\ \emph {et~al.}(2018)\citenamefont {Li},
+  \citenamefont {Mao}, \citenamefont {Zhao},\ and\ \citenamefont
+  {Lu}}]{Li2018}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {S.-S.}\ \bibnamefont
+  {Li}}, \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont {Mao}}, \bibinfo
+  {author} {\bibfnamefont {Y.}~\bibnamefont {Zhao}},\ and\ \bibinfo {author}
+  {\bibfnamefont {Y.}~\bibnamefont {Lu}},\ }\bibfield  {title} {\bibinfo
+  {title} {Gravitational lensing of gravitational waves: a statistical
+  perspective},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal}
+  {Mon. Not. R. Astron. Soc.}\ }\textbf {\bibinfo {volume} {476}},\ \bibinfo
+  {pages} {2220} (\bibinfo {year} {2018})},\ \Eprint
+  {https://arxiv.org/abs/1802.05089} {arXiv:1802.05089} \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Wierda}\ \emph {et~al.}(2021)\citenamefont {Wierda},
+  \citenamefont {Wempe}, \citenamefont {Hannuksela}, \citenamefont {Koopmans},\
+  and\ \citenamefont {Van Den~Broeck}}]{Wierda2021}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.~R. A.~C.}\
+  \bibnamefont {Wierda}}, \bibinfo {author} {\bibfnamefont {E.}~\bibnamefont
+  {Wempe}}, \bibinfo {author} {\bibfnamefont {O.~A.}\ \bibnamefont
+  {Hannuksela}}, \bibinfo {author} {\bibfnamefont {L.~V.~E.}\ \bibnamefont
+  {Koopmans}},\ and\ \bibinfo {author} {\bibfnamefont {C.}~\bibnamefont {Van
+  Den~Broeck}},\ }\bibfield  {title} {\bibinfo {title} {Beyond the detector
+  horizon: Forecasting gravitational-wave strong lensing},\ }\href@noop {}
+  {\bibfield  {journal} {\bibinfo  {journal} {Astrophys. J.}\ }\textbf
+  {\bibinfo {volume} {921}},\ \bibinfo {pages} {154} (\bibinfo {year}
+  {2021})},\ \Eprint {https://arxiv.org/abs/2106.06303} {arXiv:2106.06303}
+  \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Hannuksela}\ \emph {et~al.}(2019)\citenamefont
+  {Hannuksela}, \citenamefont {Haris}, \citenamefont {Ng}, \citenamefont
+  {Kumar}, \citenamefont {Mehta}, \citenamefont {Keitel}, \citenamefont {Li},\
+  and\ \citenamefont {Ajith}}]{Hannuksela2019}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {O.~A.}\ \bibnamefont
+  {Hannuksela}}, \bibinfo {author} {\bibfnamefont {K.}~\bibnamefont {Haris}},
+  \bibinfo {author} {\bibfnamefont {K.~K.~Y.}\ \bibnamefont {Ng}}, \bibinfo
+  {author} {\bibfnamefont {S.}~\bibnamefont {Kumar}}, \bibinfo {author}
+  {\bibfnamefont {A.~K.}\ \bibnamefont {Mehta}}, \bibinfo {author}
+  {\bibfnamefont {D.}~\bibnamefont {Keitel}}, \bibinfo {author} {\bibfnamefont
+  {T.~G.~F.}\ \bibnamefont {Li}},\ and\ \bibinfo {author} {\bibfnamefont
+  {P.}~\bibnamefont {Ajith}},\ }\bibfield  {title} {\bibinfo {title} {Search
+  for gravitational lensing signatures in {LIGO-Virgo} binary black hole
+  events},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal}
+  {Astrophys. J. Lett.}\ }\textbf {\bibinfo {volume} {874}},\ \bibinfo {pages}
+  {L2} (\bibinfo {year} {2019})},\ \Eprint {https://arxiv.org/abs/1901.02674}
+  {arXiv:1901.02674} \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Liu}\ \emph {et~al.}(2021)\citenamefont {Liu},
+  \citenamefont {Maga{\~n}a~Hernandez},\ and\ \citenamefont
+  {Creighton}}]{LiuO2}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {X.}~\bibnamefont
+  {Liu}}, \bibinfo {author} {\bibfnamefont {I.}~\bibnamefont
+  {Maga{\~n}a~Hernandez}},\ and\ \bibinfo {author} {\bibfnamefont
+  {J.}~\bibnamefont {Creighton}},\ }\bibfield  {title} {\bibinfo {title}
+  {Identifying strong gravitational-wave lensing during the second observing
+  run of {Advanced LIGO} and {Advanced Virgo}},\ }\href@noop {} {\bibfield
+  {journal} {\bibinfo  {journal} {Astrophys. J.}\ }\textbf {\bibinfo {volume}
+  {908}},\ \bibinfo {pages} {97} (\bibinfo {year} {2021})},\ \Eprint
+  {https://arxiv.org/abs/2009.06539} {arXiv:2009.06539} \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {{LIGO Scientific Collaboration and Virgo
+  Collaboration}}(2021)}]{LVKO3a}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibnamefont {{LIGO Scientific
+  Collaboration and Virgo Collaboration}}},\ }\bibfield  {title} {\bibinfo
+  {title} {Search for lensing signatures in the gravitational-wave observations
+  from the first half of {LIGO-Virgo}'s third observing run},\ }\href@noop {}
+  {\bibfield  {journal} {\bibinfo  {journal} {Astrophys. J.}\ }\textbf
+  {\bibinfo {volume} {923}},\ \bibinfo {pages} {14} (\bibinfo {year} {2021})},\
+  \Eprint {https://arxiv.org/abs/2105.06384} {arXiv:2105.06384} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {{LIGO Scientific Collaboration, Virgo Collaboration
+  and KAGRA Collaboration}}(2024)}]{LVKO3}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibnamefont {{LIGO Scientific
+  Collaboration, Virgo Collaboration and KAGRA Collaboration}}},\ }\bibfield
+  {title} {\bibinfo {title} {Search for gravitational-lensing signatures in the
+  full third observing run of the {LIGO-Virgo} network},\ }\href@noop {}
+  {\bibfield  {journal} {\bibinfo  {journal} {Astrophys. J.}\ }\textbf
+  {\bibinfo {volume} {970}},\ \bibinfo {pages} {191} (\bibinfo {year}
+  {2024})},\ \Eprint {https://arxiv.org/abs/2304.08393} {arXiv:2304.08393}
+  \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Janquart}\ \emph {et~al.}(2023)\citenamefont
+  {Janquart} \emph {et~al.}}]{Janquart2023followup}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.}~\bibnamefont
+  {Janquart}} \emph {et~al.},\ }\bibfield  {title} {\bibinfo {title} {Follow-up
+  analyses to the {O3 LIGO-Virgo-KAGRA} lensing searches},\ }\href@noop {}
+  {\bibfield  {journal} {\bibinfo  {journal} {Mon. Not. R. Astron. Soc.}\
+  }\textbf {\bibinfo {volume} {526}},\ \bibinfo {pages} {3832} (\bibinfo {year}
+  {2023})},\ \Eprint {https://arxiv.org/abs/2306.03827} {arXiv:2306.03827}
+  \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Dai}\ \emph {et~al.}(2020)\citenamefont {Dai},
+  \citenamefont {Zackay}, \citenamefont {Venumadhav}, \citenamefont {Roulet},\
+  and\ \citenamefont {Zaldarriaga}}]{Dai2020}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {L.}~\bibnamefont
+  {Dai}}, \bibinfo {author} {\bibfnamefont {B.}~\bibnamefont {Zackay}},
+  \bibinfo {author} {\bibfnamefont {T.}~\bibnamefont {Venumadhav}}, \bibinfo
+  {author} {\bibfnamefont {J.}~\bibnamefont {Roulet}},\ and\ \bibinfo {author}
+  {\bibfnamefont {M.}~\bibnamefont {Zaldarriaga}},\ }\href@noop {} {\bibinfo
+  {title} {Search for lensed gravitational waves including morse phase
+  information: An intriguing candidate in {O2}}} (\bibinfo {year} {2020}),\
+  \Eprint {https://arxiv.org/abs/2007.12709} {arXiv:2007.12709} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {{LIGO Scientific Collaboration, Virgo Collaboration
+  and KAGRA Collaboration}}(2025)}]{GWTC4}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibnamefont {{LIGO Scientific
+  Collaboration, Virgo Collaboration and KAGRA Collaboration}}},\ }\href@noop
+  {} {\bibinfo {title} {{GWTC-4.0}: Updating the gravitational-wave transient
+  catalog with observations from the first part of the fourth
+  {LIGO-Virgo-KAGRA} observing run}} (\bibinfo {year} {2025}),\ \bibinfo {note}
+  {vERIFY arXiv number and journal reference},\ \Eprint
+  {https://arxiv.org/abs/2508.18082} {arXiv:2508.18082} \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {{LIGO Scientific Collaboration, Virgo Collaboration
+  and KAGRA Collaboration}}(2026)}]{GWTC5}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibnamefont {{LIGO Scientific
+  Collaboration, Virgo Collaboration and KAGRA Collaboration}}},\ }\href@noop
+  {} {\bibinfo {title} {{GWTC-5.0}: compact binary coalescences observed during
+  the second part of the fourth observing run (search results data release
+  {IGWN-GWTC5p0})}},\ \bibinfo {howpublished} {Zenodo data release} (\bibinfo
+  {year} {2026}),\ \bibinfo {note} {vERIFY: complete with the catalogue paper
+  and DOI}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Punturo}\ \emph {et~al.}(2010)\citenamefont {Punturo}
+  \emph {et~al.}}]{Punturo2010}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {M.}~\bibnamefont
+  {Punturo}} \emph {et~al.},\ }\bibfield  {title} {\bibinfo {title} {The
+  {Einstein Telescope}: a third-generation gravitational wave observatory},\
+  }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Class. Quantum
+  Grav.}\ }\textbf {\bibinfo {volume} {27}},\ \bibinfo {pages} {194002}
+  (\bibinfo {year} {2010})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Maggiore}\ \emph {et~al.}(2020)\citenamefont
+  {Maggiore} \emph {et~al.}}]{Maggiore2020}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {M.}~\bibnamefont
+  {Maggiore}} \emph {et~al.},\ }\bibfield  {title} {\bibinfo {title} {Science
+  case for the {Einstein Telescope}},\ }\href@noop {} {\bibfield  {journal}
+  {\bibinfo  {journal} {J. Cosmol. Astropart. Phys.}\ }\textbf {\bibinfo
+  {volume} {03}},\ \bibinfo {pages} {050}},\ \Eprint
+  {https://arxiv.org/abs/1912.02622} {arXiv:1912.02622} \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Branchesi}\ \emph {et~al.}(2023)\citenamefont
+  {Branchesi} \emph {et~al.}}]{Branchesi2023}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {M.}~\bibnamefont
+  {Branchesi}} \emph {et~al.},\ }\bibfield  {title} {\bibinfo {title} {Science
+  with the {Einstein Telescope}: a comparison of different designs},\
+  }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {J. Cosmol.
+  Astropart. Phys.}\ }\textbf {\bibinfo {volume} {07}},\ \bibinfo {pages}
+  {068}},\ \Eprint {https://arxiv.org/abs/2303.15923} {arXiv:2303.15923}
+  \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Lo}\ and\ \citenamefont
+  {Maga{\~n}a~Hernandez}(2023)}]{LoHernandez2023}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {R.~K.~L.}\
+  \bibnamefont {Lo}}\ and\ \bibinfo {author} {\bibfnamefont {I.}~\bibnamefont
+  {Maga{\~n}a~Hernandez}},\ }\bibfield  {title} {\bibinfo {title} {Bayesian
+  statistical framework for identifying strongly lensed gravitational-wave
+  signals},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Phys.
+  Rev. D}\ }\textbf {\bibinfo {volume} {107}},\ \bibinfo {pages} {123015}
+  (\bibinfo {year} {2023})},\ \Eprint {https://arxiv.org/abs/2104.09339}
+  {arXiv:2104.09339} \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Janquart}\ \emph {et~al.}(2021)\citenamefont
+  {Janquart}, \citenamefont {Hannuksela}, \citenamefont {Haris},\ and\
+  \citenamefont {Van Den~Broeck}}]{Janquart2021GOLUM}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.}~\bibnamefont
+  {Janquart}}, \bibinfo {author} {\bibfnamefont {O.~A.}\ \bibnamefont
+  {Hannuksela}}, \bibinfo {author} {\bibfnamefont {K.}~\bibnamefont {Haris}},\
+  and\ \bibinfo {author} {\bibfnamefont {C.}~\bibnamefont {Van Den~Broeck}},\
+  }\bibfield  {title} {\bibinfo {title} {A fast and precise methodology to
+  search for and analyse strongly lensed gravitational-wave events},\
+  }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Mon. Not. R.
+  Astron. Soc.}\ }\textbf {\bibinfo {volume} {506}},\ \bibinfo {pages} {5430}
+  (\bibinfo {year} {2021})},\ \Eprint {https://arxiv.org/abs/2105.04536}
+  {arXiv:2105.04536} \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Goyal}\ \emph {et~al.}(2021)\citenamefont {Goyal},
+  \citenamefont {Harikrishnan}, \citenamefont {Kapadia},\ and\ \citenamefont
+  {Ajith}}]{Goyal2021}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {S.}~\bibnamefont
+  {Goyal}}, \bibinfo {author} {\bibfnamefont {D.}~\bibnamefont {Harikrishnan}},
+  \bibinfo {author} {\bibfnamefont {S.~J.}\ \bibnamefont {Kapadia}},\ and\
+  \bibinfo {author} {\bibfnamefont {P.}~\bibnamefont {Ajith}},\ }\bibfield
+  {title} {\bibinfo {title} {Rapid identification of strongly lensed
+  gravitational-wave events with machine learning},\ }\href@noop {} {\bibfield
+  {journal} {\bibinfo  {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume}
+  {104}},\ \bibinfo {pages} {124057} (\bibinfo {year} {2021})},\ \Eprint
+  {https://arxiv.org/abs/2106.12466} {arXiv:2106.12466} \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {{SEMD authors}}(2024)}]{SEMD}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibnamefont {{SEMD authors}}},\
+  }\href@noop {} {\bibinfo {title} {{SEMD}: spectrogram-based identification of
+  strongly lensed gravitational-wave pairs}} (\bibinfo {year} {2024}),\
+  \bibinfo {note} {vERIFY: complete with the published SEMD reference used for
+  the CQT--DeiT baseline}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {{LIGO Scientific Collaboration and Virgo
+  Collaboration}}(2024)}]{GWTC21}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibnamefont {{LIGO Scientific
+  Collaboration and Virgo Collaboration}}},\ }\bibfield  {title} {\bibinfo
+  {title} {{GWTC-2.1}: Deep extended catalog of compact binary coalescences
+  observed by {LIGO} and {Virgo} during the first half of the third observing
+  run},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Phys. Rev.
+  D}\ }\textbf {\bibinfo {volume} {109}},\ \bibinfo {pages} {022001} (\bibinfo
+  {year} {2024})},\ \Eprint {https://arxiv.org/abs/2108.01045}
+  {arXiv:2108.01045} \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {{LIGO Scientific Collaboration, Virgo Collaboration
+  and KAGRA Collaboration}}(2023{\natexlab{a}})}]{GWTC3}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibnamefont {{LIGO Scientific
+  Collaboration, Virgo Collaboration and KAGRA Collaboration}}},\ }\bibfield
+  {title} {\bibinfo {title} {{GWTC-3}: Compact binary coalescences observed by
+  {LIGO} and {Virgo} during the second part of the third observing run},\
+  }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Phys. Rev. X}\
+  }\textbf {\bibinfo {volume} {13}},\ \bibinfo {pages} {041039} (\bibinfo
+  {year} {2023}{\natexlab{a}})},\ \Eprint {https://arxiv.org/abs/2111.03606}
+  {arXiv:2111.03606} \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {{Planck Collaboration}}(2020)}]{Planck2018}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibnamefont {{Planck
+  Collaboration}}},\ }\bibfield  {title} {\bibinfo {title} {{Planck} 2018
+  results. {VI}. cosmological parameters},\ }\href@noop {} {\bibfield
+  {journal} {\bibinfo  {journal} {Astron. Astrophys.}\ }\textbf {\bibinfo
+  {volume} {641}},\ \bibinfo {pages} {A6} (\bibinfo {year} {2020})},\ \Eprint
+  {https://arxiv.org/abs/1807.06209} {arXiv:1807.06209} \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Pratten}\ \emph {et~al.}(2021)\citenamefont {Pratten}
+  \emph {et~al.}}]{XPHM}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {G.}~\bibnamefont
+  {Pratten}} \emph {et~al.},\ }\bibfield  {title} {\bibinfo {title}
+  {Computationally efficient models for the dominant and subdominant harmonic
+  modes of precessing binary black holes},\ }\href@noop {} {\bibfield
+  {journal} {\bibinfo  {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume}
+  {103}},\ \bibinfo {pages} {104056} (\bibinfo {year} {2021})},\ \Eprint
+  {https://arxiv.org/abs/2004.06503} {arXiv:2004.06503} \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Ashton}\ \emph {et~al.}(2019)\citenamefont {Ashton}
+  \emph {et~al.}}]{bilby}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {G.}~\bibnamefont
+  {Ashton}} \emph {et~al.},\ }\bibfield  {title} {\bibinfo {title} {{BILBY}: A
+  user-friendly {Bayesian} inference library for gravitational-wave
+  astronomy},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal}
+  {Astrophys. J. Suppl.}\ }\textbf {\bibinfo {volume} {241}},\ \bibinfo {pages}
+  {27} (\bibinfo {year} {2019})},\ \Eprint {https://arxiv.org/abs/1811.02042}
+  {arXiv:1811.02042} \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Birrer}\ and\ \citenamefont
+  {Amara}(2018)}]{lenstronomy}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {S.}~\bibnamefont
+  {Birrer}}\ and\ \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont {Amara}},\
+  }\bibfield  {title} {\bibinfo {title} {lenstronomy: Multi-purpose
+  gravitational lens modelling software package},\ }\href@noop {} {\bibfield
+  {journal} {\bibinfo  {journal} {Phys. Dark Univ.}\ }\textbf {\bibinfo
+  {volume} {22}},\ \bibinfo {pages} {189} (\bibinfo {year} {2018})},\ \Eprint
+  {https://arxiv.org/abs/1803.09746} {arXiv:1803.09746} \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {He}\ \emph {et~al.}(2016)\citenamefont {He},
+  \citenamefont {Zhang}, \citenamefont {Ren},\ and\ \citenamefont
+  {Sun}}]{ResNet}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {K.}~\bibnamefont
+  {He}}, \bibinfo {author} {\bibfnamefont {X.}~\bibnamefont {Zhang}}, \bibinfo
+  {author} {\bibfnamefont {S.}~\bibnamefont {Ren}},\ and\ \bibinfo {author}
+  {\bibfnamefont {J.}~\bibnamefont {Sun}},\ }\bibfield  {title} {\bibinfo
+  {title} {Deep residual learning for image recognition},\ }in\ \href@noop {}
+  {\emph {\bibinfo {booktitle} {Proc. IEEE Conf. Computer Vision and Pattern
+  Recognition}}}\ (\bibinfo {year} {2016})\ p.\ \bibinfo {pages} {770},\
+  \Eprint {https://arxiv.org/abs/1512.03385} {arXiv:1512.03385} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Ziyin}\ \emph {et~al.}(2020)\citenamefont {Ziyin},
+  \citenamefont {Hartwig},\ and\ \citenamefont {Ueda}}]{Snake}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {L.}~\bibnamefont
+  {Ziyin}}, \bibinfo {author} {\bibfnamefont {T.}~\bibnamefont {Hartwig}},\
+  and\ \bibinfo {author} {\bibfnamefont {M.}~\bibnamefont {Ueda}},\ }\bibfield
+  {title} {\bibinfo {title} {Neural networks fail to learn periodic functions
+  and how to fix it},\ }in\ \href@noop {} {\emph {\bibinfo {booktitle}
+  {Advances in Neural Information Processing Systems 33}}}\ (\bibinfo {year}
+  {2020})\ \Eprint {https://arxiv.org/abs/2006.08195} {arXiv:2006.08195}
+  \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Hu}\ \emph {et~al.}(2018)\citenamefont {Hu},
+  \citenamefont {Shen},\ and\ \citenamefont {Sun}}]{SENet}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.}~\bibnamefont
+  {Hu}}, \bibinfo {author} {\bibfnamefont {L.}~\bibnamefont {Shen}},\ and\
+  \bibinfo {author} {\bibfnamefont {G.}~\bibnamefont {Sun}},\ }\bibfield
+  {title} {\bibinfo {title} {Squeeze-and-excitation networks},\ }in\ \href@noop
+  {} {\emph {\bibinfo {booktitle} {Proc. IEEE Conf. Computer Vision and Pattern
+  Recognition}}}\ (\bibinfo {year} {2018})\ p.\ \bibinfo {pages} {7132},\
+  \Eprint {https://arxiv.org/abs/1709.01507} {arXiv:1709.01507} \BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Brown}(1991)}]{BrownCQT}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.~C.}\ \bibnamefont
+  {Brown}},\ }\bibfield  {title} {\bibinfo {title} {Calculation of a constant
+  {Q} spectral transform},\ }\href@noop {} {\bibfield  {journal} {\bibinfo
+  {journal} {J. Acoust. Soc. Am.}\ }\textbf {\bibinfo {volume} {89}},\ \bibinfo
+  {pages} {425} (\bibinfo {year} {1991})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Touvron}\ \emph {et~al.}(2021)\citenamefont
+  {Touvron}, \citenamefont {Cord}, \citenamefont {Douze}, \citenamefont
+  {Massa}, \citenamefont {Sablayrolles},\ and\ \citenamefont
+  {J{\'e}gou}}]{DeiT}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {H.}~\bibnamefont
+  {Touvron}}, \bibinfo {author} {\bibfnamefont {M.}~\bibnamefont {Cord}},
+  \bibinfo {author} {\bibfnamefont {M.}~\bibnamefont {Douze}}, \bibinfo
+  {author} {\bibfnamefont {F.}~\bibnamefont {Massa}}, \bibinfo {author}
+  {\bibfnamefont {A.}~\bibnamefont {Sablayrolles}},\ and\ \bibinfo {author}
+  {\bibfnamefont {H.}~\bibnamefont {J{\'e}gou}},\ }\bibfield  {title} {\bibinfo
+  {title} {Training data-efficient image transformers \& distillation through
+  attention},\ }in\ \href@noop {} {\emph {\bibinfo {booktitle} {Proc. 38th Int.
+  Conf. Machine Learning}}}\ (\bibinfo {year} {2021})\ \Eprint
+  {https://arxiv.org/abs/2012.12877} {arXiv:2012.12877} \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {{LIGO Scientific Collaboration and Virgo
+  Collaboration}}(2016)}]{GW150914search}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibnamefont {{LIGO Scientific
+  Collaboration and Virgo Collaboration}}},\ }\bibfield  {title} {\bibinfo
+  {title} {{GW150914}: First results from the search for binary black hole
+  coalescence with advanced {LIGO}},\ }\href@noop {} {\bibfield  {journal}
+  {\bibinfo  {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume} {93}},\
+  \bibinfo {pages} {122003} (\bibinfo {year} {2016})},\ \Eprint
+  {https://arxiv.org/abs/1602.03839} {arXiv:1602.03839} \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Efron}(1979)}]{Efron1979}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {B.}~\bibnamefont
+  {Efron}},\ }\bibfield  {title} {\bibinfo {title} {Bootstrap methods: Another
+  look at the jackknife},\ }\href@noop {} {\bibfield  {journal} {\bibinfo
+  {journal} {Ann. Statist.}\ }\textbf {\bibinfo {volume} {7}},\ \bibinfo
+  {pages} {1} (\bibinfo {year} {1979})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Wang}\ \emph {et~al.}(2021)\citenamefont {Wang},
+  \citenamefont {Lo}, \citenamefont {Li},\ and\ \citenamefont
+  {Chen}}]{Wang2021typeII}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {Y.}~\bibnamefont
+  {Wang}}, \bibinfo {author} {\bibfnamefont {R.~K.~L.}\ \bibnamefont {Lo}},
+  \bibinfo {author} {\bibfnamefont {A.~K.~Y.}\ \bibnamefont {Li}},\ and\
+  \bibinfo {author} {\bibfnamefont {Y.}~\bibnamefont {Chen}},\ }\bibfield
+  {title} {\bibinfo {title} {Identifying type {II} strongly lensed
+  gravitational-wave images in third-generation gravitational-wave detectors},\
+  }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Phys. Rev. D}\
+  }\textbf {\bibinfo {volume} {103}},\ \bibinfo {pages} {104055} (\bibinfo
+  {year} {2021})},\ \Eprint {https://arxiv.org/abs/2101.08264}
+  {arXiv:2101.08264} \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Campailla}\ \emph {et~al.}(2025)\citenamefont
+  {Campailla} \emph {et~al.}}]{Campailla}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
+  {Campailla}} \emph {et~al.},\ }\href@noop {} {\bibinfo {title} {Catalog-level
+  lensed gravitational-wave discovery}} (\bibinfo {year} {2025}),\ \bibinfo
+  {note} {vERIFY: reference supplied by the authors (``Catalog Level Lensed GW
+  Discovery''); complete authors, title and arXiv number}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {{\c{C}}al{\i}{\c{s}}kan}\ \emph
+  {et~al.}(2023)\citenamefont {{\c{C}}al{\i}{\c{s}}kan}, \citenamefont
+  {Ezquiaga}, \citenamefont {Hannuksela},\ and\ \citenamefont
+  {Holz}}]{Caliskan2023}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {M.}~\bibnamefont
+  {{\c{C}}al{\i}{\c{s}}kan}}, \bibinfo {author} {\bibfnamefont {J.~M.}\
+  \bibnamefont {Ezquiaga}}, \bibinfo {author} {\bibfnamefont {O.~A.}\
+  \bibnamefont {Hannuksela}},\ and\ \bibinfo {author} {\bibfnamefont {D.~E.}\
+  \bibnamefont {Holz}},\ }\bibfield  {title} {\bibinfo {title} {Lensing or
+  luck? {False}-alarm probabilities for gravitational lensing of gravitational
+  waves},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Phys.
+  Rev. D}\ }\textbf {\bibinfo {volume} {107}},\ \bibinfo {pages} {063023}
+  (\bibinfo {year} {2023})},\ \Eprint {https://arxiv.org/abs/2201.04619}
+  {arXiv:2201.04619} \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {{LIGO Scientific Collaboration, Virgo Collaboration
+  and KAGRA Collaboration}}(2023{\natexlab{b}})}]{GWOSC_O3}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibnamefont {{LIGO Scientific
+  Collaboration, Virgo Collaboration and KAGRA Collaboration}}},\ }\bibfield
+  {title} {\bibinfo {title} {Open data from the third observing run of {LIGO},
+  {Virgo}, {KAGRA}, and {GEO}},\ }\href@noop {} {\bibfield  {journal} {\bibinfo
+   {journal} {Astrophys. J. Suppl.}\ }\textbf {\bibinfo {volume} {267}},\
+  \bibinfo {pages} {29} (\bibinfo {year} {2023}{\natexlab{b}})},\ \Eprint
+  {https://arxiv.org/abs/2302.03676} {arXiv:2302.03676} \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Choi}\ \emph {et~al.}(2007)\citenamefont {Choi},
+  \citenamefont {Park},\ and\ \citenamefont {Vogeley}}]{Choi2007}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {Y.-Y.}\ \bibnamefont
+  {Choi}}, \bibinfo {author} {\bibfnamefont {C.}~\bibnamefont {Park}},\ and\
+  \bibinfo {author} {\bibfnamefont {M.~S.}\ \bibnamefont {Vogeley}},\
+  }\bibfield  {title} {\bibinfo {title} {Internal and collective properties of
+  galaxies in the {Sloan Digital Sky Survey}},\ }\href@noop {} {\bibfield
+  {journal} {\bibinfo  {journal} {Astrophys. J.}\ }\textbf {\bibinfo {volume}
+  {658}},\ \bibinfo {pages} {884} (\bibinfo {year} {2007})},\ \Eprint
+  {https://arxiv.org/abs/astro-ph/0611607} {arXiv:astro-ph/0611607}
+  \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Schutz}(2011)}]{Schutz2011}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {B.~F.}\ \bibnamefont
+  {Schutz}},\ }\bibfield  {title} {\bibinfo {title} {Networks of gravitational
+  wave detectors and three figures of merit},\ }\href@noop {} {\bibfield
+  {journal} {\bibinfo  {journal} {Class. Quantum Grav.}\ }\textbf {\bibinfo
+  {volume} {28}},\ \bibinfo {pages} {125023} (\bibinfo {year} {2011})},\
+  \Eprint {https://arxiv.org/abs/1102.5421} {arXiv:1102.5421} \BibitemShut
+  {NoStop}%
+\end{thebibliography}%
