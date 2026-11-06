@@ -1,0 +1,7 @@
+label,catalogue,stage,n_events,n_pairs,false_accepts_fpp_1e-02,false_accepts_fpp_1e-03,false_accepts_fpp_1e-04,expected_lensed_pairs_low,expected_lensed_pairs_mid,expected_lensed_pairs_high,fpp_for_0p1_false_accepts
+O1-O3: all pairs,O1-O3,all pairs,63,1953,19.53,1.953,0.1953,0.018899999999999997,0.063,0.189,5.120327700972862e-05
+O1-O3: after physical tests,O1-O3,after physical tests,63,122,1.22,0.122,0.0122,0.018899999999999997,0.063,0.189,0.000819672131147541
+O4b: all pairs,O4b,all pairs,105,5460,54.6,5.46,0.546,0.0315,0.105,0.315,1.8315018315018315e-05
+O4b: after physical tests,O4b,after physical tests,105,515,5.15,0.515,0.051500000000000004,0.0315,0.105,0.315,0.0001941747572815534
+all runs combined: all pairs,all runs combined,all pairs,168,14028,140.28,14.028,1.4028,0.05039999999999999,0.168,0.504,7.128599942971201e-06
+all runs combined: after physical tests,all runs combined,after physical tests,168,637,6.37,0.637,0.0637,0.05039999999999999,0.168,0.504,0.00015698587127158556

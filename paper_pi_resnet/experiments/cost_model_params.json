@@ -1,0 +1,22 @@
+{
+  "PI": {
+    "0.01": {
+      "eff": null,
+      "note": "fill from fixed_fpp_primary_table.csv"
+    },
+    "0.001": {
+      "eff": 0.535
+    },
+    "0.0001": {
+      "eff": null,
+      "note": "fill from fixed_fpp_primary_table.csv"
+    }
+  },
+  "C_P_s": 0.00124,
+  "overlap": {
+    "eff": 0.54,
+    "fap": 1e-06,
+    "cost_s": 1.0
+  },
+  "C_PE_ref_s": 86400.0
+}

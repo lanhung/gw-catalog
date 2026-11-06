@@ -1,0 +1,20 @@
+{
+  "config": "ET",
+  "ifos": [
+    "ET"
+  ],
+  "psds": {
+    "ET": "ET_D_psd.txt"
+  },
+  "snr_threshold": 8.0,
+  "detectable_lensed_condition": "two images with network optimal SNR >= threshold",
+  "time_window_days": 365.0,
+  "ler_version": "1.0.2",
+  "unlensed_rate_per_yr": 65033.656050549354,
+  "lensed_rate_per_yr": 32.58488016546718,
+  "lensed_fraction": 0.0005010464141849816,
+  "rate_wall_s": 148.30473494529724,
+  "n_lensed_rows": 5000,
+  "n_unlensed_rows": 5000,
+  "total_wall_s": 484.9908814430237
+}
