@@ -99,9 +99,9 @@ def figures(out: Path, data: dict[str, pd.DataFrame]) -> None:
     ax.set_ylabel("Fraction of detectable lensed pairs")
     ax.legend(frameon=False, fontsize=6.5)
     ax = axes[1, 1]
-    bins = np.linspace(0, 6, 40)
+    bins = np.linspace(0, 10, 50)
     for k, L in data.items():
-        ax.hist(np.clip(L.zs, 0, 6), bins=bins, histtype="step", color=COL[k], lw=1.2, weights=np.ones(len(L)) / len(L), label=k)
+        ax.hist(np.clip(L.zs, 0, 10), bins=bins, histtype="step", color=COL[k], lw=1.2, weights=np.ones(len(L)) / len(L), label=k)
     ax.axvline(1.0, color="k", ls=":", lw=0.8)
     ax.text(1.05, ax.get_ylim()[1] * 0.9, "original $z_{\\rm max}$", fontsize=6.5)
     ax.set_xlabel("Source redshift of detectable lensed pairs")

@@ -159,45 +159,69 @@ Response (plain text, to complete after the runs):
     sensitivity. The new efficiencies at FAP 1e-3 are [..] (O4) and [..] (ET),
     compared with [..] in the original submission. Section 5.2 has been removed.
 
-### 2a. First results of the realistic population (O4 sensitivity, `ler` 1.0.2)
+### 2a. Results of the realistic population (`ler` 1.0.2), O4 and ET
 
-`scripts/population/ler_realistic_population.py --config O4` (LVK-like BBH population,
-EPL + shear galaxy lenses; detection = observed network SNR above 8 for two images,
-H1 + L1 at the aLIGO O4 ASD and V1 at the AdV ASD). Outputs in `data/ler_population/`;
-numbers from `population_summary.json` (5,000 detectable lensed systems, 5,000 unlensed
-detections):
+`scripts/population/ler_realistic_population.py --config O4|ET` (LVK-like BBH
+population: GWTC-3 Power Law + Peak masses, star-formation-history merger rate
+with time delay, sources to z = 10; EPL + shear galaxy lenses with an SDSS-type
+velocity-dispersion function, lens redshift from the optical depth, source
+position uniform in the caustic; detection = observed network SNR above 8 for
+each of two images, within ler's one-year time window). O4 = H1 + L1 at the
+aLIGO O4 ASD and V1 at the AdV ASD; ET = bilby's triangular Einstein Telescope
+at ET-D. 5,000 detectable lensed systems and 5,000 unlensed detections per
+configuration; tables in `data/ler_population/`, figure
+`fig_ler_population.pdf`, LaTeX table `experiments/population_table.tex`.
 
-| quantity | value |
-|---|---|
-| detected BBH rate | 738 per yr |
-| rate of lensed systems with two detected images | 0.28 per yr |
-| lensed fraction among detections | 3.8e-4 |
-| source redshift of detected lensed pairs | median 1.9; 89% beyond z = 1 (the original z_max) |
-| detector-frame primary mass | median 79 Msun |
-| image multiplicity | 63% quads, 10% triples, 26% doubles (two brightest detected images used) |
-| image types of the pair | type I + type II: 93%; I + I: 7%; II + II: 0.3% |
-| flux ratio of the two images | median 1.2; 85% below 1.9 (the y <= 0.3 limit of the original SIS simulations) |
-| fainter-image optimal SNR | median 9.7; 73% below 12 |
-| time delay | 8% < 1 min (overlapping signals, not a catalogue pair), 35% < 1 h, 62% < 1 day, 90% < 30 d, 100% < 1 yr |
-| pairs inside the original simulation domain (flux ratio <= 1.9, types I/II, 1 min < delay < 1 yr) | 77% |
+| quantity | O4 | ET |
+|---|---|---|
+| Detected BBH rate [per yr] | 738 | 65034 |
+| Lensed systems with two detected images [per yr] | 0.28 | 32.58 |
+| Lensed fraction among detections | 3.8e-04 | 5.0e-04 |
+| Median source redshift of lensed pairs | 1.90 | 2.72 |
+| Lensed pairs with z_s > 1 | 89% | 98% |
+| Median detector-frame primary mass [Msun] | 79 | 43 |
+| Quadruply imaged systems | 63% | 19% |
+| Type I + type II image pairs | 93% | 93% |
+| Median flux ratio |mu1/mu2| | 1.20 | 2.16 |
+| Flux ratio below 1.9 (original y <= 0.3 range) | 85% | 43% |
+| Median fainter-image optimal SNR | 9.7 | 13.7 |
+| Fainter-image SNR below 12 | 73% | 40% |
+| Median time delay [days] | 0.22 | 22.72 |
+| Delay below 1 min (overlapping signals) | 8% | 0% |
+| Delay below 1 day | 62% | 12% |
+| Delay below 30 days | 90% | 56% |
+| Pairs inside the original simulation domain | 77% | 43% |
 
 What this means for the response:
 
-- The reviewer is right about the sources: realistic detected lensed pairs are
-  at z ~ 2, with detector-frame masses twice those of the original catalogue and
-  fainter images piled up near the detection threshold. The original z < 1,
-  uniform-mass catalogue was not representative, and the efficiencies have to be
-  re-measured.
-- The reviewer's objection to the impact-parameter prior is right in form but
-  milder in effect than one might expect: because detected pairs are dominated by
-  highly magnified, nearly symmetric image pairs, 85% of realistic pairs have flux
-  ratios inside the range the original networks were trained on. The revision can
-  say this explicitly: the realistic population changes mainly the SNR, mass and
-  redshift distributions, not the image-pair geometry.
-- 8% of detectable pairs arrive within a minute of each other (merging image
-  pairs near the caustic) and must be excluded from a catalogue pair search; the
-  revised text should say that these belong to overlapping-signal searches.
-- The ET run (`--config ET`) is in progress; its table goes here when done.
+- **Sources.** The reviewer is right: realistic detected lensed pairs sit at
+  z ~ 2 (O4) to z ~ 3 (ET), 89-98% beyond the original z_max = 1, with
+  detector-frame masses and fainter-image SNRs that differ from the original
+  catalogue. The efficiencies must be re-measured on these populations.
+- **Image-pair geometry.** The effect of the impact-parameter prior depends on
+  the detector. At O4 sensitivity, detected pairs are dominated by highly
+  magnified, nearly symmetric images (63% quads, median flux ratio 1.2): 85% of
+  realistic pairs have flux ratios inside the range of the original y <= 0.3
+  simulations, and 77% fall inside the original domain altogether. At ET
+  sensitivity the lens no longer needs to magnify strongly for both images to
+  be detected, so pairs are more asymmetric (median flux ratio 2.2, only 19%
+  quads) and only 43% fall inside the original domain. Since the original
+  paper's headline numbers were for ET, this is exactly where the reviewer's
+  objection bites hardest, and the revision must say so.
+- **Delays.** At O4, 8% of detectable pairs arrive within a minute of each
+  other (merging image pairs near the caustic) and 35% within an hour; these
+  belong to overlapping-signal or same-segment searches, not to a catalogue
+  pair search. At ET the median delay is 23 days and 44% exceed a month, so
+  the one-year catalogue window used in Sec. VII loses nothing (ler's own
+  one-year window is applied in both cases; pairs with longer delays are not
+  counted in the rates above).
+- **Rates.** Lensed fractions of 3.8e-4 (O4) and 5.0e-4 (ET) support the
+  range used in the false-alarm budget of Sec. VII.
+- Spins: ler draws aligned spin components; `generate_strain_from_ler.py`
+  converts negative components to magnitude + anti-aligned tilt for bilby.
+  Validation on four O4 pairs gives bilby (IMRPhenomXPHM, spins) optimal SNRs
+  within 10-40% of ler's no-spin IMRPhenomD interpolation, as expected; the
+  strain files carry the bilby values.
 
 ----------------------------------------------------------------------
 ## 2b. What to do with the point-mass lens class (decision memo)
