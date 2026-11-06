@@ -6,7 +6,7 @@
 %Control: page (0) single
 %Control: year (1) truncated
 %Control: production of eprint (0) enabled
-\begin{thebibliography}{48}%
+\begin{thebibliography}{53}%
 \makeatletter
 \providecommand \@ifxundefined [1]{%
  \@ifx{#1\undefined}
@@ -287,14 +287,14 @@
   \Eprint {https://arxiv.org/abs/2007.12709} {arXiv:2007.12709} \BibitemShut
   {NoStop}%
 \bibitem [{\citenamefont {{LIGO Scientific Collaboration, Virgo Collaboration
-  and KAGRA Collaboration}}(2025)}]{GWTC4}%
+  and KAGRA Collaboration}}(2025{\natexlab{a}})}]{GWTC4}%
   \BibitemOpen
   \bibfield  {author} {\bibinfo {author} {\bibnamefont {{LIGO Scientific
   Collaboration, Virgo Collaboration and KAGRA Collaboration}}},\ }\href@noop
   {} {\bibinfo {title} {{GWTC-4.0}: Updating the gravitational-wave transient
   catalog with observations from the first part of the fourth
-  {LIGO-Virgo-KAGRA} observing run}} (\bibinfo {year} {2025}),\ \bibinfo {note}
-  {vERIFY arXiv number and journal reference},\ \Eprint
+  {LIGO-Virgo-KAGRA} observing run}} (\bibinfo {year} {2025}{\natexlab{a}}),\
+  \bibinfo {note} {vERIFY arXiv number and journal reference},\ \Eprint
   {https://arxiv.org/abs/2508.18082} {arXiv:2508.18082} \BibitemShut {NoStop}%
 \bibitem [{\citenamefont {{LIGO Scientific Collaboration, Virgo Collaboration
   and KAGRA Collaboration}}(2026)}]{GWTC5}%
@@ -372,13 +372,56 @@
   {journal} {\bibinfo  {journal} {Phys. Rev. D}\ }\textbf {\bibinfo {volume}
   {104}},\ \bibinfo {pages} {124057} (\bibinfo {year} {2021})},\ \Eprint
   {https://arxiv.org/abs/2106.12466} {arXiv:2106.12466} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {{SEMD authors}}(2024)}]{SEMD}%
+\bibitem [{\citenamefont {Offermans}\ \emph {et~al.}(2024)\citenamefont
+  {Offermans} \emph {et~al.}}]{Offermans2024}%
   \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibnamefont {{SEMD authors}}},\
-  }\href@noop {} {\bibinfo {title} {{SEMD}: spectrogram-based identification of
-  strongly lensed gravitational-wave pairs}} (\bibinfo {year} {2024}),\
-  \bibinfo {note} {vERIFY: complete with the published SEMD reference used for
-  the CQT--DeiT baseline}\BibitemShut {NoStop}%
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {{\relax
+  VERIFY}.}~\bibnamefont {Offermans}} \emph {et~al.},\ }\href@noop {} {\bibinfo
+  {title} {{VERIFY}: time-domain machine-learning identification of strongly
+  lensed gravitational-wave pairs}} (\bibinfo {year} {2024}),\ \bibinfo {note}
+  {vERIFY authors and title},\ \Eprint {https://arxiv.org/abs/2411.12453}
+  {arXiv:2411.12453} \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Li}\ \emph {et~al.}(2025)\citenamefont {Li} \emph
+  {et~al.}}]{Li2025SEMD}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {{\relax
+  VERIFY}.}~\bibnamefont {Li}} \emph {et~al.},\ }\bibfield  {title} {\bibinfo
+  {title} {{SEMD}: spectrogram-based identification of strongly lensed
+  gravitational-wave pairs},\ }\href@noop {} {\bibfield  {journal} {\bibinfo
+  {journal} {Astrophys. J. Suppl.}\ } (\bibinfo {year} {2025})},\ \bibinfo
+  {note} {vERIFY: ApJS article ae4340 (the SEMD paper the reviewer calls Li et
+  al.); complete authors, volume, pages}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Barsode}\ \emph {et~al.}(2024)\citenamefont
+  {Barsode}, \citenamefont {Goyal},\ and\ \citenamefont {Ajith}}]{Barsode2024}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
+  {Barsode}}, \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont {Goyal}},\
+  and\ \bibinfo {author} {\bibfnamefont {P.}~\bibnamefont {Ajith}},\
+  }\href@noop {} {\bibinfo {title} {{VERIFY}: fast and efficient bayesian
+  method to search for strongly lensed gravitational waves}} (\bibinfo {year}
+  {2024}),\ \bibinfo {note} {vERIFY authors and title},\ \Eprint
+  {https://arxiv.org/abs/2412.01278} {arXiv:2412.01278} \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Barsode}(2026)}]{Barsode2026}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
+  {Barsode}},\ }\href@noop {} {\bibinfo {title} {{VERIFY}}} (\bibinfo {year}
+  {2026}),\ \bibinfo {note} {vERIFY authors and title},\ \Eprint
+  {https://arxiv.org/abs/2605.10333} {arXiv:2605.10333} \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {{VERIFY}}(2025)}]{LensingFlow2025}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibnamefont {{VERIFY}}},\
+  }\href@noop {} {\bibinfo {title} {{LensingFlow}: {VERIFY}}} (\bibinfo {year}
+  {2025}),\ \bibinfo {note} {vERIFY authors and title},\ \Eprint
+  {https://arxiv.org/abs/2507.20256} {arXiv:2507.20256} \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {{LIGO Scientific Collaboration, Virgo Collaboration
+  and KAGRA Collaboration}}(2025{\natexlab{b}})}]{LVKO4lensing}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibnamefont {{LIGO Scientific
+  Collaboration, Virgo Collaboration and KAGRA Collaboration}}},\ }\href@noop
+  {} {\bibinfo {title} {{VERIFY}: search for gravitational-lensing signatures
+  in the fourth observing run}} (\bibinfo {year} {2025}{\natexlab{b}}),\
+  \bibinfo {note} {vERIFY title},\ \Eprint {https://arxiv.org/abs/2512.16347}
+  {arXiv:2512.16347} \BibitemShut {NoStop}%
 \bibitem [{\citenamefont {{LIGO Scientific Collaboration and Virgo
   Collaboration}}(2024)}]{GWTC21}%
   \BibitemOpen

@@ -58,7 +58,7 @@ The difficulty is combinatorial.
 A catalogue of $N$ events contains $N(N-1)/2$ possible pairs.
 The fourth observing run (O4) has more than doubled the number of confident binary black holes~\cite{GWTC4,GWTC5}, and the Einstein Telescope (ET)~\cite{Punturo2010,Maggiore2020,Branchesi2023} is expected to detect of order $10^5$ binary black holes per year, i.e.\ $\sim 5\times10^{9}$ pairs per year.
 Every pair test therefore faces the same question as any search for a rare signal: how often does it accept a pair that is \emph{not} lensed, and how many genuine pairs does it recover at that acceptance rate?
-Rigorous Bayesian tests that compare full parameter estimates of the two events~\cite{Haris2018,LoHernandez2023,Janquart2021GOLUM} answer this question well but are too expensive to apply to every pair; machine-learning tests~\cite{Goyal2021,SEMD} are fast, but their acceptance rates have often been quoted at a single, uncalibrated threshold.
+Rigorous Bayesian tests that compare full parameter estimates of the two events~\cite{Haris2018,LoHernandez2023,Janquart2021GOLUM} answer this question well but are too expensive to apply to every pair; machine-learning tests~\cite{Goyal2021,Offermans2024,Li2025SEMD} are fast, but their acceptance rates have often been quoted at a single, uncalibrated threshold; and posterior-overlap statistics built from the parameter estimates of the two events~\cite{Barsode2024,Barsode2026} reach per-pair false-alarm probabilities of order $10^{-6}$ for of order a second of computing per pair, so that the useful question for any faster statistic is where, if anywhere, it lowers the total cost of a search that ends in such stages~\cite{LensingFlow2025,LVKO4lensing}.
 
 In this paper we study a fast pair test, \PIR{}, that compares the two recorded strain time series directly.
 Our aims are (i) to measure its performance in the way a gravitational-wave physicist would measure the performance of a search, with the background rate fixed in advance and the efficiency measured on independent data; (ii) to understand which physical properties of a lensed pair make it easy or hard to recognise; and (iii) to ask what the real catalogues---GWTC-2.1/GWTC-3 for O1--O3~\cite{GWTC21,GWTC3}, GWTC-4.0 for O4a~\cite{GWTC4} and GWTC-5.0 for O4b~\cite{GWTC5}---require of such a test before it could support a discovery claim.
@@ -175,7 +175,7 @@ The network was trained for $300$ passes through catalogue~A with the learning s
 
 \subsection{A time--frequency baseline}
 
-For comparison we train a baseline that follows the SEMD approach~\cite{SEMD}: each segment is first converted into a constant-$Q$ time--frequency map~\cite{BrownCQT}, i.e.\ an image of how the signal power is distributed in time and frequency, and the two images are then compared by a vision-transformer network~\cite{DeiT}.
+For comparison we train a baseline that follows the SEMD approach of Ref.~\cite{Li2025SEMD}: each segment is first converted into a constant-$Q$ time--frequency map~\cite{BrownCQT}, i.e.\ an image of how the signal power is distributed in time and frequency, and the two images are then compared by a vision-transformer network~\cite{DeiT}.
 We call it CQT--DeiT.
 It is trained on exactly the same events and evaluated on exactly the same pairs as \PIR{}.
 
@@ -247,7 +247,7 @@ PM  & \PIR{} & \TBD{--} & $0.227\,[0.211,0.246]$ & \TBD{--} \\
 \end{ruledtabular}
 \end{table*}
 
-\subsection{Which lensed pairs are found}
+\subsection{Which lensed pairs are found: the lensing selection function}
 \label{sec:selection}
 
 The recovered fraction depends strongly on the SNR of the \emph{fainter} image.
@@ -256,7 +256,7 @@ This is the expected behaviour of any test that compares waveform shapes in nois
 The efficiency also falls as the impact parameter $y$ grows and as the two images become more unequal in brightness.
 These are not independent findings: in both lens models the magnification ratio is a fixed function of $y$ [for the SIS, $(1+y)/(1-y)$], and a larger $y$ makes the second image fainter.
 The dependence on $y$ is therefore largely the dependence on the fainter image's SNR seen from another angle.
-All of these trends are conditional on the simulated range $y\le0.3$, on the adopted binary population and on Gaussian noise; they should not be read as an astrophysical selection function.
+All of these trends are conditional on the simulated range $y\le0.3$, on the adopted binary population and on Gaussian noise; they should not be read as an astrophysical lensing selection function.
 
 \subsection{Galaxy-like versus point-mass lenses}
 
@@ -525,7 +525,7 @@ Detection efficiency, $\eff$ & Fraction of genuine lensed pairs whose score exce
 Threshold-setting subset & Part of catalogue~B used only to fix the threshold (analogous to background estimation with time slides). \\
 Measurement subset & Part of catalogue~B used only to measure $\eff$; examined only after all choices were frozen (blind analysis). \\
 Resampling uncertainty & Spread of a result when the analysis is repeated on randomly re-drawn groups of sources (bootstrap). \\
-Selection function & Efficiency as a function of physical properties of the pair (SNR, $y$, magnification ratio). \\
+Lensing selection function & Efficiency as a function of physical properties of the pair (SNR, $y$, magnification ratio). \\
 Training & Adjusting the network's internal parameters on catalogue~A to make lensed pairs score high and unrelated pairs low. \\
 \end{tabular}
 \end{ruledtabular}

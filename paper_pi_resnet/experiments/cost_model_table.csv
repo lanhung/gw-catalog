@@ -1,0 +1,4 @@
+piresnet_fap,piresnet_eff,cost_A_overlap_only_s,cost_B_piresnet_only_s,cost_C_prefilter_s,eff_A,eff_B,eff_C_independent,eff_C_nested_upper,downstream_A,downstream_B,downstream_C,break_even_C_PE_B_vs_A_s,speedup_C_vs_A_at_1_CPU_day
+0.01,,1.0864,864.00124,0.012104,0.54,,,,1e-06,0.01,1e-08,99.88598859885987,89.75545274289492
+0.001,0.535,1.0864,86.40124,0.0023263999999999997,0.54,0.535,0.28890000000000005,0.535,1e-06,0.001,1e-09,999.7597597597596,466.98762035763417
+0.0001,,1.0864,8.64124,0.0013486400000000001,0.54,,,,1e-06,0.0001,1e-10,10088.484848484848,805.5522600545735
