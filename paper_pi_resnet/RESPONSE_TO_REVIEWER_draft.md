@@ -159,6 +159,46 @@ Response (plain text, to complete after the runs):
     sensitivity. The new efficiencies at FAP 1e-3 are [..] (O4) and [..] (ET),
     compared with [..] in the original submission. Section 5.2 has been removed.
 
+### 2a. First results of the realistic population (O4 sensitivity, `ler` 1.0.2)
+
+`scripts/population/ler_realistic_population.py --config O4` (LVK-like BBH population,
+EPL + shear galaxy lenses; detection = observed network SNR above 8 for two images,
+H1 + L1 at the aLIGO O4 ASD and V1 at the AdV ASD). Outputs in `data/ler_population/`;
+numbers from `population_summary.json` (5,000 detectable lensed systems, 5,000 unlensed
+detections):
+
+| quantity | value |
+|---|---|
+| detected BBH rate | 738 per yr |
+| rate of lensed systems with two detected images | 0.28 per yr |
+| lensed fraction among detections | 3.8e-4 |
+| source redshift of detected lensed pairs | median 1.9; 89% beyond z = 1 (the original z_max) |
+| detector-frame primary mass | median 79 Msun |
+| image multiplicity | 63% quads, 10% triples, 26% doubles (two brightest detected images used) |
+| image types of the pair | type I + type II: 93%; I + I: 7%; II + II: 0.3% |
+| flux ratio of the two images | median 1.2; 85% below 1.9 (the y <= 0.3 limit of the original SIS simulations) |
+| fainter-image optimal SNR | median 9.7; 73% below 12 |
+| time delay | 8% < 1 min (overlapping signals, not a catalogue pair), 35% < 1 h, 62% < 1 day, 90% < 30 d, 100% < 1 yr |
+| pairs inside the original simulation domain (flux ratio <= 1.9, types I/II, 1 min < delay < 1 yr) | 77% |
+
+What this means for the response:
+
+- The reviewer is right about the sources: realistic detected lensed pairs are
+  at z ~ 2, with detector-frame masses twice those of the original catalogue and
+  fainter images piled up near the detection threshold. The original z < 1,
+  uniform-mass catalogue was not representative, and the efficiencies have to be
+  re-measured.
+- The reviewer's objection to the impact-parameter prior is right in form but
+  milder in effect than one might expect: because detected pairs are dominated by
+  highly magnified, nearly symmetric image pairs, 85% of realistic pairs have flux
+  ratios inside the range the original networks were trained on. The revision can
+  say this explicitly: the realistic population changes mainly the SNR, mass and
+  redshift distributions, not the image-pair geometry.
+- 8% of detectable pairs arrive within a minute of each other (merging image
+  pairs near the caustic) and must be excluded from a catalogue pair search; the
+  revised text should say that these belong to overlapping-signal searches.
+- The ET run (`--config ET`) is in progress; its table goes here when done.
+
 ----------------------------------------------------------------------
 ## 2b. What to do with the point-mass lens class (decision memo)
 ----------------------------------------------------------------------

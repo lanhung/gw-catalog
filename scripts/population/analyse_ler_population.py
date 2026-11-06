@@ -41,6 +41,7 @@ def summarise(name: str, L: pd.DataFrame, U: pd.DataFrame | None, meta: dict | N
     if meta:
         s.update({k: meta.get(k) for k in ("unlensed_rate_per_yr", "lensed_rate_per_yr", "lensed_fraction", "snr_threshold")})
     s["delay_days"] = {"median": q(L.delay_days, .5), "p10": q(L.delay_days, .1), "p90": q(L.delay_days, .9),
+                       "frac_lt_1min": float((L.delay_days < 1 / 1440).mean()), "frac_lt_1h": float((L.delay_days < 1 / 24).mean()),
                        "frac_lt_1d": float((L.delay_days < 1).mean()), "frac_lt_30d": float((L.delay_days < 30).mean()),
                        "frac_lt_365d": float((L.delay_days < 365.25).mean())}
     s["flux_ratio"] = {"median": q(L.flux_ratio, .5), "p90": q(L.flux_ratio, .9),
@@ -52,7 +53,7 @@ def summarise(name: str, L: pd.DataFrame, U: pd.DataFrame | None, meta: dict | N
     s["n_detected_images"] = {str(k): int(v) for k, v in L.n_detected_images.value_counts().sort_index().items()}
     pair_types = (L.type_bright.astype(int).astype(str) + "+" + L.type_faint.astype(int).astype(str)).value_counts()
     s["pair_image_types"] = {k: int(v) for k, v in pair_types.items()}
-    inside = (L.flux_ratio <= ORIG_FLUX_RATIO_MAX) & (L.delay_days < 365.25) & (L.type_bright <= 2) & (L.type_faint <= 2)
+    inside = (L.flux_ratio <= ORIG_FLUX_RATIO_MAX) & (L.delay_days < 365.25) & (L.type_bright <= 2) & (L.type_faint <= 2) & (L.delay_days >= 1 / 1440)
     s["frac_inside_original_training_domain"] = float(inside.mean())
     s["zs"] = {"median": q(L.zs, .5), "p90": q(L.zs, .9), "frac_gt_1": float((L.zs > 1).mean())}
     s["zl"] = {"median": q(L.zl, .5)}
@@ -67,10 +68,12 @@ def summarise(name: str, L: pd.DataFrame, U: pd.DataFrame | None, meta: dict | N
 def figures(out: Path, data: dict[str, pd.DataFrame]) -> None:
     fig, axes = plt.subplots(2, 2, figsize=(7.0, 5.0))
     ax = axes[0, 0]
-    bins = np.logspace(-3, 2.6, 50)
+    bins = np.logspace(-5.5, 2.6, 60)
     for k, L in data.items():
         ax.hist(np.clip(L.delay_days, bins[0], bins[-1]), bins=bins, histtype="step", color=COL[k], lw=1.2,
                 weights=np.ones(len(L)) / len(L), label=k)
+    ax.axvline(1 / 1440, color="k", ls=":", lw=0.8)
+    ax.text(1 / 1440 * 1.3, ax.get_ylim()[1] * 0.9, "1 min", fontsize=6.5)
     ax.set_xscale("log")
     ax.set_xlabel("Time delay between the two images [days]")
     ax.set_ylabel("Fraction of detectable lensed pairs")

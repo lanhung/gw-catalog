@@ -94,10 +94,11 @@ def lensed_to_table(lp: dict, snr_th: float) -> pd.DataFrame:
     dt = np.asarray(lp["time_delays"], dtype=float)             # s
     itype = np.asarray(lp["image_type"], dtype=float)
     snr = np.asarray(lp["optimal_snr_net"], dtype=float)
+    pdet = np.asarray(lp["pdet_net"], dtype=float) if "pdet_net" in lp else None  # ler's detection decision per image
     n = mu.shape[0]
     rows = []
     for i in range(n):
-        det = np.where(np.nan_to_num(snr[i]) >= snr_th)[0]
+        det = np.where(pdet[i] >= 0.5)[0] if pdet is not None else np.where(np.nan_to_num(snr[i]) >= snr_th)[0]
         if len(det) < 2:
             continue
         order = det[np.argsort(-np.abs(mu[i, det]))]
@@ -143,6 +144,9 @@ def main() -> None:
     ap.add_argument("--work-dir", default="/tmp/claude-0/lertest")
     ap.add_argument("--out", default="data/ler_population")
     ap.add_argument("--skip-rates", action="store_true")
+    ap.add_argument("--reuse-json", action="store_true", help="reuse ler JSON outputs already present in the work dir")
+    ap.add_argument("--rates", nargs=2, type=float, metavar=("UNLENSED_PER_YR", "LENSED_PER_YR"), default=None,
+                    help="rates from an earlier run, recorded in the meta file when --skip-rates is used")
     args = ap.parse_args()
 
     work = Path(args.work_dir)
@@ -171,20 +175,34 @@ def main() -> None:
                      "rate_wall_s": time.time() - t1})
         print(f"[{args.config}] rates: unlensed {rate_u:.1f}/yr, lensed (2 detected images) {rate_l:.3f}/yr, fraction {rate_l / rate_u:.2e}", flush=True)
 
+    if args.rates:
+        meta.update({"unlensed_rate_per_yr": args.rates[0], "lensed_rate_per_yr": args.rates[1],
+                     "lensed_fraction": args.rates[1] / args.rates[0]})
+
     t2 = time.time()
-    lp = ler.selecting_n_lensed_detectable_events(
-        size=args.n_lensed, batch_size=args.batch_size, pdet_threshold=[0.5, 0.5], num_img=[1, 1],
-        resume=False, output_jsonfile=f"n_lensed_detectable_{args.config}.json", meta_data_file=f"meta_lensed_{args.config}.json",
-        trim_to_size=True)
+    lensed_json = work / f"ler_data_{args.config}" / f"n_lensed_detectable_{args.config}.json"
+    if args.reuse_json and lensed_json.exists():
+        lp = {k: np.asarray(v) for k, v in json.loads(lensed_json.read_text()).items()}
+    else:
+        lp = ler.selecting_n_lensed_detectable_events(
+            size=args.n_lensed, batch_size=args.batch_size, pdet_threshold=[0.5, 0.5], num_img=[1, 1],
+            resume=False, output_jsonfile=f"n_lensed_detectable_{args.config}.json", meta_data_file=f"meta_lensed_{args.config}.json",
+            trim_to_size=True)
+        lp = lp[1] if isinstance(lp, tuple) else lp
     lensed = lensed_to_table(lp, args.snr_th)
     lensed.to_csv(out / f"{args.config}_lensed_pairs.csv", index=False)
     print(f"[{args.config}] {len(lensed)} lensed systems with two detected images in {time.time() - t2:.0f} s", flush=True)
 
     t3 = time.time()
-    up = ler.selecting_n_unlensed_detectable_events(
-        size=args.n_unlensed, batch_size=args.batch_size, pdet_threshold=0.5, resume=False,
-        output_jsonfile=f"n_unlensed_detectable_{args.config}.json", meta_data_file=f"meta_unlensed_{args.config}.json",
-        trim_to_size=True)
+    unlensed_json = work / f"ler_data_{args.config}" / f"n_unlensed_detectable_{args.config}.json"
+    if args.reuse_json and unlensed_json.exists():
+        up = {k: np.asarray(v) for k, v in json.loads(unlensed_json.read_text()).items()}
+    else:
+        up = ler.selecting_n_unlensed_detectable_events(
+            size=args.n_unlensed, batch_size=args.batch_size, pdet_threshold=0.5, resume=False,
+            output_jsonfile=f"n_unlensed_detectable_{args.config}.json", meta_data_file=f"meta_unlensed_{args.config}.json",
+            trim_to_size=True)
+        up = up[1] if isinstance(up, tuple) else up
     unlensed = unlensed_to_table(up)
     unlensed.to_csv(out / f"{args.config}_unlensed_events.csv", index=False)
     print(f"[{args.config}] {len(unlensed)} unlensed detectable events in {time.time() - t3:.0f} s", flush=True)

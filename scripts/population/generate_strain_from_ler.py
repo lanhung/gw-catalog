@@ -87,28 +87,45 @@ def lensed_fd_model(frequency_array, mass_1, mass_2, a_1, a_2, tilt_1, tilt_2, p
     h = bilby.gw.source.lal_binary_black_hole(
         frequency_array, mass_1=mass_1, mass_2=mass_2, a_1=a_1, a_2=a_2, tilt_1=tilt_1, tilt_2=tilt_2,
         phi_12=phi_12, phi_jl=phi_jl, luminosity_distance=luminosity_distance, theta_jn=theta_jn,
-        psi=psi, phase=phase, geocent_time=geocent_time, ra=ra, dec=dec, **kwargs)
+        phase=phase, **kwargs)
     if h is None:
         return None
     F = np.sqrt(abs(magnification)) * np.exp(-1j * np.pi * morse_index * np.sign(frequency_array))
     return {"plus": h["plus"] * F, "cross": h["cross"] * F}
 
 
-def pair_rows(lp: dict, snr_th: float, n_max: int | None) -> list[dict]:
+def spin_params(d: dict, i: int) -> dict:
+    """ler samples aligned spin components (can be negative); bilby wants magnitude + tilt."""
+    out = {}
+    for k in ("1", "2"):
+        a = float(d[f"a_{k}"][i]) if f"a_{k}" in d else 0.0
+        tilt = float(d[f"tilt_{k}"][i]) if f"tilt_{k}" in d else 0.0
+        if a < 0:
+            a, tilt = -a, np.pi - tilt
+        out[f"a_{k}"], out[f"tilt_{k}"] = a, tilt
+    out["phi_12"] = float(d["phi_12"][i]) if "phi_12" in d else 0.0
+    out["phi_jl"] = float(d["phi_jl"][i]) if "phi_jl" in d else 0.0
+    return out
+
+
+def pair_rows(lp: dict, snr_th: float, n_max: int | None, min_delay_s: float = 60.0) -> list[dict]:
     """Choose the two brightest detected images of each system and flatten the parameters."""
     mu = lp["magnifications"].astype(float)
     dt = lp["time_delays"].astype(float)
     itype = lp["image_type"].astype(float)
     snr = lp["optimal_snr_net"].astype(float)
+    pdet = lp["pdet_net"].astype(float) if "pdet_net" in lp else None  # ler's detection decision per image
     rows = []
     for i in range(mu.shape[0]):
-        det = np.where(np.nan_to_num(snr[i]) >= snr_th)[0]
+        det = np.where(pdet[i] >= 0.5)[0] if pdet is not None else np.where(np.nan_to_num(snr[i]) >= snr_th)[0]
         if len(det) < 2:
             continue
         order = det[np.argsort(-np.abs(mu[i, det]))]
         a, b = order[0], order[1]
         if dt[i, b] < dt[i, a]:  # keep arrival order: image 1 arrives first
             a, b = b, a
+        if dt[i, b] - dt[i, a] < min_delay_s:
+            continue  # images overlap in one data segment: not a catalogue pair
         zs = float(lp["zs"][i])
         row = {
             "system_index": i, "zs": zs, "zl": float(lp["zl"][i]), "sigma": float(lp["sigma"][i]),
@@ -119,9 +136,7 @@ def pair_rows(lp: dict, snr_th: float, n_max: int | None) -> list[dict]:
             "mass_1_source": float(lp["mass_1_source"][i]), "mass_2_source": float(lp["mass_2_source"][i]),
             "mass_1": float(lp["mass_1_source"][i]) * (1 + zs), "mass_2": float(lp["mass_2_source"][i]) * (1 + zs),
             "luminosity_distance": float(lp["luminosity_distance"][i]),
-            "a_1": float(lp["a_1"][i]) if "a_1" in lp else 0.0, "a_2": float(lp["a_2"][i]) if "a_2" in lp else 0.0,
-            "tilt_1": float(lp["tilt_1"][i]) if "tilt_1" in lp else 0.0, "tilt_2": float(lp["tilt_2"][i]) if "tilt_2" in lp else 0.0,
-            "phi_12": float(lp["phi_12"][i]) if "phi_12" in lp else 0.0, "phi_jl": float(lp["phi_jl"][i]) if "phi_jl" in lp else 0.0,
+            **spin_params(lp, i),
             "theta_jn": float(lp["theta_jn"][i]), "psi": float(lp["psi"][i]), "phase": float(lp["phase"][i]),
             "geocent_time": float(lp["geocent_time"][i]), "ra": float(lp["ra"][i]), "dec": float(lp["dec"][i]),
             "mu_1": float(mu[i, a]), "mu_2": float(mu[i, b]),
@@ -185,6 +200,7 @@ def main() -> None:
     ap.add_argument("--fmin", type=float, default=20.0)
     ap.add_argument("--approximant", default="IMRPhenomXPHM")
     ap.add_argument("--seed", type=int, default=20261106)
+    ap.add_argument("--min-delay-s", type=float, default=60.0, help="pairs closer than this are overlapping signals, skipped")
     args = ap.parse_args()
 
     import bilby
@@ -205,7 +221,7 @@ def main() -> None:
 
     ler_dir = Path(args.ler_dir)
     lp = load_ler_json(ler_dir / f"n_lensed_detectable_{args.config}.json")
-    rows = pair_rows(lp, args.snr_th, args.n_max)
+    rows = pair_rows(lp, args.snr_th, args.n_max, args.min_delay_s)
     n = len(rows)
     print(f"[{args.config}] generating {n} lensed pairs, {n_ifos} detectors, N={N}", flush=True)
     pre = f"{args.config}_lensed"
@@ -249,9 +265,7 @@ def main() -> None:
             zs = float(up["zs"][i])
             params = {
                 "mass_1": float(up["mass_1_source"][i]) * (1 + zs), "mass_2": float(up["mass_2_source"][i]) * (1 + zs),
-                "a_1": float(up["a_1"][i]) if "a_1" in up else 0.0, "a_2": float(up["a_2"][i]) if "a_2" in up else 0.0,
-                "tilt_1": float(up["tilt_1"][i]) if "tilt_1" in up else 0.0, "tilt_2": float(up["tilt_2"][i]) if "tilt_2" in up else 0.0,
-                "phi_12": float(up["phi_12"][i]) if "phi_12" in up else 0.0, "phi_jl": float(up["phi_jl"][i]) if "phi_jl" in up else 0.0,
+                **spin_params(up, i),
                 "luminosity_distance": float(up["luminosity_distance"][i]), "theta_jn": float(up["theta_jn"][i]),
                 "psi": float(up["psi"][i]), "phase": float(up["phase"][i]), "geocent_time": float(up["geocent_time"][i]),
                 "ra": float(up["ra"][i]), "dec": float(up["dec"][i]),
