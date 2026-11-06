@@ -121,10 +121,9 @@ for. Settings to use and to state in the paper:
   prior the reviewer asks for). Keep only systems in which at least two images
   are detectable; record image types (I/II/III) and the number of images, so
   that quads enter the pair sample naturally.
-- **Drop the point-mass lens class** as a primary science case. If kept at all,
-  move it to an appendix as a robustness check and say that it represents
-  compact lenses whose delays (< 1 day) are not the target of a catalogue pair
-  search.
+- **Point-mass lenses:** no longer a benchmark population. Kept only as a
+  lens-profile robustness test on the same realistic BBH population, with the
+  source position sampled linearly in y (see Sec. 2b below for the reasoning).
 - **Detectors:** two configurations. (a) O4 sensitivity (aLIGO O4 PSDs for
   H1/L1, AdV, KAGRA as appropriate) so that numbers can be compared with
   Barsode et al. and Offermans et al. (b) ET-D as the forecast. Detection
@@ -159,6 +158,59 @@ Response (plain text, to complete after the runs):
     retrained and re-evaluated with the same frozen protocol at O4 and at ET
     sensitivity. The new efficiencies at FAP 1e-3 are [..] (O4) and [..] (ET),
     compared with [..] in the original submission. Section 5.2 has been removed.
+
+----------------------------------------------------------------------
+## 2b. What to do with the point-mass lens class (decision memo)
+----------------------------------------------------------------------
+
+The question is whether to remove the point-mass (PM) results at the revision
+stage. Three facts frame it:
+
+1. What the reviewer objected to is PM *as a realistic benchmark population*
+   ("lens model choices such as the inclusion of point masses ... are
+   inappropriate", in the paragraph about realistic datasets). The reviewer did
+   not say the PM results are wrong, and did not comment on the cross-lens
+   transfer result that uses them.
+2. Physically, an isolated 1e8-1e10 Msun point mass is not an astrophysical
+   lens population for separated GW images: objects of that mass sit inside
+   galaxies, whose extended mass dominates the lensing cross-section at the
+   Einstein radius; lighter point masses (< 1e5 Msun) produce overlapping,
+   wave-optics-distorted images (microlensing), which is a different search.
+   So PM pairs cannot be defended as a target population, and keeping them as
+   one would draw the same objection again.
+3. The PM data nevertheless support one result that *does* answer a reviewer
+   concern: a network trained on galaxy-like lenses recovers PM pairs better
+   than a network trained on PM pairs (Sec. 4.x of the submission). That is
+   evidence of robustness to a lens profile the network never saw, which is
+   relevant to the population-dependence concern (Cheung et al. 2023).
+
+Recommendation: **demote, do not delete.**
+
+- Primary results: galaxy lenses only (EPL + shear from `ler`), at O4 and ET.
+- Keep PM as a short "robustness to the lens profile" test (one paragraph plus
+  one row in the transfer table, or an appendix): regenerate PM pairs on the
+  *same* realistic BBH population and detector noise, with y sampled linearly
+  (p(y) ~ y) instead of uniformly, and evaluate the galaxy-trained network on
+  them. No PM-specific training is required, which also removes the PM-only
+  analyses the reviewer found hard to follow (the SNR/y re-weighting of the
+  SIS-PM gap, the PM-trained transfer row, the PM Morse-phase probe).
+- Remove PM from the abstract, the headline table, the conclusions and the
+  title-level claims.
+- State in the response that the reviewer's objection is accepted and explain
+  the retained role in one sentence: "point-mass lenses are retained only as
+  a controlled test of robustness to a lens profile outside the training set,
+  not as an astrophysical population".
+
+Why not delete outright: the transfer result is the only part of the PM work
+with lasting value, deleting it loses a robustness argument the revision
+needs, and the reduced form costs little (data generation plus inference,
+no training). Why not keep as is: the reviewer has already called the
+population unrealistic, and a second round on the same point would be fatal.
+
+If the authors prefer the simplest path, deleting PM entirely is defensible
+and should be explained as above; it is not evasive, because the reviewer
+asked for it. The demoted form is recommended because it keeps one useful
+result at small cost.
 
 ----------------------------------------------------------------------
 ## 3. Apples-to-apples comparison  **[server]** **[read]**
@@ -339,8 +391,9 @@ Response (plain text):
       and the new PI-ResNet efficiency-FAP curve.
 - [ ] Re-run `scripts/gwtc/05_catalog_context_for_pair_verification.py` with
       O4a included (`01c_extract_gwtc4_observables.py` on the server).
-- [ ] Rewrite the abstract/introduction/conclusions around the pre-filter
-      role; remove "point mass" from the main text; remove old Sec. 5.2.
+- [ ] Revise (not rewrite) the abstract/introduction/conclusions around the
+      pre-filter role; demote point-mass lenses to a lens-profile robustness
+      test (Sec. 2b); remove old Sec. 5.2.
 - [ ] Fig. 6 common axis; Table 3 metric definitions; "lensing selection
       function"; Ezquiaga wording.
 - [ ] LICENSE, Zenodo DOI, CSV behind Fig. 6, \software{} list.
